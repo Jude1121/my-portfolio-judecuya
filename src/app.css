@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1,h2,h3,li,a,p {
+    font-family: 'Poppins', sans-serif;
+}
