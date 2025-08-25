@@ -14,16 +14,16 @@
             <div class="address lg:justify-baseline flex p-3 bg-white  lg:w-103 gap-2 rounded-2xl shadow-lg">
                 <img src="{address}" alt="" class="w-16 p-1">
                 <div class="">
-                    <h1 class="font-bold">Address</h1>
-                    <h1>Tiwi, Albay - Philippines</h1>
+                    <h1 class="font-bold pt-2">Address</h1>
+                    <h1 class="">Tiwi, Albay - Philippines</h1>
                 </div>
             </div>
             <div class="pt-5"></div>
             <div class="social media justify-baseline flex lg:w-103 p-3 w-full  bg-white rounded-2xl shadow-lg">
                  <img src="{links}" alt="" class="w-18 p-1"> 
                  <div>
-                    <h1 class="font-bold">Social Media</h1>
-                    <div class="flex justify-baseline pt-2">
+                    <h1 class="font-bold pt-2">Social Media</h1>
+                    <div class="flex justify-baseline">
                         <a href="https://www.facebook.com/JUDERRRUSSEL11121" target="_blank"><img src="{fb}" alt="" class="facebook w-7  transform transition-transform duration-300 hover:scale-120 "></a>
                         <a href="https://www.instagram.com/jdrsslc_/?next=%2F" target="_blank"><img src="{ig}" alt="" class="instagram w-7   transform transition-transform duration-300 hover:scale-120"></a>
                         <a href="https://github.com/Jude1121" target="_blank"><img src="{github}" alt="" class="instagram w-7  transform transition-transform duration-300 hover:scale-135"></a>
@@ -40,7 +40,7 @@
             <div class="email lg:justify-baseline flex p-4 bg-white w-full lg:w-103 gap-2 rounded-2xl shadow-lg">
                 <img src="{email}" alt="" class="w-15 p-1">
                 <div class="">
-                    <h1 class="font-bold">Email</h1>
+                    <h1 class="font-bold pt-2">Email</h1>
                     <h1 class="text-sm lg:text-base">juderusselcuya0421@gmail.com</h1>
                 </div>
             </div>
@@ -48,7 +48,7 @@
             <div class="phoneNumber justify-baseline flex lg:w-103 p-4 gap-2 w-full bg-white rounded-2xl shadow-lg">
                  <img src="{pNumber}" alt="" class="w-16 p-1"> 
                  <div>
-                    <h1 class="font-bold">Phone Number</h1>
+                    <h1 class="font-bold pt-2">Phone Number</h1>
                     <h1>+63 966-846-5206</h1>
                  </div> 
             </div>
