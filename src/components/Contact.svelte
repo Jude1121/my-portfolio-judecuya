@@ -3,8 +3,8 @@
     import address from '../lib/assets/location.png';
     import email from '../lib/assets/email.png';
     import pNumber from '../lib/assets/phone-call.png';
-    import fb from '../lib/assets/facebook.png';
-    import ig from '../lib/assets/instagram.png';
+    import fb from '../lib/assets/fb colored.svg';
+    import ig from '../lib/assets/ig colored.svg';
     import github from '../lib/assets/github logo.svg';
 </script>
 
@@ -23,10 +23,10 @@
                  <img src="{links}" alt="" class="w-18 p-1"> 
                  <div>
                     <h1 class="font-bold">Social Media</h1>
-                    <div class="flex justify-baseline">
-                        <a href="https://www.facebook.com/JUDERRRUSSEL11121" target="_blank"><img src="{fb}" alt="" class="facebook w-6 m-1 transform transition-transform duration-300 hover:scale-120 "></a>
-                        <a href="https://www.instagram.com/jdrsslc_/?next=%2F" target="_blank"><img src="{ig}" alt="" class="instagram w-6 m-1 transform transition-transform duration-300 hover:scale-120"></a>
-                        <a href="https://github.com/Jude1121" target="_blank"><img src="{github}" alt="" class="instagram w-6 m-1 transform transition-transform duration-300 hover:scale-135"></a>
+                    <div class="flex justify-baseline pt-2">
+                        <a href="https://www.facebook.com/JUDERRRUSSEL11121" target="_blank"><img src="{fb}" alt="" class="facebook w-7  transform transition-transform duration-300 hover:scale-120 "></a>
+                        <a href="https://www.instagram.com/jdrsslc_/?next=%2F" target="_blank"><img src="{ig}" alt="" class="instagram w-7   transform transition-transform duration-300 hover:scale-120"></a>
+                        <a href="https://github.com/Jude1121" target="_blank"><img src="{github}" alt="" class="instagram w-7  transform transition-transform duration-300 hover:scale-135"></a>
                     </div>
                  </div> 
             </div>
