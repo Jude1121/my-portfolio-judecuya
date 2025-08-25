@@ -6,8 +6,9 @@
 	import Footer from '../components/Footer.svelte';
 	import webIcon from '../lib/assets/Jude Russel LOGO white copy.svg'
 	import { injectAnalytics } from '@vercel/analytics';
-	inject();
-	
+	if (typeof window !== "undefined") {
+    inject();
+  }
 </script>
 
 <svelte:head>
