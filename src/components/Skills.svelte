@@ -74,11 +74,11 @@
                     <div class="flex justify-baseline w-3">
                     <img src={star} alt="">
                     <img src={star} alt="">   
-                    <img src={graystar} alt="">
+                    <img src={star} alt=""> 
                     <img src={graystar} alt="">
                     <img src={graystar} alt="">
                     </div>
-                    <h1>2 Year of experience</h1>
+                    <h1>3 Years of experience</h1>
                  </div> 
             </div>
         </div>
@@ -132,11 +132,11 @@
                     <div class="flex justify-baseline w-3">
                     <img src={star} alt="">
                     <img src={star} alt="">
-                    <img src={graystar} alt="">
+                    <img src={star} alt="">
                     <img src={graystar} alt="">
                     <img src={graystar} alt="">
                     </div>
-                    <h1 class="text-sm lg:text-base">2 Years of experience</h1>
+                    <h1 class="text-sm lg:text-base">3 Years of experience</h1>
                 </div>
             </div>
             <div class="pt-5"></div>
