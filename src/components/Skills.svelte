@@ -2,11 +2,9 @@
     import skillsLogo from '../lib/assets/SKILLS LOGO.png'
 </script>
 
-<div class="lg:pt-30 pt-15 justify-items-center p-10 ">
-    <div class="font-extrabold text-4xl">
-        <h1>SKILLS</h1>
-    </div>
-    <div class="lg:w-200  justify-center">
+<h1 class="lg:pt-30 pt-15 text-4xl font-extrabold flex justify-center">SKILLS</h1>
+<div class="justify-items-center pr-10 pl-10 pb-10 lg:pb-5">
+    <div class="lg:w-200 justify-center">
         <img src="{skillsLogo}" alt="">
     </div>
     <div class="lg:p-20 lg:pt-3">

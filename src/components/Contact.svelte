@@ -5,6 +5,7 @@
     import pNumber from '../lib/assets/phone-call.png';
     import fb from '../lib/assets/facebook.png';
     import ig from '../lib/assets/instagram.png';
+    import github from '../lib/assets/github logo.svg';
 </script>
 
 <h1 class="lg:pt-30 pt-15 pb-10 text-4xl font-extrabold flex justify-center">CONTACT ME</h1>
@@ -25,6 +26,7 @@
                     <div class="flex justify-baseline">
                         <a href="https://www.facebook.com/JUDERRRUSSEL11121" target="_blank"><img src="{fb}" alt="" class="facebook w-6 m-1 transform transition-transform duration-300 hover:scale-120 "></a>
                         <a href="https://www.instagram.com/jdrsslc_/?next=%2F" target="_blank"><img src="{ig}" alt="" class="instagram w-6 m-1 transform transition-transform duration-300 hover:scale-120"></a>
+                        <a href="https://github.com/Jude1121" target="_blank"><img src="{github}" alt="" class="instagram w-6 m-1 transform transition-transform duration-300 hover:scale-135"></a>
                     </div>
                  </div> 
             </div>
