@@ -8,9 +8,9 @@
             ABOUT ME
         </h1>
         <h2 class=" w-full">
-            I am Jude Russel Barrion Cuya, 22 years old, and a recent graduate of STI College Legazpi with a Bachelors degree in Information Technology. I am a Junior Front-End Developer eager to learn, grow, and contribute to your company. I am committed to delivering tasks on time and maintaining a high standard of work. In addition to my development skills, I am also proficient in UI/UX design and graphic design, with experience using tools such as Figma, Adobe Illustrator, and Adobe Photoshop.
+            I am Jude Russel Cuya, 22 years old, a fresh graduate of STI College Legazpi with a Bachelor’s degree in Information Technology. I am a Junior Front-End Developer eager to learn, grow, and contribute to your company. I am committed to delivering tasks on time and maintaining a high standard of work. In addition to my development skills, I am also proficient in UI/UX design and graphic design, with experience using tools such as Figma, Adobe Illustrator, and Adobe Photoshop. Moreover, I possess strong communication skills that allow me to effectively collaborate with team members, clearly convey ideas, and engage with clients to ensure project goals are met.
             <p class="pt-5">
-            During my senior year, I focused on enhancing my knowledge in Front-End Development, which played a key role in our Capstone Project. Together with my groupmates, we developed an Online Hotel Reservation System for Villa Salome Resort, located in my hometown of Tiwi, Albay.
+            During my senior year, I focused on enhancing my knowledge in Front-End Development, which played a key role in our Capstone Project. Together with my groupmates, we developed an Online Hotel Reservation System for Villa Salome Resort, located in my hometown - Tiwi, Albay.
             </p>
         </h2>
     </div>
