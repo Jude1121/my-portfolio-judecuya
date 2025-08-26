@@ -8,6 +8,7 @@
     import Contact from "../components/Contact.svelte";
     import Comment from "../components/Comment.svelte";
     import Footer from "../components/Footer.svelte";
+    import Test from "../components/Test.svelte";
 </script>
 
 <body>

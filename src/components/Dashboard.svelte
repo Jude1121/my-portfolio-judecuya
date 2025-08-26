@@ -26,6 +26,28 @@
       transform: none;
     }
   }
+   .typing-animation {
+    width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid black; /* cursor effect */
+    animation: typing 3s steps(22) forwards, blink 0.6s infinite;
+  }
+
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 18ch; /* adjust based on text length */
+    }
+  }
+
+  @keyframes blink {
+    60% {
+      border-color: transparent;
+    }
+  }
 </style>
 
 <div class="lg:flex lg:justify-baseline justify-center lg:items-center intro-animate">
@@ -39,13 +61,13 @@
         <h2 class="lg:pt-5 lg:pr-60 lg:pb-20 pt-5 pb-5">
             <div class="flex justify-baseline pb-3">
                 <img class="w-6" src={waveIcon} alt="">
-                <p class="font-bold pl-2">I'm Jude Russel Cuya</p>
+                <p class="font-bold pl-2 typing-animation">I'm Jude Russel Cuya</p>
             </div>
              a Front-End Developer skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
         </h2>
         <div class="flex gap-6 text-a ">
                 <div class="w-fit bg-black text-white transform transition-transform duration-300 hover:scale-120 ">   
-                    <a class="font-extrabold lg:p-5 p-4" href={myResume} download="MyResume.pdf">DOWNLOAD CV</a>
+                    <a class="font-extrabold lg:p-5 p-4" href={myResume} download="MyResume.pdf">DOWNLAOD CV</a>
                 </div>
                 <div class="w-fit bg-black text-white transform transition-transform duration-300 hover:scale-120"> 
                     <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold lg:p-5 p-4">HIRE ME</a>
