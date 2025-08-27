@@ -1,6 +1,6 @@
 
 
-<div class="bg-black flex flex-col lg:flex-row lg:justify-between items-center lg:p-30  pt-20 pb-20 text-white w-full">
+<div class="bg-black  flex flex-col lg:flex-row lg:justify-between items-center lg:p-30  pt-20 pb-20 text-white w-full">
     <div class="font-bold ">
        <p>
             © 2025 Copyright. All Rights Reserved.

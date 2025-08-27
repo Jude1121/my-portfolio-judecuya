@@ -2,7 +2,7 @@
     import profile2 from '../lib/assets/1X1 FORMAL ID PICTURE - TUXEDO.png'
 </script>
  
-<div class="bg-black w-full lg:p-40 lg:flex lg:justify-baseline gap-40 justify-center lg:items-center pt-10 p-10">
+<div class="bg-black w-full inset-x-0 lg:p-40 lg:flex lg:justify-baseline gap-40 justify-center lg:items-center pt-10 p-10">
     <div class="text-white lg:pb-20 lg:pl-40 lg:pt-10 lg:w-160">
         <h1 class="font-extrabold text-4xl pb-7">
             ABOUT ME

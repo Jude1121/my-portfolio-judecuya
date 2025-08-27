@@ -30,7 +30,7 @@
 </div>
 <div id="Contact">
      <Contact/>
-    <Comment/>
+     <Test/>
 </div>
 <div>
     <Footer/>
