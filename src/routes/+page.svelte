@@ -6,7 +6,7 @@
     import Skills from "../components/Skills.svelte";
     import Projects from "../components/Projects.svelte";
     import Contact from "../components/Contact.svelte";
-    import Comment from "../components/Comment.svelte";
+    import GetInTouch from "../components/GetInTouch.svelte";
     import Footer from "../components/Footer.svelte";
     import Test from "../components/Test.svelte";
 </script>
@@ -30,7 +30,7 @@
 </div>
 <div id="Contact">
      <Contact/>
-     <Test/>
+     <GetInTouch/>
 </div>
 <div>
     <Footer/>
