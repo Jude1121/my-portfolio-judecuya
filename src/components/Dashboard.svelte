@@ -67,7 +67,7 @@
         </h2>
         <div class="flex gap-6 text-a ">
                 <div class="w-fit bg-black text-white transform transition-transform duration-300 hover:scale-120 ">   
-                    <a class="font-extrabold lg:p-5 p-4" href={myResume} download="MyResume.pdf">DOWNLAOD CV</a>
+                    <a class="font-extrabold lg:p-5 p-4" href={myResume} download="MyResume.pdf">DOWNLOAD CV</a>
                 </div>
                 <div class="w-fit bg-black text-white transform transition-transform duration-300 hover:scale-120"> 
                     <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold lg:p-5 p-4">HIRE ME</a>
