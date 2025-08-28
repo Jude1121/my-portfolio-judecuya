@@ -6,6 +6,7 @@
     import fb from '../lib/assets/fb colored.svg';
     import ig from '../lib/assets/ig colored.svg';
     import github from '../lib/assets/github logo.svg';
+    import linkedin from '../lib/assets/linked in.svg';
 </script>
 
 <h1 class="lg:pt-30 pt-15 pb-10 text-4xl font-extrabold flex justify-center">CONTACT ME</h1>
@@ -27,6 +28,7 @@
                         <a href="https://www.facebook.com/JUDERRRUSSEL11121" target="_blank"><img src="{fb}" alt="" class="facebook w-7  transform transition-transform duration-300 hover:scale-120 "></a>
                         <a href="https://www.instagram.com/jdrsslc_/?next=%2F" target="_blank"><img src="{ig}" alt="" class="instagram w-7   transform transition-transform duration-300 hover:scale-120"></a>
                         <a href="https://github.com/Jude1121" target="_blank"><img src="{github}" alt="" class="instagram w-7  transform transition-transform duration-300 hover:scale-135"></a>
+                        <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank"><img src="{linkedin}" alt="" class="linkedin w-7  transform transition-transform duration-300 hover:scale-135"></a>
                     </div>
                  </div> 
             </div>
