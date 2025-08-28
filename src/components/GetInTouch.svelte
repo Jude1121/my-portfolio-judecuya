@@ -29,7 +29,7 @@
 
   <div class="text-right">
     <button id="sendBtn" type="submit"
-      class="px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800 shadow">
+      class=" px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-500 shadow transform transition-transform duration-300 hover:scale-103">
       Send Message
     </button>
   </div>
