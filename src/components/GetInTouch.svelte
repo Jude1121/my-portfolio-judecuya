@@ -48,9 +48,9 @@
 
           <div class="flex justify-center pt-10 text-sm text-slate-400">
             <p>This site is protected by reCAPTCHA and the Google
-              <a class="text-slate-400 hover:text-slate-700 underline transition-colors duration-300 "  href="https://policies.google.com/privacy">Privacy Policy</a>
+              <a class="text-slate-400 hover:text-slate-700 underline transition-colors duration-300 " target="_blank" href="https://policies.google.com/privacy">Privacy Policy</a>
               and
-              <a class="text-slate-400 hover:text-slate-700 underline transition-colors duration-300 "  href="https://policies.google.com/terms">Terms of Service</a>
+              <a class="text-slate-400 hover:text-slate-700 underline transition-colors duration-300 " target="_blank" href="https://policies.google.com/terms">Terms of Service</a>
               apply.
             </p>
           </div>
