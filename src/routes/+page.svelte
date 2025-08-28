@@ -10,7 +10,9 @@
     import Footer from "../components/Footer.svelte";
     import Test from "../components/Test.svelte";
 </script>
-
+<svelte:head>
+  <title>Jude Russel Cuya</title>
+</svelte:head>
 <body>
 <div id="Navbar">
     <Navbar/>
