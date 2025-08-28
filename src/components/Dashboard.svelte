@@ -2,7 +2,6 @@
     import myProfile from '../lib/assets/PORTFOLIO PICTURE.png';
     import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
     import myResume from '../lib/assets/MY RUSUME - JUDE CUYA.pdf';
-    
 </script>
 
 <style>
@@ -65,9 +64,9 @@
             </div>
              a Front-End Developer skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
         </h2>
-        <div class="flex gap-6 text-a ">
-                <div class="w-fit bg-black text-white transform transition-transform duration-300 hover:scale-120 ">   
-                    <a class="font-extrabold lg:p-5 p-4" href={myResume} download="MyResume.pdf">DOWNLOAD CV</a>
+        <div class="flex gap-6 text-a h-10 items-center">
+                <div class="w-fit flex justify-baseline bg-black text-white transform transition-transform duration-300 hover:scale-120 ">   
+                    <a class="font-extrabold text-sm lg:p-5 p-4" href={myResume} download="MyResume.pdf">DOWNLOAD CV</a>
                 </div>
                 <div class="w-fit bg-black text-white transform transition-transform duration-300 hover:scale-120"> 
                     <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold lg:p-5 p-4">HIRE ME</a>
