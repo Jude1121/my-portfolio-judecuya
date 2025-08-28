@@ -39,9 +39,9 @@
           <!-- Google reCAPTCHA widget -->
           <div class="g-recaptcha flex justify-center" data-sitekey="6LdW47UrAAAAABkYFVPTfk10flRDntwRssZ8eXhv"></div>
 
-          <div class="text-right">
+          <div class="flex justify-center">
             <button id="sendBtn" type="submit"
-              class="px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-500 shadow transform transition-transform duration-300 hover:scale-103">
+              class="px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-500 shadow transform transition-transform duration-300 hover:scale-105">
               Send Message
             </button>
           </div>
