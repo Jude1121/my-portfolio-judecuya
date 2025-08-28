@@ -22,71 +22,91 @@
 
         <!-- Contact Form -->
         <form id="contactForm" method="POST" action="javascript:void(0)" class="space-y-4">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <input type="text" name="from_name" placeholder="Your name" required
-      class="w-full rounded-xl border border-slate-200 bg-white text-slate-800 p-3 focus:ring-2 focus:ring-slate-900/10 placeholder-slate-400">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" name="from_name" placeholder="Your name" required
+              class="w-full rounded-xl border border-slate-200 bg-white text-slate-800 p-3 focus:ring-2 focus:ring-slate-900/10 placeholder-slate-400">
 
-    <input type="email" name="from_email" placeholder="your.email@example.com" required
-      class="w-full rounded-xl border border-slate-200 bg-white text-slate-800 p-3 focus:ring-2 focus:ring-slate-900/10 placeholder-slate-400">
-  </div>
+            <input type="email" name="from_email" placeholder="your.email@example.com" required
+              class="w-full rounded-xl border border-slate-200 bg-white text-slate-800 p-3 focus:ring-2 focus:ring-slate-900/10 placeholder-slate-400">
+          </div>
 
-  <input type="text" name="subject" placeholder="What would you like to discuss?"
-    class="w-full rounded-xl border border-slate-200 bg-white text-slate-800 p-3 focus:ring-2 focus:ring-slate-900/10 placeholder-slate-400">
+          <input type="text" name="subject" placeholder="What would you like to discuss?"
+            class="w-full rounded-xl border border-slate-200 bg-white text-slate-800 p-3 focus:ring-2 focus:ring-slate-900/10 placeholder-slate-400">
 
-  <textarea name="message" rows="4" placeholder="Tell me about your project or idea..." required
-    class="w-full rounded-xl border border-slate-200 bg-white text-slate-800 p-3 focus:ring-2 focus:ring-slate-900/10 placeholder-slate-400"></textarea>
+          <textarea name="message" rows="4" placeholder="Tell me about your project or idea..." required
+            class="w-full rounded-xl border border-slate-200 bg-white text-slate-800 p-3 focus:ring-2 focus:ring-slate-900/10 placeholder-slate-400"></textarea>
 
+          <!-- Google reCAPTCHA widget -->
+          <div class="g-recaptcha flex justify-center" data-sitekey="6LdW47UrAAAAABkYFVPTfk10flRDntwRssZ8eXhv"></div>
 
-  <!-- Google reCAPTCHA widget -->
+          <div class="text-right">
+            <button id="sendBtn" type="submit"
+              class="px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-500 shadow transform transition-transform duration-300 hover:scale-103">
+              Send Message
+            </button>
+          </div>
 
-  <div class="text-right">
-    <button id="sendBtn" type="submit"
-      class=" px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-500 shadow transform transition-transform duration-300 hover:scale-103">
-      Send Message
-    </button>
-  </div>
+          <div class="flex justify-center pt-10 text-sm text-slate-400">
+            <p>This site is protected by reCAPTCHA and the Google
+              <a class="text-slate-400 hover:text-slate-700 underline transition-colors duration-300 "  href="https://policies.google.com/privacy">Privacy Policy</a>
+              and
+              <a class="text-slate-400 hover:text-slate-700 underline transition-colors duration-300 "  href="https://policies.google.com/terms">Terms of Service</a>
+              apply.
+            </p>
+          </div>
+        </form>
 
-  <div class="flex justify-center pt-10 text-sm text-slate-400">
-    <p>This site is protected by reCAPTCHA and the Google
-      <a class="text-slate-400 hover:text-slate-700 underline transition-colors duration-300 "  href="https://policies.google.com/privacy">Privacy Policy</a>
-      and
-      <a class="text-slate-400 hover:text-slate-700 underline transition-colors duration-300 "  href="https://policies.google.com/terms">Terms of Service</a>
-      apply.
-    </p>
-  </div>
-</form>
+        <p id="statusMessage" class="text-center text-sm mt-4"></p>
 
-<p id="statusMessage" class="text-center text-sm mt-4"></p>
-
-<!-- OPTIONAL: silence favicon 404 -->
-<link rel="icon" href="data:,">
+        <!-- OPTIONAL: silence favicon 404 -->
+        <link rel="icon" href="data:,">
       </div>
     </section>
-
   </main>
 
   <!-- Load EmailJS SDK -->
-  <!-- EmailJS SDK (new) -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
-  // Init EmailJS
-  
-   (function() {
-    emailjs.init("RkHEatFx9n_mf4XI_"); // <-- your public key
-    //  // ✅ v3 correct syntax
-  })();
-    
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("contactForm");
-    const btn  = document.getElementById("sendBtn");
+  <!-- Load Google reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <script>
+   (function() {
+    emailjs.init("RkHEatFx9n_mf4XI_"); // <-- your EmailJS public key
+   })();
+
+   document.addEventListener("DOMContentLoaded", () => {
+    const form   = document.getElementById("contactForm");
+    const btn    = document.getElementById("sendBtn");
     const status = document.getElementById("statusMessage");
 
-    // Belt & suspenders: block native navigation even if JS attaches late
     form.setAttribute("novalidate", "true");
 
     form.addEventListener("submit", async (e) => {
-      e.preventDefault(); // stop page refresh/navigation
+      e.preventDefault();
+
+      // Check reCAPTCHA first
+      // Check reCAPTCHA first
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (!recaptchaResponse) {
+    status.textContent = "⚠️ Please complete the reCAPTCHA.";
+    status.className = "text-center text-red-600 text-sm mt-4";
+    return;
+    }
+
+    // Verify with backend
+    const verifyRes = await fetch("/api/verify-recaptcha", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token: recaptchaResponse })
+    });
+
+    const verifyData = await verifyRes.json();
+    if (!verifyData.success) {
+    status.textContent = "❌ reCAPTCHA verification failed.";
+    status.className = "text-center text-red-600 text-sm mt-4";
+    return;
+    }
 
       // Guard: basic client validation
       const from_name  = form.from_name?.value?.trim() || "";
@@ -106,29 +126,24 @@
       status.textContent = "Sending...";
       status.className = "text-center text-blue-500 text-sm mt-4";
 
-      // EXPLICIT PARAMS (avoids many 400 errors vs sendForm)
       const params = {
         from_name,
         from_email,
-        reply_to: from_email,   // some templates expect reply_to
+        reply_to: from_email,
         subject,
         message,
+        "g-recaptcha-response": recaptchaResponse
       };
 
       try {
-        await emailjs.send(
-          "service_gmail",         // <-- your service ID
-          "template_auto_reply",   // <-- your template ID (must look like template_xxxxxx)
-          params                   // <-- explicit variables
-        );
-
+        await emailjs.send("service_gmail", "template_auto_reply", params);
         await emailjs.send("service_gmail", "template_notify_me", params);
 
         status.textContent = "✅ Message sent successfully!";
         status.className = "text-center text-green-600 text-sm mt-4";
         form.reset();
+        grecaptcha.reset(); // reset captcha after success
       } catch (err) {
-        // Show the REAL error from EmailJS
         const msg = (err && (err.text || err.message || JSON.stringify(err))) || "Unknown error";
         console.error("EmailJS Error:", err);
         status.textContent = "❌ Failed to send: " + msg;
@@ -138,10 +153,7 @@
         btn.classList.remove("opacity-60", "cursor-not-allowed");
       }
     });
-  });
-</script>
-
+   });
+  </script>
 </body>
-<div class="pb-20">
-
-</div>
+<div class="pb-20"></div>

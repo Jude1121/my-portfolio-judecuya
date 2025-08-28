@@ -32,7 +32,7 @@
 </div>
 <div id="Contact">
      <Contact/>
-     <Test/>
+     <GetInTouch/>
 </div>
 <div>
     <Footer/>

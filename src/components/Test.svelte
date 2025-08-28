@@ -37,11 +37,11 @@
             class="w-full rounded-xl border border-slate-200 bg-white text-slate-800 p-3 focus:ring-2 focus:ring-slate-900/10 placeholder-slate-400"></textarea>
 
           <!-- Google reCAPTCHA widget -->
-          <div class="g-recaptcha" data-sitekey="6LdW47UrAAAAABkYFVPTfk10flRDntwRssZ8eXhv"></div>
+          <div class="g-recaptcha flex justify-center" data-sitekey="6LdW47UrAAAAABkYFVPTfk10flRDntwRssZ8eXhv"></div>
 
           <div class="text-right">
             <button id="sendBtn" type="submit"
-              class=" px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-500 shadow transform transition-transform duration-300 hover:scale-103">
+              class="px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-500 shadow transform transition-transform duration-300 hover:scale-103">
               Send Message
             </button>
           </div>
