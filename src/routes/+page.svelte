@@ -17,7 +17,7 @@
 </div>
 
 <div id="Home">
-    <Test/>
+    <Dashboard/>
 </div>
 <div id="AboutMe">
     <AboutMe/>
