@@ -3,11 +3,11 @@
 </script>
 <body class="min-h-screen bg-slate-100 antialiased">
   <!-- Main Wrapper -->
-  <main class="max-w-4xl mx-auto p-6 space-y-20">
+  <main class="container max-w-4xl mx-auto p-6 space-y-20">
     
     <section id="contact">
       <div class="bg-white rounded-2xl shadow-lg p-6">
-        <header class="text-center mb-5">
+        <header class="container text-center mb-5">
           <h1 class="text-2xl font-semibold tracking-tight text-slate-800">Get in Touch</h1>
           <div class="flex justify-center pt-2">
               <p class="mt-2 text-slate-500 text-sm">
@@ -15,7 +15,7 @@
               </p>
               <img class="w-8 p-2" src="{waveIcon}" alt="">
           </div>
-          <p class="mt-2 text-slate-500 text-sm">
+          <p class="container mt-2 text-slate-500 text-sm">
             Whether you have a question, want to collaborate, or just want to say hi, feel free to reach out!
           </p>
         </header>

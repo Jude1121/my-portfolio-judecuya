@@ -46,11 +46,11 @@
   }
 </style>
 
-<div class="lg:flex lg:justify-baseline justify-center lg:items-center intro-animate">
+<div class=" lg:flex lg:justify-baseline justify-center lg:items-center intro-animate">
     <div class="lg:pl-40 lg:pt-20 lg:w-7xl">
         <img class="rounded-full lg:rounded-b-none" src={myProfile} alt="">
     </div>
-    <div class="lg:pl-25 pt-10 p-14 lg:p-0 ">
+    <div class=" lg:pl-25 pt-10 p-14 lg:p-0 ">
         <h1 class="font-extrabold text-5xl transform transition-transform duration-300 hover:scale-110">
             FRONTEND DEVELOPER
         </h1>
@@ -61,7 +61,7 @@
             </div>
              a Front-End Developer skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
         </h2>
-        <div class="flex gap-4 text-a items-center">
+        <div class=" flex gap-4 text-a items-center">
                 <!-- Download CV Button -->
                 <div class="w-fit bg-black text-white transform transition-transform duration-300 hover:scale-110 rounded-md">   
                     <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="MyResume.pdf">

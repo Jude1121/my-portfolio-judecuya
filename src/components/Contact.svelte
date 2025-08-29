@@ -9,18 +9,18 @@
     import linkedin from '../lib/assets/linked in.svg';
 </script>
 
-<h1 class="lg:pt-30 pt-15 pb-10 text-4xl font-extrabold flex justify-center">CONTACT ME</h1>
+<h1 class="lg:pt-30 pt-15 pb-10 text-4xl font-extrabold flex justify-center">CONTACT</h1>
 <div class="flex justify-center">
-        <div class="lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
+        <div class="container lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
             <div class="address lg:justify-baseline flex p-3 bg-white  lg:w-103 gap-2 rounded-2xl shadow-lg">
-                <img src="{address}" alt="" class="w-16 p-1">
+                <img src="{address}" alt="" class="container w-16 p-1">
                 <div class="">
                     <h1 class="font-bold pt-2">Address</h1>
                     <h1 class="">Tiwi, Albay - Philippines</h1>
                 </div>
             </div>
             <div class="pt-5"></div>
-            <div class="social media justify-baseline flex lg:w-103 p-3 w-full  bg-white rounded-2xl shadow-lg">
+            <div class="container social media justify-baseline flex lg:w-103 p-3 w-full  bg-white rounded-2xl shadow-lg">
                  <img src="{links}" alt="" class="w-18 p-1"> 
                  <div>
                     <h1 class="font-bold pt-2">Social Media</h1>
@@ -38,8 +38,8 @@
 
 </div>
 <div class="flex justify-center pt-3 ">
-        <div class="lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
-            <div class="email lg:justify-baseline flex p-4 bg-white w-full lg:w-103 gap-2 rounded-2xl shadow-lg">
+        <div class="container lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
+            <div class="container email lg:justify-baseline flex p-4 bg-white w-full lg:w-103 gap-2 rounded-2xl shadow-lg">
                 <img src="{email}" alt="" class="w-15 p-1">
                 <div class="">
                     <h1 class="font-bold pt-2">Email</h1>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="pt-5"></div>
-            <div class="phoneNumber justify-baseline flex lg:w-103 p-4 gap-2 w-full bg-white rounded-2xl shadow-lg">
+            <div class="container phoneNumber justify-baseline flex lg:w-103 p-4 gap-2 w-full bg-white rounded-2xl shadow-lg">
                  <img src="{pNumber}" alt="" class="w-16 p-1"> 
                  <div>
                     <h1 class="font-bold pt-2">Phone Number</h1>
