@@ -1,6 +1,5 @@
 <script>
     import Navbar from "../components/Navbar.svelte";
-	import Header from "../components/Header.svelte";
     import Dashboard from "../components/Dashboard.svelte";
     import AboutMe from "../components/About Me.svelte";
     import Skills from "../components/Skills.svelte";
@@ -14,6 +13,8 @@
   <title>Jude Russel Cuya</title>
 </svelte:head>
 <body>
+
+
 <div id="Navbar">
     <Navbar/>
 </div>
@@ -22,7 +23,7 @@
     <Dashboard/>
 </div>
 <div id="AboutMe">
-    <AboutMe/>
+    <Test/>
 </div>
 <div id="Skills">
     <Skills/>
