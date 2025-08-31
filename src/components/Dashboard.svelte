@@ -4,6 +4,7 @@
     import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
     import myResume from '../lib/assets/MY RUSUME - JUDE CUYA.pdf';
     import myProfileWhite from '$lib/assets/My Image White Background.png';
+    import pfBgBlack from'$lib/assets/my pic bg black.png';
 
     // download icon
     import { Download } from 'lucide-svelte';
@@ -106,7 +107,7 @@
 <div class="bg-neutral-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center intro-animate">
     <div class="lg:pl-45 lg:pt-20 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10">
       <div class="orbit-ring">
-        <img class="rounded-full lg:w-xl shadow-lg" src={myProfileWhite} alt="">
+        <img class="rounded-full lg:w-xl shadow-lg" src={myProfile} alt="">
       </div>
     </div>
     <div class=" lg:pl-20 pt-10 p-14 lg:p-0 "> 
