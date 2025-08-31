@@ -16,7 +16,7 @@
       <!-- Desktop menu (≥ lg) -->
       <ul class="hidden lg:flex items-center gap-8">
         <li><a href="#Home" class="hover:text-amber-300">HOME</a></li>
-        <li><a href="#AboutMe" class="hover:text-amber-300">ABOUT ME</a></li>
+        <li><a href="#AboutMe" class="hover:text-amber-300">ABOUT</a></li>
         <li><a href="#Skills" class="hover:text-amber-300">SKILLS</a></li>
         <li><a href="#Project" class="hover:text-amber-300">PROJECT</a></li>
         <li><a href="#Contact" class="hover:text-amber-300">CONTACT</a></li>

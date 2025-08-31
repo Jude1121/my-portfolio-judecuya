@@ -57,6 +57,10 @@
   display: inline-block;
   border-radius: 50%;
 }
+.orbit-ring:hover {
+  box-shadow: 0 0 25px 8px rgba(251, 146, 60, 0.7), 
+              0 0 45px 15px rgba(250, 204, 21, 0.5);
+}
 
 /* Keep image still */
 .orbit-ring img {
