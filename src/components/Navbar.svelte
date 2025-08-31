@@ -53,7 +53,7 @@
 
     <!-- Menu items -->
     <a class="hover:text-amber-400" href="#Home">HOME</a>
-    <a class="hover:text-amber-400" href="#AboutMe">ABOUT ME</a>
+    <a class="hover:text-amber-400" href="#AboutMe">ABOUT</a>
     <a class="hover:text-amber-400" href="#Skills">SKILLS</a>
     <a class="hover:text-amber-400" href="#Project">PROJECT</a>
     <a class="hover:text-amber-400" href="#Contact">CONTACT</a>
