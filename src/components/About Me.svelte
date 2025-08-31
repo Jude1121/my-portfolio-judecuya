@@ -1,5 +1,7 @@
 <script>
-    import profile2 from '../lib/assets/1X1 FORMAL ID PICTURE - TUXEDO.png'
+    import profile2 from '../lib/assets/1X1 FORMAL ID PICTURE - TUXEDO.png';
+    import logo from '$lib/assets/Jude Russel LOGO white copy.svg';
+    import myimage from '$lib/assets/aboutme.jpg';
 </script>
 
 
@@ -15,7 +17,17 @@
             </p>
         </h2>
     </div>
-    <div class="container lg:w-135 w-full pt-10 lg:pt-0">
-        <img class="container lg:rounded-full rounded-4xl" src="{profile2}" alt="">
+    <div class="relative lg:w-[540px] w-full pt-10 lg:pt-0">
+  <!-- Main astronaut/profile image -->
+  <img class="container w-full rounded-4xl lg:rounded-none shadow-2xl" src="{myimage}" alt="profile image">
+
+  <!-- Floating circular logo badge -->
+   
+  <div class="absolute lg:-top-6 lg:-right-6 top-2  -right-3">
+    <div class="flex items-center justify-center lg:w-30 lg:h-30 w-25 h-25 rounded-full bg-black border-4 border-amber-300 shadow-lg">
+      <img src="{logo}" alt="my logo" class="lg:w-25 w-20 lg:h-25 h-20 autoRotate">
+    </div>
+  </div>
+  
     </div>
 </div>

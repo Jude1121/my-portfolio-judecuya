@@ -6,7 +6,7 @@
         <h1 class="container text-4xl font-extrabold flex justify-center">
             PROJECT
         </h1>
-        <div class="container lg:flex justify-center lg:justify-baseline gap-30">
+        <div class="lg:flex lg:justify-baseline justify-center lg:items-center w-full  gap-30">
              <div class="container lg:w-180 pt-10 lg:pt-25 transform transition-transform duration-300 hover:scale-105">
              <a href="https://www.figma.com/design/Q9fo4GNksmNTh8xtzMbtNg/Villa-Salome-Proto?node-id=0-1&p=f&t=iYNiGhtYbh48EfOZ-0" target="_blank"><img class="border-0 hover:border-1 rounded-4xl hover:rounded-none" src="{VillaSalome}" alt=""></a>
             </div>

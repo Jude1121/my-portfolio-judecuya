@@ -46,7 +46,7 @@
   }
 </style>
 
-<div class=" lg:flex lg:justify-baseline justify-center lg:items-center intro-animate">
+<div class=" lg:flex inset-x-0  lg:justify-baseline justify-center lg:items-center intro-animate">
     <div class="lg:pl-40 lg:pt-20 lg:w-7xl">
         <img class="rounded-full lg:rounded-b-none" src={myProfile} alt="">
     </div>

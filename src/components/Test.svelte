@@ -1,33 +1,135 @@
 <script>
-    import profile2 from '../lib/assets/1X1 FORMAL ID PICTURE - TUXEDO.png';
-    import logo from '$lib/assets/Jude Russel LOGO white copy.svg';
-    import myimage from '$lib/assets/aboutme.jpg';
+    import myProfilenoBg from '../lib/assets/PORTFOLIO PICTURE.png';
+    import myProfile from '../lib/assets/Me.jpg';
+    import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
+    import myResume from '../lib/assets/MY RUSUME - JUDE CUYA.pdf';
+    import myProfileWhite from '$lib/assets/My Image White Background.png';
+
+    // download icon
+    import { Download } from 'lucide-svelte';
 </script>
 
+<style>
+  /* Smooth fade-in + slight slide-up */
+  @keyframes introFadeUp {
+    from { opacity: 0; transform: translateY(60px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-<div class=" bg-black w-full inset-x-0 lg:p-40 lg:flex lg:justify-baseline gap-40 justify-center lg:items-center pt-10 p-10">
-    <div class="container text-white lg:pb-20 lg:pl-40 lg:pt-10 lg:w-160">
-        <h1 class="container font-extrabold text-4xl pb-7">
-            ABOUT ME
+  .intro-animate {
+    opacity: 0;
+    animation: introFadeUp 1000ms ease-out forwards;
+    will-change: transform, opacity;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro-animate {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .typing-animation {
+    width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid black;
+    animation: typing 3s steps(22) forwards, blink 0.6s infinite;
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to   { width: 19ch; }
+  }
+  @keyframes blink {
+    60% { border-color: transparent; }
+  }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.orbit-ring {
+  --orbit-size: 8px; /* distance of orbit from image */
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+/* Keep image still */
+.orbit-ring img {
+  display: block;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Orbit line with fade (top arc) */
+.orbit-ring::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--orbit-size) * -1);
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+   rgb(248, 200, 44) 0deg,    /* green full */
+    rgba(34,197,94,0) 150deg,   /* fade */
+    transparent 360deg
+  );
+  animation: spin 7s linear infinite; /* clockwise */
+  z-index: 1;
+}
+
+/* Second orbit line (bottom arc, opposite offset) */
+.orbit-ring::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--orbit-size) * -1);
+  border-radius: 50%;
+  background: conic-gradient(
+    from 180deg,
+    rgb(248, 200, 44) 0deg,
+    rgba(34,197,94,0) 150deg,
+    transparent 360deg
+  );
+  animation: spin 7s linear infinite; /* clockwise */
+  z-index: 1;
+}
+</style>
+
+<div class=" lg:flex lg:justify-baseline justify-center lg:items-center intro-animate">
+    <div class="lg:pl-45 lg:pt-20 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10">
+      <div class="orbit-ring">
+        <img class="rounded-full lg:w-xl shadow-lg " src={myProfileWhite} alt="">
+      </div>
+    </div>
+    <div class=" lg:pl-20 pt-10 p-14 lg:p-0 "> 
+        <h1 class="font-extrabold text-5xl transform transition-transform duration-300 hover:scale-110">
+            FRONTEND DEVELOPER
         </h1>
-        <h2 class="container w-full">
-            I am Jude Russel Cuya, 22 years old, a fresh graduate of STI College Legazpi with a Bachelor’s degree in Information Technology. I am a Junior Front-End Developer eager to learn, grow, and contribute to your company. I am committed to delivering tasks on time and maintaining a high standard of work. In addition to my development skills, I am also proficient in UI/UX design and graphic design, with experience using tools such as Figma, Adobe Illustrator, and Adobe Photoshop. Moreover, I possess strong communication skills that allow me to effectively collaborate with team members, clearly convey ideas, and engage with clients to ensure project goals are met.
-            <p class="container pt-5">
-            During my senior year, I focused on enhancing my knowledge in Front-End Development, which played a key role in our Capstone Project. Together with my groupmates, we developed an Online Hotel Reservation System for Villa Salome Resort, located in my hometown - Tiwi, Albay.
-            </p>
+        <h2 class="lg:pt-5 lg:pr-60 lg:pb-20 pt-5 pb-5">
+            <div class="flex justify-baseline pb-3">
+                <img class="w-6" src={waveIcon} alt="">
+                <p class="font-bold pl-2 typing-animation ">I'm Jude Russel Cuya</p>
+            </div>
+             a Front-End Developer skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
         </h2>
+        <div class=" flex gap-4 text-a items-center">
+                <!-- Download CV Button -->
+                <div class="w-fit bg-black text-white transform transition-transform duration-300 hover:scale-110 rounded-md">   
+                    <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="MyResume.pdf">
+                        <Download class="w-4 h-4" />
+                        DOWNLOAD CV
+                    </a>
+                </div>
+                <!-- Hire Me Button -->
+                <div class="w-fit bg-black text-white transform transition-transform duration-300 hover:scale-110 rounded-md"> 
+                    <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold text-sm px-4 py-2 flex items-center justify-center">
+                        HIRE ME
+                    </a>
+                </div>
+        </div>
     </div>
-    <div class="relative lg:w-[540px] w-full pt-10 lg:pt-0">
-  <!-- Main astronaut/profile image -->
-  <img class="container w-full rounded-4xl lg:rounded-none shadow-2xl" src="{myimage}" alt="profile image">
-
-  <!-- Floating circular logo badge -->
-   
-  <div class="absolute lg:-top-6 lg:-right-6 top-2  -right-3">
-    <div class="flex items-center justify-center lg:w-30 lg:h-30 w-25 h-25 rounded-full bg-black border-4 border-amber-300 shadow-lg">
-      <img src="{logo}" alt="my logo" class="lg:w-25 w-20 lg:h-25 h-20 autoRotate">
-    </div>
-  </div>
-  
-</div>
 </div>

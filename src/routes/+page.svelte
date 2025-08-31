@@ -20,10 +20,10 @@
 </div>
 
 <div id="Home">
-    <Dashboard/>
+    <Test/>
 </div>
 <div id="AboutMe">
-    <Test/>
+    <AboutMe/>
 </div>
 <div id="Skills">
     <Skills/>
