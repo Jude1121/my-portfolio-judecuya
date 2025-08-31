@@ -8,8 +8,8 @@
     import github from '../lib/assets/github logo.svg';
     import linkedin from '../lib/assets/linked in.svg';
 </script>
-
-<h1 class="lg:pt-30 pt-15 pb-10 text-4xl font-extrabold flex justify-center fadeUp">CONTACT</h1>
+<div class="bg-stone-950">
+<h1 class="lg:pt-30 pt-15 pb-10 text-4xl text-white font-extrabold flex justify-center fadeUp">CONTACT</h1>
 <div class="flex justify-center">
         <div class=" lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
             <div class="fadeUp address lg:justify-baseline flex p-3 bg-white  lg:w-103 gap-2 rounded-2xl shadow-lg">
@@ -55,4 +55,6 @@
                  </div> 
             </div>
         </div>
+</div>
+
 </div>

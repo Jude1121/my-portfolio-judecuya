@@ -18,7 +18,7 @@
                     Our project involves developing a Web-Based Online Reservation Management System for Villa Salome Resort to replace traditional booking methods with a modern, efficient online platform. This system will allow guests to conveniently and accurately reserve activities and accommodations in advance, while ensuring alignment with the resort’s specific requirements. By automating the reservation process, it will reduce the workload of staff and significantly improve the speed and efficiency of managing bookings and related operations.
                 </p>
                 <div class="container lg:pl-5 sm:pl-5">
-                    <div class="w-fit font-extrabold bg-white text-black transform transition-transform duration-300 hover:scale-120 rounded-md">
+                    <div class="w-fit font-extrabold bg-white hover:bg-amber-400 hover:text-white text-black rounded-md">
                         <a class="p-5" href="https://www.figma.com/design/Q9fo4GNksmNTh8xtzMbtNg/Villa-Salome-Proto?t=ouo7oFgdk5tn7xCz-0" target="_blank">VIEW PROJECT</a>
                     </div>
                 </div>

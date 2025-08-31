@@ -28,7 +28,7 @@ h1,h2,h3,li,a,p,button{
 .container {
     animation: appear linear;
     animation-timeline: view();
-    animation-range: entry 20% cover 40%;
+    animation-range: entry 1% cover 30%;
 }
 
 .autoRotate{

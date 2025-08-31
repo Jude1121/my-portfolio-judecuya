@@ -20,12 +20,12 @@
 </div>
 
 <div id="Home">
-    <Test/>
+    <Dashboard/>
 </div>
 <div id="AboutMe">
     <AboutMe/>
 </div>
-<div id="Skills">
+<div id="Skills ">
     <Skills/>
 </div>
 <div id="Project">
