@@ -59,8 +59,8 @@
   border-radius: 50%;
 }
 .orbit-ring:hover {
-  box-shadow: 0 0 25px 8px rgba(251, 146, 60, 0.7), 
-              0 0 45px 15px rgba(250, 204, 21, 0.5);
+  box-shadow: 0 0 25px 8px rgba(11, 165, 50, 0.7), 
+              0 0 45px 15px rgba(11, 165, 50, 0.5);
 }
 
 /* Keep image still */
@@ -79,8 +79,8 @@
   border-radius: 50%;
   background: conic-gradient(
     from 0deg,
-   rgb(248, 200, 44) 0deg,    /* green full */
-    rgba(34,197,94,0) 150deg,   /* fade */
+    rgb(11, 165, 50) 0deg,   /* green full */
+    rgba(253, 176, 32, 0) 150deg,   /* fade */
     transparent 360deg
   );
   animation: spin 7s linear infinite; /* clockwise */
@@ -95,7 +95,7 @@
   border-radius: 50%;
   background: conic-gradient(
     from 180deg,
-    rgb(248, 200, 44) 0deg,
+    rgb(11, 165, 50) 0deg,
     rgba(34,197,94,0) 150deg,
     transparent 360deg
   );
@@ -111,7 +111,7 @@
       </div>
     </div>
     <div class=" lg:pl-20 pt-10 p-14 lg:p-0 "> 
-        <h1 class="font-extrabold text-5xl transform transition-transform duration-300 hover:scale-110">
+        <h1 class="text-green-500 font-extrabold text-5xl transform transition-transform duration-300 hover:scale-110">
             FRONTEND DEVELOPER
         </h1>
         <h2 class="lg:pt-5 lg:pr-60 lg:pb-20 pt-5 pb-5">
@@ -123,14 +123,14 @@
         </h2>
         <div class=" flex gap-4 text-a items-center">
                 <!-- Download CV Button -->
-                <div class="w-fit bg-white hover:bg-amber-400 hover:text-white text-black rounded-md ">   
+                <div class="w-fit bg-white hover:bg-green-500 hover:text-white text-black rounded-md ">   
                     <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="MyResume.pdf">
                         <Download class="w-4 h-4" />
                         DOWNLOAD CV
                     </a>
                 </div>
                 <!-- Hire Me Button -->
-                <div class="w-fit bg-white text-black  hover:bg-amber-400 hover:text-white  rounded-md"> 
+                <div class="w-fit bg-white text-black  hover:bg-green-500 hover:text-white  rounded-md"> 
                     <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold text-sm px-4 py-2 flex items-center justify-center">
                         HIRE ME
                     </a>

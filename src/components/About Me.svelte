@@ -25,7 +25,7 @@
   <!-- Floating circular logo badge -->
    
   <div class="absolute lg:-top-6 lg:-right-6 top-2  -right-3">
-    <div class="flex items-center justify-center lg:w-30 lg:h-30 w-25 h-25 rounded-full bg-black border-4 border-amber-300 shadow-lg">
+    <div class="flex items-center justify-center lg:w-30 lg:h-30 w-25 h-25 rounded-full bg-black border-4 border-green-500 shadow-lg">
       <img src="{logo}" alt="my logo" class="lg:w-25 w-20 lg:h-25 h-20 autoRotate">
     </div>
   </div>

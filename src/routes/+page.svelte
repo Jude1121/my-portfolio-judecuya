@@ -12,7 +12,7 @@
 <svelte:head>
   <title>Jude Russel Cuya</title>
 </svelte:head>
-<body>
+<body class="bg-stone-950">
 
 
 <div id="Navbar">

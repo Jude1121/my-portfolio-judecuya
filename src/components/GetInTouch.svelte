@@ -41,7 +41,7 @@
 
           <div class="flex justify-center">
             <button id="sendBtn" type="submit"
-              class="font-bold text-sm px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-amber-400 shadow transform transition-transform duration-300 hover:scale-105">
+              class="font-bold text-sm px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-green-500 shadow transform transition-transform duration-300 hover:scale-105">
               🚀 Send Message
             </button>
           </div>
