@@ -125,9 +125,9 @@
 </style>
 
 <div class="bg-neutral-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center intro-animate">
-    <div class="lg:pl-45 lg:pt-25 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10">
+    <div class="lg:pl-45 lg:pt-15 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10">
       <div class="orbit-ring">
-        <img class="rounded-full lg:w-fit shadow-lg" src={myProfile} alt="">
+        <img class="rounded-full w-7xl  shadow-lg" src={myProfile} alt="">
       </div>
     </div>
     <div class=" lg:pl-20 pt-10  p-14 lg:p-0 "> 

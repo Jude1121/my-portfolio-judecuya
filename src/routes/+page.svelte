@@ -15,11 +15,11 @@
 <body class="bg-stone-950">
 
 
-<div id="Navbar">
+<div id="Home">
     <Navbar/>
 </div>
 
-<div id="Home">
+<div id="">
     <Dashboard/>
 </div>
 <div id="AboutMe">
