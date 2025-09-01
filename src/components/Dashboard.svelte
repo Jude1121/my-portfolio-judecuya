@@ -51,9 +51,27 @@
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
+.glow-blink {
+  color: #22c55e; /* Tailwind text-green-500 */
+  animation: smoothGlow 4s ease-in-out infinite;
+}
+
+@keyframes smoothGlow {
+  0%, 100% {
+    text-shadow: none;
+    opacity: 0.7;
+  }
+  50% {
+    text-shadow: 0 0 8px #22c55e,
+                 0 0 16px #22c55e,
+                 0 0 32px #22c55e,
+                 0 0 48px #22c55e;
+    opacity: 1;
+  }
+}
 
 .orbit-ring {
-  --orbit-size: 8px; /* distance of orbit from image */
+  --orbit-size: 10px; /* distance of orbit from image */
   position: relative;
   display: inline-block;
   border-radius: 50%;
@@ -101,36 +119,38 @@
   );
   animation: spin 7s linear infinite; /* clockwise */
   z-index: 1;
+
+  
 }
 </style>
 
 <div class="bg-neutral-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center intro-animate">
-    <div class="lg:pl-45 lg:pt-20 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10">
+    <div class="lg:pl-45 lg:pt-25 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10">
       <div class="orbit-ring">
-        <img class="rounded-full lg:w-xl shadow-lg" src={myProfile} alt="">
+        <img class="rounded-full lg:w-fit shadow-lg" src={myProfile} alt="">
       </div>
     </div>
-    <div class=" lg:pl-20 pt-10 p-14 lg:p-0 "> 
-        <h1 class="text-green-500 font-extrabold text-5xl transform transition-transform duration-300 hover:scale-110">
+    <div class=" lg:pl-20 pt-10  p-14 lg:p-0 "> 
+        <h1 class="glow-blink  text-green-500 font-extrabold text-5xl transform transition-transform duration-300 hover:scale-110">
             FRONTEND DEVELOPER
         </h1>
         <h2 class="lg:pt-5 lg:pr-60 lg:pb-20 pt-5 pb-5">
             <div class="flex justify-baseline pb-3">
                 <img class="w-6" src={waveIcon} alt="">
-                <p class="font-bold pl-2 typing-animation ">I'm Jude Russel Cuya</p>
+                <p class="font-bold pl-2 typing-animation">I'm Jude Russel Cuya</p>
             </div>
              a Front-End Developer skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
         </h2>
         <div class=" flex gap-4 text-a items-center">
                 <!-- Download CV Button -->
-                <div class="w-fit bg-white hover:bg-green-500 hover:text-white text-black rounded-md ">   
+                <div class="w-fit bg-white hover:bg-green-500  text-black hover:text-white rounded-md ">   
                     <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="MyResume.pdf">
                         <Download class="w-4 h-4" />
                         DOWNLOAD CV
                     </a>
                 </div>
                 <!-- Hire Me Button -->
-                <div class="w-fit bg-white text-black  hover:bg-green-500 hover:text-white  rounded-md"> 
+                <div class="w-fit  bg-white hover:bg-green-500  text-black hover:text-white  rounded-md"> 
                     <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold text-sm px-4 py-2 flex items-center justify-center">
                         HIRE ME
                     </a>
