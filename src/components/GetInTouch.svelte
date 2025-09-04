@@ -1,7 +1,8 @@
 <script>
   import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
 </script>
-<body class="min-h-screen bg-stone-950 antialiased">
+
+<body class="min-h-screen bg-slate-100 antialiased">
   <!-- Main Wrapper -->
   <main class="container max-w-4xl mx-auto p-6 space-y-20">
     
@@ -156,4 +157,6 @@
    });
   </script>
 </body>
+
+
 <div class="pb-20"></div>

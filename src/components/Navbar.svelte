@@ -1,6 +1,10 @@
 <script>
   import Logo from '../lib/assets/Jude Russel LOGO white copy.svg';
+
+
+
 </script>
+
 
 <header class="fixed top-0 inset-x-0 z-50 bg-black text-white font-bold">
   <!-- Hidden checkbox controls menu open/close -->
@@ -15,11 +19,11 @@
 
       <!-- Desktop menu (≥ lg) -->
       <ul class="hidden lg:flex items-center gap-8">
-        <li><a href="#Home" class="hover:text-green-500">HOME</a></li>
-        <li><a href="#AboutMe" class="hover:text-green-500">ABOUT</a></li>
-        <li><a href="#Skills" class="hover:text-green-500">SKILLS</a></li>
-        <li><a href="#Project" class="hover:text-green-500">PROJECT</a></li>
-        <li><a href="#Contact" class="hover:text-green-500">CONTACT</a></li>
+        <li><a href="#Home" class=" hover:text-green-500">HOME</a></li>
+        <li><a href="#AboutMe" class=" hover:text-green-500">ABOUT</a></li>
+        <li><a href="#Skills" class=" hover:text-green-500">SKILLS</a></li>
+        <li><a href="#Project" class=" hover:text-green-500">PROJECT</a></li>
+        <li><a href="#Contact" class=" hover:text-green-500">CONTACT</a></li>
       </ul>
 
       <!-- Hamburger (phones & iPads) -->

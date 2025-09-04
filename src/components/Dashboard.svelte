@@ -51,10 +51,7 @@
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
-.glow-blink {
-  color: #22c55e; /* Tailwind text-green-500 */
-  animation: smoothGlow 4s ease-in-out infinite;
-}
+
 
 @keyframes smoothGlow {
   0%, 100% {
@@ -71,14 +68,15 @@
 }
 
 .orbit-ring {
-  --orbit-size: 10px; /* distance of orbit from image */
+  --orbit-size: 7px; /* distance of orbit from image */
   position: relative;
   display: inline-block;
   border-radius: 50%;
 }
+
 .orbit-ring:hover {
-  box-shadow: 0 0 25px 8px rgba(11, 165, 50, 0.7), 
-              0 0 45px 15px rgba(11, 165, 50, 0.5);
+  box-shadow: 0 0 30px 8px rgba(11, 165, 50, 0.7), 
+              0 0 50px 20px rgba(11, 165, 50, 0.5);
 }
 
 /* Keep image still */
@@ -89,59 +87,58 @@
   z-index: 2;
 }
 
-/* Orbit line with fade (top arc) */
-.orbit-ring::before {
-  content: "";
-  position: absolute;
-  inset: calc(var(--orbit-size) * -1);
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    rgb(11, 165, 50) 0deg,   /* green full */
-    rgba(253, 176, 32, 0) 150deg,   /* fade */
-    transparent 360deg
-  );
-  animation: spin 7s linear infinite; /* clockwise */
-  z-index: 1;
-}
-
-/* Second orbit line (bottom arc, opposite offset) */
+/* Orbit line (top arc) */
+.orbit-ring::before,
 .orbit-ring::after {
   content: "";
   position: absolute;
   inset: calc(var(--orbit-size) * -1);
-  border-radius: 50%;
-  background: conic-gradient(
-    from 180deg,
-    rgb(11, 165, 50) 0deg,
-    rgba(34,197,94,0) 150deg,
-    transparent 360deg
-  );
-  animation: spin 7s linear infinite; /* clockwise */
+  border-radius: 46%;
+  background: linear-gradient(90deg, #22c55e, #bef264, #15803d);
+  background-size: 200% 200%;
+  animation: gradient-move 5s ease infinite, spin 7s linear infinite;
   z-index: 1;
-
-  
 }
+
+/* Offset the second arc so they overlap nicely */
+.orbit-ring::after {
+  animation: gradient-move 5s ease infinite, spin 8s linear infinite reverse;
+}
+
+/* Animations */
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 </style>
 
-<div class="bg-neutral-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center intro-animate">
-    <div class="lg:pl-45 lg:pt-15 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10">
+<div class="bg-neutral-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center">
+    <div class="lg:pl-45 lg:pt-15 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10 intro-animate">
       <div class="orbit-ring">
         <img class="rounded-full w-7xl  shadow-lg" src={myProfile} alt="">
       </div>
     </div>
-    <div class=" lg:pl-20 pt-10  p-14 lg:p-0 "> 
-        <h1 class="glow-blink  text-green-500 font-extrabold text-5xl transform transition-transform duration-300 hover:scale-110">
+    <div class=" lg:pl-20 pt-10  p-14 lg:p-0 intro-animate"> 
+        <h1 class=" bg-gradient-to-r from-green-500 via-lime-300 to-green-700 
+           bg-clip-text text-transparent 
+           animate-gradient font-extrabold text-5xl transform transition-transform duration-300 hover:scale-110">
             FRONTEND DEVELOPER
         </h1>
-        <h2 class="lg:pt-5 lg:pr-60 lg:pb-20 pt-5 pb-5">
+        <h2 class="lg:pt-5 lg:pr-60 lg:pb-20 pt-5 pb-5 intro-animate ">
             <div class="flex justify-baseline pb-3">
                 <img class="w-6" src={waveIcon} alt="">
                 <p class="font-bold pl-2 typing-animation">I'm Jude Russel Cuya</p>
             </div>
              a Front-End Developer skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
         </h2>
-        <div class=" flex gap-4 text-a items-center">
+        <div class=" flex gap-4 text-a items-center intro-animate">
                 <!-- Download CV Button -->
                 <div class="w-fit bg-white hover:bg-green-500  text-black hover:text-white rounded-md ">   
                     <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="MyResume.pdf">

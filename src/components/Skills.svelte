@@ -13,8 +13,8 @@
     import Photoshop from '../lib/assets/PHOTOSHOP.svg';
 </script>
 
-<div class="bg-stone-950">
-<h1 class="lg:pt-30 pt-15 lg:pb-10 pb-7 text-white text-4xl font-extrabold flex justify-center fadeUp">SKILLS</h1>
+<div class="bg-slate-100">
+<h1 class="lg:pt-30 pt-15 lg:pb-10 pb-7 text-black text-4xl font-extrabold flex justify-center fadeUp">SKILLS</h1>
 <div class="flex justify-center pt-3 ">
         <div class=" lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
             <div class="fadeUp html lg:justify-baseline flex p-4 bg-white w-full lg:w-103 gap-2 rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
