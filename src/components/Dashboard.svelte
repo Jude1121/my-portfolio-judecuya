@@ -116,7 +116,16 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.animated-gradient {
+  background-size: 300% auto; /* larger for smoother flow */
+  animation: gradientFlow 8s ease-in-out infinite;
+}
 
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 </style>
 
 <div class="bg-neutral-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center">
@@ -140,14 +149,14 @@
         </h2>
         <div class=" flex gap-4 text-a items-center intro-animate">
                 <!-- Download CV Button -->
-                <div class="w-fit bg-white hover:bg-green-500  text-black hover:text-white rounded-md ">   
+                <div class="w-fit bg-green-500 hover:bg-lime-400 text-white rounded-md ">   
                     <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="MyResume.pdf">
                         <Download class="w-4 h-4" />
                         DOWNLOAD CV
                     </a>
                 </div>
                 <!-- Hire Me Button -->
-                <div class="w-fit  bg-white hover:bg-green-500  text-black hover:text-white  rounded-md"> 
+                <div class="w-fit  bg-stone-950 border-2 border-green-500 hover:bg-lime-400 text-white rounded-md"> 
                     <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold text-sm px-4 py-2 flex items-center justify-center">
                         HIRE ME
                     </a>
