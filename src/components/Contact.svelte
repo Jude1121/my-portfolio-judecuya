@@ -1,6 +1,6 @@
 <script>
     import links from '../lib/assets/link.png';
-    import address from '../lib/assets/location.png';
+    import address from '../lib/assets/Location Logo.png';
     import email from '../lib/assets/email.png';
     import pNumber from '../lib/assets/phone-call.png';
     import fb from '../lib/assets/fb colored.svg';
@@ -8,8 +8,8 @@
     import github from '../lib/assets/github logo.svg';
     import linkedin from '../lib/assets/linked in.svg';
 </script>
-<div class="bg-slate-100">
-<h1 class="lg:pt-30 pt-15 pb-10 text-4xl text-black font-extrabold flex justify-center fadeUp">CONTACT</h1>
+<div class="bg-stone-950">
+<h1 class="lg:pt-30 pt-15 pb-10 text-4xl text-white font-extrabold flex justify-center fadeUp">CONTACT</h1>
 <div class="flex justify-center">
         <div class="fadeUp lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
             <div class=" address lg:justify-baseline flex p-3 bg-white  lg:w-103 gap-2 rounded-2xl shadow-lg">
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="pt-5"></div>
-            <div class=" social media justify-baseline flex lg:w-103 p-3 w-full  bg-white rounded-2xl shadow-lg">
+            <div class="fadeUp social media justify-baseline flex lg:w-103 p-3 w-full  bg-white rounded-2xl shadow-lg">
                  <img src="{links}" alt="" class="w-18 p-1"> 
                  <div>
                     <h1 class="font-bold pt-2">Social Media</h1>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="pt-5"></div>
-            <div class=" phoneNumber justify-baseline flex lg:w-103 p-4 gap-2 w-full bg-white rounded-2xl shadow-lg">
+            <div class="fadeUp phoneNumber justify-baseline flex lg:w-103 p-4 gap-2 w-full bg-white rounded-2xl shadow-lg">
                  <img src="{pNumber}" alt="" class="w-16 p-1"> 
                  <div>
                     <h1 class="font-bold pt-2">Phone Number</h1>

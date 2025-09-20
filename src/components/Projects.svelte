@@ -2,7 +2,7 @@
     import VillaSalome from '../lib/assets/Villa Salome Resort Prototype.png';
 </script>
 
-<div class="lg:p-50 bg-black text-white w-full lg:pt-30 pt-15 p-10" >
+<div class="lg:p-50 bg-stone-950 text-white w-full lg:pt-30 pt-15 p-10" >
         <h1 class="container text-4xl font-extrabold flex justify-center">
             PROJECT
         </h1>

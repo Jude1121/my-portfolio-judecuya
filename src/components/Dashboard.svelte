@@ -5,6 +5,7 @@
     import myResume from '../lib/assets/MY RUSUME - JUDE CUYA.pdf';
     import myProfileWhite from '$lib/assets/My Image White Background.png';
     import pfBgBlack from'$lib/assets/my pic bg black.png';
+    import CodeGreen from '../lib/assets/Code Logo Green.png';
 
     // download icon
     import { Download } from 'lucide-svelte';
@@ -128,24 +129,24 @@
 }
 </style>
 
-<div class="bg-neutral-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center">
+<div class="bg-stone-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center">
     <div class="lg:pl-45 lg:pt-15 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10 intro-animate">
       <div class="orbit-ring">
         <img class="rounded-full w-7xl  shadow-lg" src={myProfile} alt="">
       </div>
     </div>
-    <div class=" lg:pl-20 pt-10  p-14 lg:p-0 intro-animate"> 
-        <h1 class=" bg-gradient-to-r from-green-500 via-lime-300 to-green-700 
+    <div class=" lg:pl-20 pt-10  p-9 lg:p-0 intro-animate"> 
+        <h1 class="animated-gradient bg-gradient-to-r from-green-500 via-lime-300 to-green-700 
            bg-clip-text text-transparent 
-           animate-gradient font-extrabold text-5xl transform transition-transform duration-300 hover:scale-110">
-            FRONTEND DEVELOPER
+            font-extrabold text-5xl"><a href="" class="font-extrabold text-5xl  text-white">Hi, I'm</a>
+            Jude Russel Cuya
         </h1>
-        <h2 class="lg:pt-5 lg:pr-60 lg:pb-20 pt-5 pb-5 intro-animate ">
+        <h2 class="lg:pt-5 lg:pr-30 lg:pb-20 pt-5 pb-5 intro-animate ">
             <div class="flex justify-baseline pb-3">
                 <img class="w-6" src={waveIcon} alt="">
-                <p class="font-bold pl-2 typing-animation">I'm Jude Russel Cuya</p>
+                <p class="font-bold pl-2 typing-animation">A Front-End Developer</p>
             </div>
-             a Front-End Developer skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
+             skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
         </h2>
         <div class=" flex gap-4 text-a items-center intro-animate">
                 <!-- Download CV Button -->
@@ -156,7 +157,7 @@
                     </a>
                 </div>
                 <!-- Hire Me Button -->
-                <div class="w-fit  bg-stone-950 border-2 border-green-500 hover:bg-lime-400 text-white rounded-md"> 
+                <div class="w-fit  bg-transparent border-2 border-green-500 hover:bg-lime-400 text-white rounded-md "> 
                     <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold text-sm px-4 py-2 flex items-center justify-center">
                         HIRE ME
                     </a>

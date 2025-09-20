@@ -12,7 +12,7 @@
 <svelte:head>
   <title>Jude Russel Cuya</title>
 </svelte:head>
-<body class="">
+<body class="bg-stone-950">
 
 
 <div id="Home">
@@ -20,7 +20,7 @@
 </div>
 
 <div id="">
-    <Test/>
+    <Dashboard/>
 </div>
 <div id="AboutMe">
     <AboutMe/>
