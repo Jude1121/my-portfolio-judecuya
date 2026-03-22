@@ -51,7 +51,7 @@
                  <img src="{pNumber}" alt="" class="w-16 p-1"> 
                  <div>
                     <h1 class="font-bold pt-2">Phone Number</h1>
-                    <h1>+63 966-846-5206</h1>
+                    <h1>+63 946-041-9105</h1>
                  </div> 
             </div>
         </div>
