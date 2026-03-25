@@ -2,7 +2,7 @@
     import myProfilenoBg from '../lib/assets/PORTFOLIO PICTURE.png';
     import myProfile from '../lib/assets/Me.jpg';
     import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
-    import myResume from '../lib/assets/MY RUSUME - JUDE CUYA.pdf';
+    import myResume from '../lib/assets/RESUME OFFICIALs.pdf';
     import myProfileWhite from '$lib/assets/My Image White Background.png';
     import pfBgBlack from'$lib/assets/my pic bg black.png';
     import CodeGreen from '../lib/assets/Code Logo Green.png';
@@ -151,7 +151,7 @@
         <div class=" flex gap-4 text-a items-center intro-animate">
                 <!-- Download CV Button -->
                 <div class="w-fit bg-green-500 hover:bg-lime-400 text-white rounded-md ">   
-                    <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="MyResume.pdf">
+                    <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="My Official Resume.pdf">
                         <Download class="w-4 h-4" />
                         DOWNLOAD CV
                     </a>
