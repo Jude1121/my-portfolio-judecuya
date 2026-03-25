@@ -2,7 +2,7 @@
     import myProfilenoBg from '../lib/assets/PORTFOLIO PICTURE.png';
     import myProfile from '../lib/assets/Me.jpg';
     import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
-    import myResume from '../lib/assets/RESUME OFFICIALs.pdf';
+    import myResume from '../lib/assets/JUDE -RESUME OFFICIAL.pdf';
     import myProfileWhite from '$lib/assets/My Image White Background.png';
     import pfBgBlack from'$lib/assets/my pic bg black.png';
     import CodeGreen from '../lib/assets/Code Logo Green.png';
