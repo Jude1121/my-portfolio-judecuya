@@ -125,7 +125,7 @@
     });
 </script>
 
-<section class="w-full bg-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
+<section class="w-full bg-stone-950 px-5 py-1 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-5">
     <div class="mx-auto max-w-5xl">
         <div class="mx-auto max-w-2xl text-center">
             <h1 class="fadeUp text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Contact</h1>
