@@ -194,7 +194,7 @@
 
       <!-- Google reCAPTCHA widget -->
       <div class="flex justify-center overflow-x-auto">
-        <div class="g-recaptcha" data-theme="dark" data-sitekey="6LcfmdktAAAAAC9kLoJU1wTCaH7et6FN9ze1T-dy"></div>
+        <div class="g-recaptcha" data-theme="dark" data-sitekey="6LcfmdktAAAAAMK7NPAIN37jyih_TlhCpGhfOeVJ"></div>
       </div>
 
       <div class="flex justify-center">

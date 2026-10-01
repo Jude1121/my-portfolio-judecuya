@@ -1,7 +1,5 @@
 <script>
-    import profile2 from '../lib/assets/1X1 FORMAL ID PICTURE - TUXEDO.png';
     import logo from '$lib/assets/Jude Russel LOGO white copy.svg';
-    import myimage from '$lib/assets/aboutme.jpg';
     import myimage2 from  '$lib/assets/ABOUT ME IMAGE.jpg';
 </script>
 
