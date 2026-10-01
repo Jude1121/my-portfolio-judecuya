@@ -1,98 +1,119 @@
 <script>
   import { onMount } from 'svelte';
-  import emailjs from '@emailjs/browser';
   import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
 
-  const PUBLIC_KEY  = 'RkHEatFx9n_mf4XI_';
-  const SERVICE_ID  = 'service_gmail';
-  const TEMPLATE_ID = 'template_auto_reply'; // one template: To = {{from_email}}, BCC = your email
-  const SITE_KEY    = '6LdW47UrAAAAABkYFVPTfk10flRDntwRssZ8eXhv';
-
-  let from_name = '';
-  let from_email = '';
-  let subject = '';
-  let message = '';
-  let loading = false;
-  let status = { text: '', type: 'info' };
-  let captchaEl;
-  let widgetId = null;
-
-  const variants = {
-    error: 'border-red-400/30 bg-red-400/10 text-red-300',
-    success: 'border-emerald-400/30 bg-emerald-400/10 text-emerald-300',
-    info: 'border-white/15 bg-white/5 text-stone-300'
-  };
-  const field =
-    'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-stone-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30';
-  const setStatus = (text, type = 'info') => (status = { text, type });
-
-  function renderCaptcha() {
-    if (widgetId !== null || !captchaEl || !window.grecaptcha?.render) return;
-    widgetId = window.grecaptcha.render(captchaEl, { sitekey: SITE_KEY, theme: 'dark' });
-  }
-
   onMount(() => {
-    if (window.grecaptcha?.ready) {
-      window.grecaptcha.ready(renderCaptcha);
-      return;
-    }
-    window.__onRecaptchaLoad = () => window.grecaptcha.ready(renderCaptcha);
-    if (!document.getElementById('recaptcha-script')) {
-      const s = document.createElement('script');
-      s.id = 'recaptcha-script';
-      s.src = 'https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoad&render=explicit';
-      s.async = true;
-      s.defer = true;
-      document.head.appendChild(s);
-    }
+    emailjs.init("RkHEatFx9n_mf4XI_"); // <-- your EmailJS public key
+
+    const form   = document.getElementById("contactForm");
+    const btn    = document.getElementById("sendBtn");
+    const label  = document.getElementById("sendLabel");
+    const status = document.getElementById("statusMessage");
+
+    form.setAttribute("novalidate", "true");
+
+    // Status message styles
+    const base = "mt-5 rounded-xl border px-4 py-3 text-center text-sm";
+    const variants = {
+      error:   "border-red-400/30 bg-red-400/10 text-red-300",
+      success: "border-emerald-400/30 bg-emerald-400/10 text-emerald-300",
+      info:    "border-white/15 bg-white/5 text-stone-300"
+    };
+    const setStatus = (text, type) => {
+      status.textContent = text;
+      status.className = `${base} ${variants[type]}`;
+    };
+
+    const setLoading = (loading) => {
+      btn.disabled = loading;
+      label.textContent = loading ? "Sending..." : "Send message";
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      // Basic client validation
+      const from_name  = form.from_name?.value?.trim() || "";
+      const from_email = form.from_email?.value?.trim() || "";
+      const subject    = form.subject?.value?.trim() || "";
+      const message    = form.message?.value?.trim() || "";
+
+      if (!from_name || !from_email || !message) {
+        setStatus("Please fill out your name, email, and message.", "error");
+        return;
+      }
+
+      // Check reCAPTCHA
+      const recaptchaResponse = grecaptcha.getResponse();
+      if (!recaptchaResponse) {
+        setStatus("Please complete the reCAPTCHA.", "error");
+        return;
+      }
+
+      setLoading(true);
+      setStatus("Sending your message...", "info");
+
+      try {
+        // Verify reCAPTCHA with backend
+        const verifyRes = await fetch("/api/verify-recaptcha", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: recaptchaResponse })
+        });
+
+        const verifyData = await verifyRes.json();
+        if (!verifyData.success) {
+          setStatus("reCAPTCHA verification failed. Please try again.", "error");
+          grecaptcha.reset();
+          return;
+        }
+
+        const params = {
+          from_name,
+          from_email,
+          reply_to: from_email,
+          subject,
+          message,
+          "g-recaptcha-response": recaptchaResponse
+        };
+
+        await emailjs.send("service_gmail", "template_auto_reply", params);
+        await emailjs.send("service_gmail", "template_notify_me", params);
+
+        setStatus("Message sent successfully. Thank you, I'll get back to you soon.", "success");
+        form.reset();
+        grecaptcha.reset(); // reset captcha after success
+      } catch (err) {
+        const msg = (err && (err.text || err.message || JSON.stringify(err))) || "Unknown error";
+        console.error("EmailJS Error:", err);
+        setStatus("Failed to send: " + msg, "error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    form.addEventListener("submit", handleSubmit);
+
+    return () => {
+      form.removeEventListener("submit", handleSubmit);
+    };
   });
-
-  async function handleSubmit() {
-    const name = from_name.trim();
-    const email = from_email.trim();
-    const msg = message.trim();
-
-    if (!name || !email || !msg) return setStatus('Please fill out your name, email, and message.', 'error');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setStatus('Please enter a valid email address.', 'error');
-
-    const token = widgetId !== null ? window.grecaptcha.getResponse(widgetId) : '';
-    if (!token) return setStatus('Please complete the reCAPTCHA.', 'error');
-
-    loading = true;
-    setStatus('Sending your message...', 'info');
-
-    try {
-      await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        {
-          from_name: name,
-          from_email: email,
-          reply_to: email,
-          subject: subject.trim() || 'New message from your portfolio',
-          message: msg,
-          'g-recaptcha-response': token // EmailJS verifies this itself
-        },
-        { publicKey: PUBLIC_KEY }
-      );
-      setStatus("Message sent. Thank you, I'll get back to you soon.", 'success');
-      from_name = from_email = subject = message = '';
-    } catch (err) {
-      console.error('EmailJS error:', err);
-      setStatus('Failed to send: ' + (err?.text || err?.message || 'Unknown error'), 'error');
-    } finally {
-      loading = false;
-      if (widgetId !== null) window.grecaptcha.reset(widgetId); // tokens are single-use
-    }
-  }
 </script>
 
 <svelte:head>
+  <!-- Load EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <!-- Load Google reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <!-- Silence favicon 404 -->
   <link rel="icon" href="data:," />
 </svelte:head>
 
 <section id="contact" class="w-full bg-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
   <div class="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/40 sm:p-10">
+
     <header class="text-center">
       <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
         Get in touch
@@ -103,43 +124,57 @@
       </p>
     </header>
 
-    <form novalidate on:submit|preventDefault={handleSubmit} class="mt-8 space-y-5 sm:mt-10">
+    <!-- Contact form -->
+    <form id="contactForm" method="POST" action="javascript:void(0)" class="mt-8 space-y-5 sm:mt-10">
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div>
           <label for="from_name" class="mb-1.5 block text-sm font-medium text-stone-300">Name</label>
-          <input id="from_name" type="text" placeholder="Your name" autocomplete="name" bind:value={from_name} class={field} />
+          <input
+            id="from_name" type="text" name="from_name" placeholder="Your name" required autocomplete="name"
+            class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-stone-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+          />
         </div>
         <div>
           <label for="from_email" class="mb-1.5 block text-sm font-medium text-stone-300">Email</label>
-          <input id="from_email" type="email" placeholder="your.email@example.com" autocomplete="email" bind:value={from_email} class={field} />
+          <input
+            id="from_email" type="email" name="from_email" placeholder="your.email@example.com" required autocomplete="email"
+            class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-stone-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+          />
         </div>
       </div>
 
       <div>
         <label for="subject" class="mb-1.5 block text-sm font-medium text-stone-300">Subject</label>
-        <input id="subject" type="text" placeholder="What would you like to discuss?" bind:value={subject} class={field} />
+        <input
+          id="subject" type="text" name="subject" placeholder="What would you like to discuss?"
+          class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-stone-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+        />
       </div>
 
       <div>
         <label for="message" class="mb-1.5 block text-sm font-medium text-stone-300">Message</label>
-        <textarea id="message" rows="5" placeholder="Tell me about your project or idea..." bind:value={message} class="{field} resize-y"></textarea>
+        <textarea
+          id="message" name="message" rows="5" placeholder="Tell me about your project or idea..." required
+          class="w-full resize-y rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-stone-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+        ></textarea>
       </div>
 
+      <!-- Google reCAPTCHA widget -->
       <div class="flex justify-center overflow-x-auto">
-        <div bind:this={captchaEl}></div>
+        <div class="g-recaptcha" data-theme="dark" data-sitekey="6LdW47UrAAAAABkYFVPTfk10flRDntwRssZ8eXhv"></div>
       </div>
 
       <div class="flex justify-center">
         <button
-          type="submit"
-          disabled={loading}
+          id="sendBtn" type="submit"
           class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-400 px-8 py-3.5 font-semibold text-stone-950 shadow-lg shadow-emerald-500/20 transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-300 hover:shadow-emerald-400/40 active:translate-y-0 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 sm:w-auto sm:py-3"
         >
+          <!-- Send icon -->
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M22 2L11 13" />
             <path d="M22 2l-7 20-4-9-9-4 20-7z" />
           </svg>
-          <span>{loading ? 'Sending...' : 'Send message'}</span>
+          <span id="sendLabel">Send message</span>
         </button>
       </div>
 
@@ -152,10 +187,6 @@
       </p>
     </form>
 
-    {#if status.text}
-      <p role="status" aria-live="polite" class="mt-5 rounded-xl border px-4 py-3 text-center text-sm {variants[status.type]}">
-        {status.text}
-      </p>
-    {/if}
+    <p id="statusMessage" role="status" aria-live="polite" class="hidden"></p>
   </div>
 </section>
