@@ -1,192 +1,165 @@
 <script>
-  import { onMount } from 'svelte';
-  import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
 
-  onMount(() => {
-    emailjs.init("RkHEatFx9n_mf4XI_"); // <-- your EmailJS public key
+    import myProfile from '../lib/assets/Me.jpg';
+    import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
+    import myResume from '../lib/assets/JUDE -RESUME OFFICIAL.pdf';
 
-    const form   = document.getElementById("contactForm");
-    const btn    = document.getElementById("sendBtn");
-    const label  = document.getElementById("sendLabel");
-    const status = document.getElementById("statusMessage");
 
-    form.setAttribute("novalidate", "true");
-
-    // Status message styles
-    const base = "mt-5 rounded-xl border px-4 py-3 text-center text-sm";
-    const variants = {
-      error:   "border-red-400/30 bg-red-400/10 text-red-300",
-      success: "border-emerald-400/30 bg-emerald-400/10 text-emerald-300",
-      info:    "border-white/15 bg-white/5 text-stone-300"
-    };
-    const setStatus = (text, type) => {
-      status.textContent = text;
-      status.className = `${base} ${variants[type]}`;
-    };
-
-    const setLoading = (loading) => {
-      btn.disabled = loading;
-      label.textContent = loading ? "Sending..." : "Send message";
-    };
-
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-
-      // Basic client validation
-      const from_name  = form.from_name?.value?.trim() || "";
-      const from_email = form.from_email?.value?.trim() || "";
-      const subject    = form.subject?.value?.trim() || "";
-      const message    = form.message?.value?.trim() || "";
-
-      if (!from_name || !from_email || !message) {
-        setStatus("Please fill out your name, email, and message.", "error");
-        return;
-      }
-
-      // Check reCAPTCHA
-      const recaptchaResponse = grecaptcha.getResponse();
-      if (!recaptchaResponse) {
-        setStatus("Please complete the reCAPTCHA.", "error");
-        return;
-      }
-
-      setLoading(true);
-      setStatus("Sending your message...", "info");
-
-      try {
-        // Verify reCAPTCHA with backend
-        const verifyRes = await fetch("/api/verify-recaptcha", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: recaptchaResponse })
-        });
-
-        const verifyData = await verifyRes.json();
-        if (!verifyData.success) {
-          setStatus("reCAPTCHA verification failed. Please try again.", "error");
-          grecaptcha.reset();
-          return;
-        }
-
-        const params = {
-          from_name,
-          from_email,
-          reply_to: from_email,
-          subject,
-          message,
-          "g-recaptcha-response": recaptchaResponse
-        };
-
-        await emailjs.send("service_gmail", "template_auto_reply", params);
-        await emailjs.send("service_gmail", "template_notify_me", params);
-
-        setStatus("Message sent successfully. Thank you, I'll get back to you soon.", "success");
-        form.reset();
-        grecaptcha.reset(); // reset captcha after success
-      } catch (err) {
-        const msg = (err && (err.text || err.message || JSON.stringify(err))) || "Unknown error";
-        console.error("EmailJS Error:", err);
-        setStatus("Failed to send: " + msg, "error");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    form.addEventListener("submit", handleSubmit);
-
-    return () => {
-      form.removeEventListener("submit", handleSubmit);
-    };
-  });
+    // download icon
+    import { Download } from 'lucide-svelte';
 </script>
 
-<svelte:head>
-  <!-- Load EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<style>
+  /* Smooth fade-in + slight slide-up */
+  @keyframes introFadeUp {
+    from { opacity: 0; transform: translateY(60px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-  <!-- Load Google reCAPTCHA -->
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  .intro-animate {
+    opacity: 0;
+    animation: introFadeUp 1000ms ease-out forwards;
+    will-change: transform, opacity;
+  }
 
-  <!-- Silence favicon 404 -->
-  <link rel="icon" href="data:," />
-</svelte:head>
+  @media (prefers-reduced-motion: reduce) {
+    .intro-animate {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
 
-<section id="contact" class="w-full bg-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
-  <div class="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/40 sm:p-10">
+  .typing-animation {
+    width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid white;
+    animation: typing 3s steps(22) forwards, blink 0.6s infinite;
+  }
 
-    <header class="text-center">
-      <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
-        Get in touch
-        <img class="h-8 w-8 sm:h-10 sm:w-10" src={waveIcon} alt="" />
-      </h1>
-      <p class="mx-auto mt-3 max-w-xl text-[15px] leading-relaxed text-stone-300 sm:text-base">
-        Whether you have a question, want to collaborate, or just want to say hi, feel free to reach out!
-      </p>
-    </header>
+  @keyframes typing {
+    from { width: 0; }
+    to   { width: 19ch; }
+  }
+  @keyframes blink {
+    60% { border-color: transparent; }
+  }
 
-    <!-- Contact form -->
-    <form id="contactForm" method="POST" action="javascript:void(0)" class="mt-8 space-y-5 sm:mt-10">
-      <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <div>
-          <label for="from_name" class="mb-1.5 block text-sm font-medium text-stone-300">Name</label>
-          <input
-            id="from_name" type="text" name="from_name" placeholder="Your name" required autocomplete="name"
-            class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-stone-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
-          />
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+
+@keyframes smoothGlow {
+  0%, 100% {
+    text-shadow: none;
+    opacity: 0.7;
+  }
+  50% {
+    text-shadow: 0 0 8px #22c55e,
+                 0 0 16px #22c55e,
+                 0 0 32px #22c55e,
+                 0 0 48px #22c55e;
+    opacity: 1;
+  }
+}
+
+.orbit-ring {
+  --orbit-size: 7px; /* distance of orbit from image */
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.orbit-ring:hover {
+  box-shadow: 0 0 30px 8px rgba(11, 165, 50, 0.7), 
+              0 0 50px 20px rgba(11, 165, 50, 0.5);
+}
+
+/* Keep image still */
+.orbit-ring img {
+  display: block;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Orbit line (top arc) */
+.orbit-ring::before,
+.orbit-ring::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--orbit-size) * -1);
+  border-radius: 46%;
+  background: linear-gradient(90deg, #22c55e, #bef264, #15803d);
+  background-size: 200% 200%;
+  animation: gradient-move 5s ease infinite, spin 7s linear infinite;
+  z-index: 1;
+}
+
+/* Offset the second arc so they overlap nicely */
+.orbit-ring::after {
+  animation: gradient-move 5s ease infinite, spin 8s linear infinite reverse;
+}
+
+/* Animations */
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animated-gradient {
+  background-size: 300% auto; /* larger for smoother flow */
+  animation: gradientFlow 8s ease-in-out infinite;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+</style>
+
+<div class="bg-stone-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center">
+    <div class="lg:pl-45 lg:pt-15 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10 intro-animate">
+      <div class="orbit-ring">
+        <img class="rounded-full w-7xl  shadow-lg" src={myProfile} alt="">
+      </div>
+    </div>
+    <div class=" lg:pl-20 pt-10  p-9 lg:p-0 intro-animate"> 
+        <h1 class="animated-gradient bg-gradient-to-r from-green-500 via-lime-300 to-green-700 
+           bg-clip-text text-transparent 
+            font-extrabold text-5xl"><a href="" class="font-extrabold text-5xl  text-white">Hi, I'm</a>
+            Jude Russel Cuya
+        </h1>
+        <h2 class="lg:pt-5 lg:pr-30 lg:pb-20 pt-5 pb-5 intro-animate ">
+            <div class="flex justify-baseline pb-3">
+                <img class="w-6" src={waveIcon} alt="">
+                <p class="font-bold pl-2 typing-animation">A Front-End Developer</p>
+            </div>
+             skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
+        </h2>
+        <div class=" flex gap-4 text-a items-center intro-animate">
+                <!-- Download CV Button -->
+                <div class="w-fit bg-green-500 hover:bg-lime-400 text-white rounded-md ">   
+                    <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="My Official Resume.pdf">
+                        <Download class="w-4 h-4" />
+                        DOWNLOAD CV
+                    </a>
+                </div>
+                <!-- Hire Me Button -->
+                <div class="w-fit  bg-transparent border-2 border-green-500 hover:bg-lime-400 text-white rounded-md "> 
+                    <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold text-sm px-4 py-2 flex items-center justify-center">
+                        HIRE ME
+                    </a>
+                </div>
         </div>
-        <div>
-          <label for="from_email" class="mb-1.5 block text-sm font-medium text-stone-300">Email</label>
-          <input
-            id="from_email" type="email" name="from_email" placeholder="your.email@example.com" required autocomplete="email"
-            class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-stone-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label for="subject" class="mb-1.5 block text-sm font-medium text-stone-300">Subject</label>
-        <input
-          id="subject" type="text" name="subject" placeholder="What would you like to discuss?"
-          class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-stone-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
-        />
-      </div>
-
-      <div>
-        <label for="message" class="mb-1.5 block text-sm font-medium text-stone-300">Message</label>
-        <textarea
-          id="message" name="message" rows="5" placeholder="Tell me about your project or idea..." required
-          class="w-full resize-y rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-stone-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
-        ></textarea>
-      </div>
-
-      <!-- Google reCAPTCHA widget -->
-      <div class="flex justify-center overflow-x-auto">
-        <div class="g-recaptcha" data-theme="dark" data-sitekey="6LdW47UrAAAAABkYFVPTfk10flRDntwRssZ8eXhv"></div>
-      </div>
-
-      <div class="flex justify-center">
-        <button
-          id="sendBtn" type="submit"
-          class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-400 px-8 py-3.5 font-semibold text-stone-950 shadow-lg shadow-emerald-500/20 transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-300 hover:shadow-emerald-400/40 active:translate-y-0 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 sm:w-auto sm:py-3"
-        >
-          <!-- Send icon -->
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M22 2L11 13" />
-            <path d="M22 2l-7 20-4-9-9-4 20-7z" />
-          </svg>
-          <span id="sendLabel">Send message</span>
-        </button>
-      </div>
-
-      <p class="pt-2 text-center text-xs leading-relaxed text-stone-500 sm:text-sm">
-        This site is protected by reCAPTCHA and the Google
-        <a class="underline transition-colors duration-300 hover:text-stone-300" target="_blank" rel="noopener noreferrer" href="https://policies.google.com/privacy">Privacy Policy</a>
-        and
-        <a class="underline transition-colors duration-300 hover:text-stone-300" target="_blank" rel="noopener noreferrer" href="https://policies.google.com/terms">Terms of Service</a>
-        apply.
-      </p>
-    </form>
-
-    <p id="statusMessage" role="status" aria-live="polite" class="hidden"></p>
-  </div>
-</section>
+    </div>
+</div>
