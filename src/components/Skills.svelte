@@ -11,189 +11,57 @@
     import Svelte from '../lib/assets/svelte.svg';
     import Figma from '../lib/assets/FIGMA.svg';
     import Photoshop from '../lib/assets/PHOTOSHOP.svg';
-</script>
-<style>
 
+    // rating = number of filled stars (0-5). Leave `url` empty ('') for no link.
+    const skills = [
+        { name: 'HTML', icon: HTML, rating: 4, experience: '4 years of experience', url: '' },
+        { name: 'CSS', icon: CSS, rating: 4, experience: '4 years of experience', url: '' },
+        { name: 'JavaScript', icon: javaScript, rating: 3, experience: '3 years of experience', url: '' },
+        { name: 'C#', icon: cSharp, rating: 3, experience: '3 years of experience', url: '' },
+        { name: 'Java', icon: JAVA, rating: 4, experience: '4 year of experience', url: 'https://www.java.com/en/' },
+        { name: 'Python', icon: PYTHON, rating: 1, experience: '1 year of experience', url: 'https://www.python.org/' },
+        { name: 'Tailwind CSS', icon: Tailwind, rating: 4, experience: '4 years of experience', url: 'https://tailwindcss.com/' },
+        { name: 'Svelte', icon: Svelte, rating: 4, experience: '4 years of experience', url: 'https://svelte.dev/' },
+        { name: 'Figma', icon: Figma, rating: 4, experience: '4 years of experience', url: 'https://www.figma.com/' },
+        { name: 'Adobe Photoshop', icon: Photoshop, rating: 4, experience: '4 years of experience', url: 'https://www.adobe.com/ph_en/products/photoshop.html' }
+    ];
+</script>
+
+<style>
 </style>
 
-<div class="bg-gradient-to-b from-green-950 to-stone-950 ">
-<h1 class="lg:pt-30 pt-15 lg:pb-10 pb-7 text-white text-4xl font-extrabold flex justify-center fadeUp">SKILLS</h1>
-<div class="flex justify-center pt-3 text-black">
-        <div class=" lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
-            <div class=" fadeUp html lg:justify-baseline flex p-4 bg-white w-full lg:w-103 gap-2 rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
-                <img src={HTML} alt="" class="w-16 p-1">
-                <div class="">
-                    <h1 class="font-bold">HTML</h1>
-                    <div class="flex justify-baseline w-3">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
+<section class="w-full bg-gradient-to-b from-green-950 to-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
+    <div class="mx-auto max-w-4xl">
+        <h1 class="fadeUp text-center text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Skills</h1>
+
+        <div class="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:mt-16">
+            {#each skills as skill (skill.name)}
+                <svelte:element
+                    this={skill.url ? 'a' : 'div'}
+                    href={skill.url || undefined}
+                    target={skill.url ? '_blank' : undefined}
+                    rel={skill.url ? 'noopener noreferrer' : undefined}
+                    class="fadeUp group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg shadow-black/20 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-400/60 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 sm:p-5"
+                >
+                    <!-- Icon tile -->
+                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-white p-2.5 sm:h-16 sm:w-16">
+                        <img src={skill.icon} alt="" class="h-full w-full object-contain" />
                     </div>
-                    <h1 class="text-sm lg:text-base">3 Years of experience</h1>
-                </div>
-            </div>
-            <div class="pt-5"></div>
-            <div class="fadeUp css justify-baseline flex lg:w-103 p-4 gap-2 w-full bg-white rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
-                 <img src={CSS} alt="" class="w-16 p-1"> 
-                 <div>
-                    <h1 class="font-bold">CSS</h1>
-                    <div class="flex justify-baseline w-3">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
+
+                    <!-- Details -->
+                    <div class="min-w-0 flex-1">
+                        <h2 class="truncate text-lg font-bold">{skill.name}</h2>
+
+                        <div class="mt-1 flex gap-1" role="img" aria-label="{skill.rating} out of 5 stars">
+                            {#each Array(5) as _, n (n)}
+                                <img src={n < skill.rating ? star : graystar} alt="" class="h-4 w-4" />
+                            {/each}
+                        </div>
+
+                        <p class="mt-1.5 text-sm text-stone-300">{skill.experience}</p>
                     </div>
-                    <h1>3 Years of experience</h1>
-                 </div> 
-            </div>
+                </svelte:element>
+            {/each}
         </div>
-</div>
-
-<div class="p-1"></div>
-
-<div class="flex justify-center pt-3 ">
-        <div class="lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
-            <div class="fadeUp javaScript lg:justify-baseline flex p-4 bg-white w-full lg:w-103 gap-2 rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
-                <img src={javaScript} alt="" class="w-16 p-1">
-                <div class="">
-                    <h1 class="font-bold">JAVASCRIPT</h1>
-                    <div class="flex justify-baseline w-3">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    </div>
-                    <h1 class="text-sm lg:text-base">2 Years of experience</h1>
-                </div>
-            </div>
-            <div class="pt-5"></div>
-            <div class="fadeUp csharp justify-baseline flex lg:w-103 p-4 gap-2 w-full bg-white rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
-                 <img src={cSharp} alt="" class="w-16 p-1"> 
-                 <div>
-                    <h1 class="font-bold">C#</h1>
-                    <div class="flex justify-baseline w-3">
-                    <img src={star} alt="">
-                    <img src={star} alt="">   
-                    <img src={star} alt=""> 
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    </div>
-                    <h1>3 Years of experience</h1>
-                 </div> 
-            </div>
-        </div>
-</div>
-
-<div class="p-1"></div>
-
-<div class="flex justify-center pt-3 ">
-        <div class="lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
-            <div class="fadeUp java lg:justify-baseline flex p-4 bg-white w-full lg:w-103 gap-2 rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
-                <a href="https://www.java.com/en/" target="_blank"><img src={JAVA} alt="" class="w-16 p-1"></a>
-                <div class="">
-                    <h1 class="font-bold">JAVA</h1>
-                    <div class="flex justify-baseline w-3">
-                    <img src={star} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    </div>
-                    <h1 class="text-sm lg:text-base">A Year of experience</h1>
-                </div>
-            </div>
-            <div class="pt-5"></div>
-            <div class="fadeUp python justify-baseline flex lg:w-103 p-4 gap-2 w-full bg-white rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
-                 
-                <a href="https://www.python.org/" target="_blank"><img src={PYTHON} alt="" class="w-16 p-1"> </a>
-                 <div>
-                    <h1 class="font-bold">PYTHON</h1>
-                    <div class="flex justify-baseline w-3">
-                    <img src={star} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    </div>
-                    <h1>A Year of experience</h1>
-                 </div> 
-            </div>
-        </div>
-</div>
-
-<div class="p-1"></div>
-
-<div class=" flex justify-center pt-3 ">
-        <div class="lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
-            <div class="fadeUp tailwind lg:justify-baseline flex p-4 bg-white w-full lg:w-103 gap-2 rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
-                <a href="https://tailwindcss.com/" target="_blank"><img src={Tailwind} alt="" class="w-16 p-1"></a>
-                <div class="">
-                    <h1 class="font-bold">TAILWIND</h1>
-                    <div class="flex justify-baseline w-3">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    </div>
-                    <h1 class="text-sm lg:text-base">3 Years of experience</h1>
-                </div>
-            </div>
-            <div class="pt-5"></div>
-            <div class="fadeUp svelte justify-baseline flex lg:w-103 p-4 gap-2 w-full bg-white rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
-                 <a href="https://svelte.dev/" target="_blank"><img src={Svelte} alt="" class="w-16 p-1"></a>
-                 <div>
-                    <h1 class="font-bold">SVELTE</h1>
-                    <div class="flex justify-baseline w-3">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    </div>
-                    <h1>2 Years of experience</h1>
-                 </div> 
-            </div>
-        </div>
-</div>
-
-<div class="p-1"></div>
-
-<div class=" flex justify-center pt-3 lg:pb-30 pb-15">
-        <div class="lg:flex lg:justify-baseline gap-3 w-full justify-center lg:pl-0 lg:pr-0 pl-6 pr-6">
-            <div class="fadeUp figma lg:justify-baseline flex p-4 bg-white w-full lg:w-103 gap-2 rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
-                <a href="https://www.figma.com/" target="_blank"><img src={Figma} alt="" class="w-16 p-1"></a>
-                <div class="">
-                    <h1 class="font-bold">FIGMA</h1>
-                    <div class="flex justify-baseline w-3">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={graystar} alt="">
-                    <img src={graystar} alt="">
-                    </div>
-                    <h1 class="text-sm lg:text-base">3 Years of experience</h1>
-                </div>
-            </div>
-            <div class="pt-5"></div>
-            <div class="fadeUp svelte justify-baseline flex lg:w-103 p-4 gap-2 w-full bg-white rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-110">
-                 <a href="https://www.adobe.com/ph_en/products/photoshop.html" target="_blank"><img src={Photoshop} alt="" class="w-16 p-1"></a>
-                 <div>
-                    <h1 class="font-bold">ADOBE PHOTOSHOP</h1>
-                    <div class="flex justify-baseline w-3">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={star} alt="">
-                    <img src={graystar} alt="">
-                    </div>
-                    <h1>4 Years of experience</h1>
-                 </div> 
-            </div>
-        </div>
-</div>
-</div>
+    </div>
+</section>
