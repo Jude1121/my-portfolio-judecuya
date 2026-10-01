@@ -1,167 +1,151 @@
 <script>
-    import myProfilenoBg from '../lib/assets/PORTFOLIO PICTURE.png';
-    import myProfile from '../lib/assets/Me.jpg';
-    import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
-    import myResume from '../lib/assets/JUDE -RESUME OFFICIAL.pdf';
-    import myProfileWhite from '$lib/assets/My Image White Background.png';
-    import pfBgBlack from'$lib/assets/my pic bg black.png';
-    import CodeGreen from '../lib/assets/Code Logo Green.png';
+  import { onMount } from 'svelte';
+  import emailjs from '@emailjs/browser';
+  import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
 
-    // download icon
-    import { Download } from 'lucide-svelte';
-</script>
+  const PUBLIC_KEY  = 'RkHEatFx9n_mf4XI_';
+  const SERVICE_ID  = 'service_gmail';
+  const TEMPLATE_ID = 'template_auto_reply'; // one template: To = {{from_email}}, BCC = your email
+  const SITE_KEY    = '6LdW47UrAAAAABkYFVPTfk10flRDntwRssZ8eXhv';
 
-<style>
-  /* Smooth fade-in + slight slide-up */
-  @keyframes introFadeUp {
-    from { opacity: 0; transform: translateY(60px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  let from_name = '';
+  let from_email = '';
+  let subject = '';
+  let message = '';
+  let loading = false;
+  let status = { text: '', type: 'info' };
+  let captchaEl;
 
-  .intro-animate {
-    opacity: 0;
-    animation: introFadeUp 1000ms ease-out forwards;
-    will-change: transform, opacity;
-  }
+  const variants = {
+    error: 'border-red-400/30 bg-red-400/10 text-red-300',
+    success: 'border-emerald-400/30 bg-emerald-400/10 text-emerald-300',
+    info: 'border-white/15 bg-white/5 text-stone-300'
+  };
+  const field =
+    'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-stone-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30';
+  const setStatus = (text, type = 'info') => (status = { text, type });
 
-  @media (prefers-reduced-motion: reduce) {
-    .intro-animate {
-      animation: none;
-      opacity: 1;
-      transform: none;
+  onMount(() => {
+    // Normally the reCAPTCHA script renders the .g-recaptcha div by itself when it loads.
+    // If the script was already loaded earlier (client-side navigation), render it manually.
+    const tryRender = () => {
+      if (captchaEl && window.grecaptcha?.render && captchaEl.childElementCount === 0) {
+        window.grecaptcha.render(captchaEl, { sitekey: SITE_KEY, theme: 'dark' });
+      }
+    };
+    if (window.grecaptcha?.ready) window.grecaptcha.ready(tryRender);
+  });
+
+  async function handleSubmit() {
+    const name = from_name.trim();
+    const email = from_email.trim();
+    const msg = message.trim();
+
+    if (!name || !email || !msg) return setStatus('Please fill out your name, email, and message.', 'error');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setStatus('Please enter a valid email address.', 'error');
+
+    const token = window.grecaptcha?.getResponse() || '';
+    if (!token) return setStatus('Please complete the reCAPTCHA.', 'error');
+
+    loading = true;
+    setStatus('Sending your message...', 'info');
+
+    try {
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: name,
+          from_email: email,
+          reply_to: email,
+          subject: subject.trim() || 'New message from your portfolio',
+          message: msg,
+          'g-recaptcha-response': token // EmailJS verifies this itself
+        },
+        { publicKey: PUBLIC_KEY }
+      );
+      setStatus("Message sent. Thank you, I'll get back to you soon.", 'success');
+      from_name = from_email = subject = message = '';
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      setStatus('Failed to send: ' + (err?.text || err?.message || 'Unknown error'), 'error');
+    } finally {
+      loading = false;
+      window.grecaptcha?.reset(); // tokens are single-use
     }
   }
+</script>
 
-  .typing-animation {
-    width: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 3px solid white;
-    animation: typing 3s steps(22) forwards, blink 0.6s infinite;
-  }
+<svelte:head>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <link rel="icon" href="data:," />
+</svelte:head>
 
-  @keyframes typing {
-    from { width: 0; }
-    to   { width: 19ch; }
-  }
-  @keyframes blink {
-    60% { border-color: transparent; }
-  }
+<section id="contact" class="w-full bg-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
+  <div class="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/40 sm:p-10">
+    <header class="text-center">
+      <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
+        Get in touch
+        <img class="h-8 w-8 sm:h-10 sm:w-10" src={waveIcon} alt="" />
+      </h1>
+      <p class="mx-auto mt-3 max-w-xl text-[15px] leading-relaxed text-stone-300 sm:text-base">
+        Whether you have a question, want to collaborate, or just want to say hi, feel free to reach out!
+      </p>
+    </header>
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-
-@keyframes smoothGlow {
-  0%, 100% {
-    text-shadow: none;
-    opacity: 0.7;
-  }
-  50% {
-    text-shadow: 0 0 8px #22c55e,
-                 0 0 16px #22c55e,
-                 0 0 32px #22c55e,
-                 0 0 48px #22c55e;
-    opacity: 1;
-  }
-}
-
-.orbit-ring {
-  --orbit-size: 7px; /* distance of orbit from image */
-  position: relative;
-  display: inline-block;
-  border-radius: 50%;
-}
-
-.orbit-ring:hover {
-  box-shadow: 0 0 30px 8px rgba(11, 165, 50, 0.7), 
-              0 0 50px 20px rgba(11, 165, 50, 0.5);
-}
-
-/* Keep image still */
-.orbit-ring img {
-  display: block;
-  border-radius: 50%;
-  position: relative;
-  z-index: 2;
-}
-
-/* Orbit line (top arc) */
-.orbit-ring::before,
-.orbit-ring::after {
-  content: "";
-  position: absolute;
-  inset: calc(var(--orbit-size) * -1);
-  border-radius: 46%;
-  background: linear-gradient(90deg, #22c55e, #bef264, #15803d);
-  background-size: 200% 200%;
-  animation: gradient-move 5s ease infinite, spin 7s linear infinite;
-  z-index: 1;
-}
-
-/* Offset the second arc so they overlap nicely */
-.orbit-ring::after {
-  animation: gradient-move 5s ease infinite, spin 8s linear infinite reverse;
-}
-
-/* Animations */
-@keyframes gradient-move {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-.animated-gradient {
-  background-size: 300% auto; /* larger for smoother flow */
-  animation: gradientFlow 8s ease-in-out infinite;
-}
-
-@keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-</style>
-
-<div class="bg-stone-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center">
-    <div class="lg:pl-45 lg:pt-15 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10 intro-animate">
-      <div class="orbit-ring">
-        <img class="rounded-full w-7xl  shadow-lg" src={myProfile} alt="">
-      </div>
-    </div>
-    <div class=" lg:pl-20 pt-10  p-9 lg:p-0 intro-animate"> 
-        <h1 class="animated-gradient bg-gradient-to-r from-green-500 via-lime-300 to-green-700 
-           bg-clip-text text-transparent 
-            font-extrabold text-5xl"><a href="" class="font-extrabold text-5xl  text-white">Hi, I'm</a>
-            Jude Russel Cuya
-        </h1>
-        <h2 class="lg:pt-5 lg:pr-30 lg:pb-20 pt-5 pb-5 intro-animate ">
-            <div class="flex justify-baseline pb-3">
-                <img class="w-6" src={waveIcon} alt="">
-                <p class="font-bold pl-2 typing-animation">A Front-End Developer</p>
-            </div>
-             skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
-        </h2>
-        <div class=" flex gap-4 text-a items-center intro-animate">
-                <!-- Download CV Button -->
-                <div class="w-fit bg-green-500 hover:bg-lime-400 text-white rounded-md ">   
-                    <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="My Official Resume.pdf">
-                        <Download class="w-4 h-4" />
-                        DOWNLOAD CV
-                    </a>
-                </div>
-                <!-- Hire Me Button -->
-                <div class="w-fit  bg-transparent border-2 border-green-500 hover:bg-lime-400 text-white rounded-md "> 
-                    <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold text-sm px-4 py-2 flex items-center justify-center">
-                        HIRE ME
-                    </a>
-                </div>
+    <form novalidate on:submit|preventDefault={handleSubmit} class="mt-8 space-y-5 sm:mt-10">
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div>
+          <label for="from_name" class="mb-1.5 block text-sm font-medium text-stone-300">Name</label>
+          <input id="from_name" type="text" placeholder="Your name" autocomplete="name" bind:value={from_name} class={field} />
         </div>
-    </div>
-</div>
+        <div>
+          <label for="from_email" class="mb-1.5 block text-sm font-medium text-stone-300">Email</label>
+          <input id="from_email" type="email" placeholder="your.email@example.com" autocomplete="email" bind:value={from_email} class={field} />
+        </div>
+      </div>
+
+      <div>
+        <label for="subject" class="mb-1.5 block text-sm font-medium text-stone-300">Subject</label>
+        <input id="subject" type="text" placeholder="What would you like to discuss?" bind:value={subject} class={field} />
+      </div>
+
+      <div>
+        <label for="message" class="mb-1.5 block text-sm font-medium text-stone-300">Message</label>
+        <textarea id="message" rows="5" placeholder="Tell me about your project or idea..." bind:value={message} class="{field} resize-y"></textarea>
+      </div>
+
+      <div class="flex justify-center overflow-x-auto">
+        <div bind:this={captchaEl} class="g-recaptcha" data-theme="dark" data-sitekey={SITE_KEY}></div>
+      </div>
+
+      <div class="flex justify-center">
+        <button
+          type="submit"
+          disabled={loading}
+          class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-400 px-8 py-3.5 font-semibold text-stone-950 shadow-lg shadow-emerald-500/20 transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-300 hover:shadow-emerald-400/40 active:translate-y-0 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 sm:w-auto sm:py-3"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 2L11 13" />
+            <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+          </svg>
+          <span>{loading ? 'Sending...' : 'Send message'}</span>
+        </button>
+      </div>
+
+      <p class="pt-2 text-center text-xs leading-relaxed text-stone-500 sm:text-sm">
+        This site is protected by reCAPTCHA and the Google
+        <a class="underline transition-colors duration-300 hover:text-stone-300" target="_blank" rel="noopener noreferrer" href="https://policies.google.com/privacy">Privacy Policy</a>
+        and
+        <a class="underline transition-colors duration-300 hover:text-stone-300" target="_blank" rel="noopener noreferrer" href="https://policies.google.com/terms">Terms of Service</a>
+        apply.
+      </p>
+    </form>
+
+    {#if status.text}
+      <p role="status" aria-live="polite" class="mt-5 rounded-xl border px-4 py-3 text-center text-sm {variants[status.type]}">
+        {status.text}
+      </p>
+    {/if}
+  </div>
+</section>
