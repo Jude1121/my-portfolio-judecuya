@@ -2,15 +2,30 @@
   import { onMount } from 'svelte';
   import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
 
-  onMount(() => {
-    emailjs.init("RkHEatFx9n_mf4XI_"); // <-- your EmailJS public key
+  // Loads an external script once and resolves when it is usable
+  const loadScript = (src, isReady) =>
+    new Promise((resolve, reject) => {
+      if (isReady()) return resolve();
+      let tag = document.querySelector(`script[src="${src}"]`);
+      if (!tag) {
+        tag = document.createElement("script");
+        tag.src = src;
+        tag.async = true;
+        document.head.appendChild(tag);
+      }
+      tag.addEventListener("load", () => resolve());
+      tag.addEventListener("error", () => reject(new Error("Failed to load " + src)));
+    });
 
+  onMount(() => {
     const form   = document.getElementById("contactForm");
     const btn    = document.getElementById("sendBtn");
     const label  = document.getElementById("sendLabel");
     const status = document.getElementById("statusMessage");
 
     form.setAttribute("novalidate", "true");
+
+    let widgetId = null;
 
     // Status message styles
     const base = "mt-5 rounded-xl border px-4 py-3 text-center text-sm";
@@ -29,6 +44,32 @@
       label.textContent = loading ? "Sending..." : "Send message";
     };
 
+    // Load EmailJS + reCAPTCHA, then set both up
+    const init = async () => {
+      try {
+        await Promise.all([
+          loadScript("https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js", () => !!window.emailjs),
+          loadScript("https://www.google.com/recaptcha/api.js?render=explicit", () => !!window.grecaptcha?.ready)
+        ]);
+
+        window.emailjs.init("RkHEatFx9n_mf4XI_"); // <-- your EmailJS public key
+
+        window.grecaptcha.ready(() => {
+          const box = form.querySelector(".g-recaptcha");
+          if (box && widgetId === null && box.childElementCount === 0) {
+            widgetId = window.grecaptcha.render(box, {
+              sitekey: box.dataset.sitekey,
+              theme: "dark"
+            });
+          }
+        });
+      } catch (err) {
+        console.error(err);
+        setStatus("Could not load the form scripts. Disable your ad blocker and reload the page.", "error");
+      }
+    };
+    init();
+
     const handleSubmit = async (e) => {
       e.preventDefault();
 
@@ -43,8 +84,13 @@
         return;
       }
 
+      if (!window.emailjs || widgetId === null) {
+        setStatus("The form is still loading. Please wait a moment and try again.", "error");
+        return;
+      }
+
       // Check reCAPTCHA
-      const recaptchaResponse = grecaptcha.getResponse();
+      const recaptchaResponse = window.grecaptcha.getResponse(widgetId);
       if (!recaptchaResponse) {
         setStatus("Please complete the reCAPTCHA.", "error");
         return;
@@ -54,41 +100,34 @@
       setStatus("Sending your message...", "info");
 
       try {
-        // Verify reCAPTCHA with backend
-        const verifyRes = await fetch("/api/verify-recaptcha", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: recaptchaResponse })
-        });
-
-        const verifyData = await verifyRes.json();
-        if (!verifyData.success) {
-          setStatus("reCAPTCHA verification failed. Please try again.", "error");
-          grecaptcha.reset();
-          return;
-        }
-
         const params = {
           from_name,
           from_email,
           reply_to: from_email,
-          subject,
+          subject: subject || "New message from your portfolio",
           message,
           "g-recaptcha-response": recaptchaResponse
         };
 
-        await emailjs.send("service_gmail", "template_auto_reply", params);
-        await emailjs.send("service_gmail", "template_notify_me", params);
+        // 1) Notification to you (this is the one that must succeed)
+        await window.emailjs.send("service_gmail", "template_notify_me", params);
+
+        // 2) Auto-reply to the sender (best effort)
+        try {
+          await window.emailjs.send("service_gmail", "template_auto_reply", params);
+        } catch (replyErr) {
+          console.warn("Auto-reply failed:", replyErr);
+        }
 
         setStatus("Message sent successfully. Thank you, I'll get back to you soon.", "success");
         form.reset();
-        grecaptcha.reset(); // reset captcha after success
       } catch (err) {
         const msg = (err && (err.text || err.message || JSON.stringify(err))) || "Unknown error";
         console.error("EmailJS Error:", err);
         setStatus("Failed to send: " + msg, "error");
       } finally {
         setLoading(false);
+        if (widgetId !== null) window.grecaptcha.reset(widgetId); // tokens are single-use
       }
     };
 
@@ -101,12 +140,6 @@
 </script>
 
 <svelte:head>
-  <!-- Load EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
-  <!-- Load Google reCAPTCHA -->
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
   <!-- Silence favicon 404 -->
   <link rel="icon" href="data:," />
 </svelte:head>
