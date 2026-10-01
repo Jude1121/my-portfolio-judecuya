@@ -1,4 +1,5 @@
 <script>
+    import { onMount } from 'svelte';
     import links from '../lib/assets/link.png';
     import address from '../lib/assets/Location Logo.png';
     import email from '../lib/assets/email.png';
@@ -27,19 +28,101 @@
     const primaryBtn = 'inline-flex items-center justify-center gap-2 rounded-full bg-emerald-400 px-5 py-3 text-sm font-semibold text-stone-950 shadow-lg shadow-emerald-500/20 transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-300 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300';
     const outlineBtn = 'inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-white/10 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300';
 
-    let copied = '';
-
-    async function copy(text, key) {
+    // Fallback for browsers/contexts where navigator.clipboard is unavailable
+    // (e.g. the site is opened over http, inside an iframe, or an older browser)
+    function fallbackCopy(text) {
+        let ta;
         try {
-            await navigator.clipboard.writeText(text);
-            copied = key;
-            setTimeout(() => {
-                if (copied === key) copied = '';
-            }, 2000);
+            ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'fixed';
+            ta.style.top = '0';
+            ta.style.left = '-9999px';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            ta.setSelectionRange(0, text.length);
+            return document.execCommand('copy') === true;
         } catch (err) {
-            console.error('Copy failed:', err);
+            console.error('execCommand copy failed:', err);
+            return false;
+        } finally {
+            if (ta && ta.parentNode) ta.parentNode.removeChild(ta);
         }
     }
+
+    // Returns 'copied' | 'manual' | 'failed'
+    async function copyText(text) {
+        // 1) Modern clipboard API (HTTPS / localhost only)
+        if (navigator.clipboard && window.isSecureContext) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return 'copied';
+            } catch (err) {
+                console.error('Clipboard API failed, trying fallback:', err);
+            }
+        }
+
+        // 2) Older method that works on http and in older browsers
+        if (fallbackCopy(text)) return 'copied';
+
+        // 3) Last resort: show the text so it can be copied by hand
+        try {
+            window.prompt('Copy this text (Ctrl+C or Cmd+C), then press Enter:', text);
+            return 'manual';
+        } catch (err) {
+            return 'failed';
+        }
+    }
+
+    // One click listener for every button with a data-copy attribute.
+    // Using event delegation means it works no matter when the buttons render.
+    onMount(() => {
+        const timers = new WeakMap();
+
+        const handleClick = async (event) => {
+            const target = event.target;
+            const btn = target && target.closest ? target.closest('[data-copy]') : null;
+            if (!btn) return;
+
+            event.preventDefault();
+
+            const label = btn.querySelector('[data-label]');
+            const copyIcon = btn.querySelector('[data-icon="copy"]');
+            const checkIcon = btn.querySelector('[data-icon="check"]');
+
+            if (label && !btn.dataset.originalLabel) {
+                btn.dataset.originalLabel = label.textContent;
+            }
+
+            const showState = (text, done) => {
+                if (label) label.textContent = text;
+                if (copyIcon) copyIcon.classList.toggle('hidden', done);
+                if (checkIcon) checkIcon.classList.toggle('hidden', !done);
+            };
+
+            let result = 'failed';
+            try {
+                result = await copyText(btn.dataset.copy || '');
+            } catch (err) {
+                console.error('Copy error:', err);
+            }
+
+            const messages = { copied: 'Copied', manual: 'Copy manually', failed: 'Copy failed' };
+            showState(messages[result], result === 'copied');
+
+            clearTimeout(timers.get(btn));
+            timers.set(
+                btn,
+                setTimeout(() => showState(btn.dataset.originalLabel || '', false), 2000)
+            );
+        };
+
+        document.addEventListener('click', handleClick);
+        return () => document.removeEventListener('click', handleClick);
+    });
 </script>
 
 <section class="w-full bg-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
@@ -72,16 +155,15 @@
                         </svg>
                         Send an email
                     </a>
-                    <button type="button" on:click={() => copy(emailAddress, 'email')} class="{outlineBtn} w-full sm:w-auto">
-                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            {#if copied === 'email'}
-                                <path d="M5 13l4 4L19 7" />
-                            {:else}
-                                <rect x="9" y="9" width="11" height="11" rx="2" />
-                                <path d="M5 15V6a2 2 0 012-2h9" />
-                            {/if}
+                    <button type="button" data-copy={emailAddress} class="{outlineBtn} w-full sm:w-auto">
+                        <svg data-icon="copy" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="11" height="11" rx="2" />
+                            <path d="M5 15V6a2 2 0 012-2h9" />
                         </svg>
-                        {copied === 'email' ? 'Copied' : 'Copy email'}
+                        <svg data-icon="check" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span data-label>Copy email</span>
                     </button>
                 </div>
             </div>
@@ -99,8 +181,8 @@
                 </div>
                 <div class="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
                     <a href="tel:{phoneLink}" class="{outlineBtn} w-full sm:w-auto">Call</a>
-                    <button type="button" on:click={() => copy(phoneDisplay, 'phone')} class="{outlineBtn} w-full sm:w-auto">
-                        {copied === 'phone' ? 'Copied' : 'Copy number'}
+                    <button type="button" data-copy={phoneDisplay} class="{outlineBtn} w-full sm:w-auto">
+                        <span data-label>Copy number</span>
                     </button>
                 </div>
             </div>
