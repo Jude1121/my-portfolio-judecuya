@@ -32,7 +32,7 @@
 
 <section class="w-full bg-gradient-to-b from-green-950 to-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
     <div class="mx-auto max-w-4xl">
-        <h1 class="fadeUp text-center text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Skills</h1>
+        <h1 class="fadeUp text-center text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Tech Stack</h1>
 
         <div class="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:mt-16">
             {#each skills as skill (skill.name)}
