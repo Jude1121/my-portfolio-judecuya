@@ -146,7 +146,7 @@
                 <img class="w-6" src={waveIcon} alt="">
                 <p class="font-bold pl-2 typing-animation">A Front-End Developer</p>
             </div>
-             skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
+             skilled in UI/UX and Front-End Developer, creating responsive, user-friendly, and visually appealing digital experiences.
         </h2>
         <div class=" flex gap-4 text-a items-center intro-animate">
                 <!-- Download CV Button -->
