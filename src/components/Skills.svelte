@@ -138,10 +138,34 @@
         transform: none;
     }
 
+    /* Card opacity: dim by default, 100% on hover / keyboard focus.
+       Declared after .reveal:global(.in) so it overrides its opacity: 1. */
+    .card-fade:global(.in) {
+        opacity: 0.7;
+        transition:
+            opacity 300ms ease,
+            transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms),
+            translate 300ms ease 0ms,
+            border-color 300ms ease 0ms,
+            background-color 300ms ease 0ms,
+            box-shadow 300ms ease 0ms;
+    }
+    .card-fade:global(.in):hover,
+    .card-fade:global(.in):focus-visible {
+        opacity: 1;
+        background-color: #292524; /* solid stone-800, fully opaque */
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
         .reveal {
             opacity: 1;
             transform: none;
+            transition: none;
+        }
+        .card-fade:global(.in) {
+            opacity: 1;
             transition: none;
         }
     }
@@ -189,33 +213,36 @@
                         aria-roledescription="slide"
                         aria-label="{i + 1} of {skills.length}"
                         style="--delay: {Math.min(i, 3) * 120}ms"
-                        class="reveal reveal-scale group relative flex w-[78%] shrink-0 snap-start flex-col rounded-3xl border border-white/20 bg-stone-800/80 p-6 shadow-xl shadow-black/30 backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:border-emerald-300 hover:bg-stone-800 hover:shadow-emerald-500/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+                        class="reveal reveal-scale card-fade group relative flex w-[78%] shrink-0 snap-start flex-col overflow-hidden rounded-3xl border border-white/20 bg-stone-800/80 p-6 shadow-xl shadow-black/30 backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:border-emerald-300 hover:bg-stone-800 hover:shadow-2xl hover:shadow-emerald-400/30 hover:ring-2 hover:ring-emerald-300/60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
                     >
+                        <!-- Hover highlight glow -->
+                        <span class="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-300/15 via-emerald-300/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></span>
+
                         <div class="flex items-start justify-between">
-                            <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3 shadow-md">
+                            <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3 shadow-md transition duration-300 group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-lg group-hover:shadow-emerald-300/60">
                                 <img src={skill.icon} alt="" class="h-full w-full object-contain" />
                             </div>
-                            <span class="rounded-full border border-emerald-300/50 bg-emerald-400/20 px-3 py-1 text-xs font-medium text-emerald-100">
+                            <span class="rounded-full border border-emerald-300/50 bg-emerald-400/20 px-3 py-1 text-xs font-medium text-emerald-100 transition duration-300 group-hover:border-emerald-200 group-hover:bg-emerald-300 group-hover:text-stone-950">
                                 {skill.category}
                             </span>
                         </div>
 
-                        <h2 class="mt-6 text-xl font-bold text-white">{skill.name}</h2>
-                        <p class="mt-1 text-sm font-medium text-white">{skill.experience}</p>
+                        <h2 class="mt-6 text-xl font-bold text-white transition duration-300 group-hover:text-emerald-200">{skill.name}</h2>
+                        <p class="mt-1 text-sm font-medium text-white transition duration-300 group-hover:text-emerald-50">{skill.experience}</p>
 
                         <!-- Proficiency -->
                         <div class="mt-6">
                             <div class="flex items-center justify-between text-sm">
-                                <span class="font-semibold text-emerald-100">{levels[skill.rating - 1]}</span>
-                                <div class="flex gap-1" role="img" aria-label="{skill.rating} out of 5 stars">
+                                <span class="font-semibold text-emerald-100 transition duration-300 group-hover:text-white">{levels[skill.rating - 1]}</span>
+                                <div class="flex gap-1 transition duration-300 group-hover:brightness-125 group-hover:drop-shadow-[0_0_6px_rgba(250,204,21,0.7)]" role="img" aria-label="{skill.rating} out of 5 stars">
                                     {#each Array(5) as _, n (n)}
                                         <img src={n < skill.rating ? star : graystar} alt="" class="h-4 w-4" />
                                     {/each}
                                 </div>
                             </div>
-                            <div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/20">
+                            <div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/20 transition duration-300 group-hover:bg-white/30">
                                 <div
-                                    class="h-full rounded-full bg-gradient-to-r from-emerald-300 to-emerald-100"
+                                    class="h-full rounded-full bg-gradient-to-r from-emerald-300 to-emerald-100 transition duration-300 group-hover:brightness-125 group-hover:shadow-[0_0_10px_rgba(110,231,183,0.9)]"
                                     style="width: {(skill.rating / 5) * 100}%"
                                 ></div>
                             </div>
