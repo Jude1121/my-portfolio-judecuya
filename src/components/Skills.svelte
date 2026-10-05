@@ -58,6 +58,27 @@
         track.scrollTo({ left: atStart ? track.scrollWidth : track.scrollLeft - step(), behavior: 'smooth' });
     }
 
+    // Scroll reveal: adds the "in" class once the element scrolls into view.
+    function reveal(node) {
+        if (typeof IntersectionObserver === 'undefined') {
+            node.classList.add('in');
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    node.classList.add('in');
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+        );
+        observer.observe(node);
+
+        return { destroy: () => observer.disconnect() };
+    }
+
     onMount(() => {
         reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         updateProgress();
@@ -92,6 +113,38 @@
     .progress-fill {
         transition: width 300ms ease;
     }
+
+    /* ---------- Scroll reveal ---------- */
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+            opacity 700ms ease var(--delay, 0ms),
+            transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms),
+            translate 300ms ease 0ms,
+            border-color 300ms ease 0ms,
+            background-color 300ms ease 0ms,
+            box-shadow 300ms ease 0ms;
+    }
+
+    /* Cards sit inside a scrolling track, so they scale in instead of sliding
+       (sliding would add scrollable overflow to the track). */
+    .reveal-scale {
+        transform: scale(0.94);
+    }
+
+    .reveal:global(.in) {
+        opacity: 1;
+        transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .reveal {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
+    }
 </style>
 
 <section class="relative isolate w-full overflow-hidden bg-gradient-to-b from-emerald-950 to-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
@@ -102,8 +155,8 @@
     <div class="mx-auto max-w-6xl">
         <!-- Header -->
         <div class="fadeUp mx-auto max-w-2xl text-center">
-            <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Tech Stack</h1>
-            <p class="mt-4 text-stone-300 sm:text-lg">
+            <h1 use:reveal class="reveal text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Tech Stack</h1>
+            <p use:reveal class="reveal mt-4 text-stone-300 sm:text-lg" style="--delay: 120ms">
                 The languages and tools I use to design, build, and ship responsive web experiences.
             </p>
         </div>
@@ -128,13 +181,15 @@
                 {#each skills as skill, i (skill.name)}
                     <svelte:element
                         this={skill.url ? 'a' : 'div'}
+                        use:reveal
                         href={skill.url || undefined}
                         target={skill.url ? '_blank' : undefined}
                         rel={skill.url ? 'noopener noreferrer' : undefined}
                         role="group"
                         aria-roledescription="slide"
                         aria-label="{i + 1} of {skills.length}"
-                        class="group relative flex w-[78%] shrink-0 snap-start flex-col rounded-3xl border border-white/10 bg-stone-900/60 p-6 shadow-xl shadow-black/30 backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:border-emerald-400/60 hover:bg-stone-900/80 hover:shadow-emerald-500/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+                        style="--delay: {Math.min(i, 3) * 120}ms"
+                        class="reveal reveal-scale group relative flex w-[78%] shrink-0 snap-start flex-col rounded-3xl border border-white/10 bg-stone-900/60 p-6 shadow-xl shadow-black/30 backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:border-emerald-400/60 hover:bg-stone-900/80 hover:shadow-emerald-500/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
                     >
                         <div class="flex items-start justify-between">
                             <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3 shadow-md">
@@ -170,7 +225,7 @@
             </div>
 
             <!-- Controls -->
-            <div class="mt-6 flex items-center gap-5 sm:mt-8">
+            <div use:reveal class="reveal mt-6 flex items-center gap-5 sm:mt-8" style="--delay: 300ms">
                 <div class="h-1 flex-1 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
                     <div class="progress-fill h-full rounded-full bg-emerald-400" style="width: {progress}%"></div>
                 </div>

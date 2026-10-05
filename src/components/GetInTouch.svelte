@@ -2,6 +2,27 @@
   import { onMount } from 'svelte';
   import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
 
+  // Scroll reveal: adds the "in" class once the element scrolls into view.
+  function reveal(node) {
+    if (typeof IntersectionObserver === 'undefined') {
+      node.classList.add('in');
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          node.classList.add('in');
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
+    observer.observe(node);
+
+    return { destroy: () => observer.disconnect() };
+  }
+
   // Loads an external script once and resolves when it is usable
   const loadScript = (src, isReady) =>
     new Promise((resolve, reject) => {
@@ -144,10 +165,39 @@
   <link rel="icon" href="data:," />
 </svelte:head>
 
-<section id="contact" class="w-full bg-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
-  <div class="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/40 sm:p-10">
+<style>
+  /* ---------- Scroll reveal ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition:
+      opacity 700ms ease var(--delay, 0ms),
+      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms);
+  }
 
-    <header class="text-center">
+  /* The card itself only fades; the content inside rises in one piece at a time */
+  .reveal-fade {
+    transform: none;
+  }
+
+  .reveal:global(.in) {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<section id="contact" class="w-full bg-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
+  <div use:reveal class="reveal reveal-fade mx-auto max-w-3xl rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/40 sm:p-10">
+
+    <header use:reveal class="reveal text-center" style="--delay: 150ms">
       <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
         Get in touch
         <img class="h-8 w-8 sm:h-10 sm:w-10" src={waveIcon} alt="" />
@@ -159,7 +209,7 @@
 
     <!-- Contact form -->
     <form id="contactForm" method="POST" action="javascript:void(0)" class="mt-8 space-y-5 sm:mt-10">
-      <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+      <div use:reveal class="reveal grid grid-cols-1 gap-5 md:grid-cols-2" style="--delay: 250ms">
         <div>
           <label for="from_name" class="mb-1.5 block text-sm font-medium text-stone-300">Name</label>
           <input
@@ -176,7 +226,7 @@
         </div>
       </div>
 
-      <div>
+      <div use:reveal class="reveal" style="--delay: 330ms">
         <label for="subject" class="mb-1.5 block text-sm font-medium text-stone-300">Subject</label>
         <input
           id="subject" type="text" name="subject" placeholder="What would you like to discuss?"
@@ -184,7 +234,7 @@
         />
       </div>
 
-      <div>
+      <div use:reveal class="reveal" style="--delay: 410ms">
         <label for="message" class="mb-1.5 block text-sm font-medium text-stone-300">Message</label>
         <textarea
           id="message" name="message" rows="5" placeholder="Tell me about your project or idea..." required
@@ -193,11 +243,11 @@
       </div>
 
       <!-- Google reCAPTCHA widget -->
-      <div class="flex justify-center overflow-x-auto">
+      <div use:reveal class="reveal flex justify-center overflow-x-auto" style="--delay: 490ms">
         <div class="g-recaptcha" data-theme="dark" data-sitekey="6LcfmdktAAAAAMK7NPAIN37jyih_TlhCpGhfOeVJ"></div>
       </div>
 
-      <div class="flex justify-center">
+      <div use:reveal class="reveal flex justify-center" style="--delay: 570ms">
         <button
           id="sendBtn" type="submit"
           class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-400 px-8 py-3.5 font-semibold text-stone-950 shadow-lg shadow-emerald-500/20 transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-300 hover:shadow-emerald-400/40 active:translate-y-0 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 sm:w-auto sm:py-3"
@@ -211,7 +261,7 @@
         </button>
       </div>
 
-      <p class="pt-2 text-center text-xs leading-relaxed text-stone-500 sm:text-sm">
+      <p use:reveal class="reveal pt-2 text-center text-xs leading-relaxed text-stone-500 sm:text-sm" style="--delay: 640ms">
         This site is protected by reCAPTCHA and the Google
         <a class="underline transition-colors duration-300 hover:text-stone-300" target="_blank" rel="noopener noreferrer" href="https://policies.google.com/privacy">Privacy Policy</a>
         and

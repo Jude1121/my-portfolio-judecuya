@@ -41,21 +41,79 @@
             ]
         }
     ];
+
+    // Scroll reveal: adds the "in" class once the element scrolls into view.
+    function reveal(node) {
+        if (typeof IntersectionObserver === 'undefined') {
+            node.classList.add('in');
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    node.classList.add('in');
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+        );
+        observer.observe(node);
+
+        return { destroy: () => observer.disconnect() };
+    }
 </script>
+
+<style>
+    /* ---------- Scroll reveal ---------- */
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+            opacity 700ms ease var(--delay, 0ms),
+            transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms),
+            border-color 300ms ease 0ms,
+            box-shadow 300ms ease 0ms;
+    }
+
+    /* On desktop each project slides in from its own side of the screen */
+    @media (min-width: 1024px) {
+        .reveal-left {
+            transform: translateX(-56px);
+        }
+        .reveal-right {
+            transform: translateX(56px);
+        }
+    }
+
+    .reveal:global(.in) {
+        opacity: 1;
+        transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .reveal {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
+    }
+</style>
 
 <section class="w-full bg-stone-950 text-white px-5 py-12 sm:px-8 sm:py-16 lg:px-20 lg:py-28">
     <div class="mx-auto max-w-6xl">
-        <h1 class="text-center text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Projects</h1>
+        <h1 use:reveal class="reveal text-center text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Projects</h1>
 
         <div class="mt-10 flex flex-col gap-16 sm:mt-14 sm:gap-20 lg:mt-24 lg:gap-32">
             {#each projects as project, i (project.title)}
                 <article class="grid items-center gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-16">
                     <!-- Image (alternates sides on desktop) -->
                     <a
+                        use:reveal
                         href={project.figma}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="group block overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 bg-stone-900 shadow-2xl shadow-black/50 transition duration-300 hover:border-emerald-400/60 hover:shadow-emerald-500/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 {i % 2 === 1 ? 'lg:order-2' : ''}"
+                        class="reveal {i % 2 === 0 ? 'reveal-left' : 'reveal-right'} group block overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 bg-stone-900 shadow-2xl shadow-black/50 transition duration-300 hover:border-emerald-400/60 hover:shadow-emerald-500/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 {i % 2 === 1 ? 'lg:order-2' : ''}"
                     >
                         <img
                             class="h-auto w-full max-w-full transition duration-500 group-hover:scale-105"
@@ -65,7 +123,7 @@
                     </a>
 
                     <!-- Text -->
-                    <div class="min-w-0">
+                    <div use:reveal class="reveal {i % 2 === 0 ? 'reveal-right' : 'reveal-left'} min-w-0" style="--delay: 150ms">
                         <h2 class="text-xl font-bold sm:text-2xl lg:text-3xl">{project.title}</h2>
                         <p class="mt-3 inline-block rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-sm font-medium text-emerald-300">
                             {project.type}

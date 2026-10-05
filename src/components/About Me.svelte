@@ -13,6 +13,27 @@
         { label: 'Design tools', value: 'Figma, Adobe Illustrator, Adobe Photoshop' },
         { label: 'Hometown', value: 'Tiwi, Albay - Philippines' }
     ];
+
+    // Scroll reveal: adds the "in" class once the element enters the viewport.
+    function reveal(node) {
+        if (typeof IntersectionObserver === 'undefined') {
+            node.classList.add('in');
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    node.classList.add('in');
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+        );
+        observer.observe(node);
+
+        return { destroy: () => observer.disconnect() };
+    }
 </script>
 
 <svelte:window bind:scrollY />
@@ -22,9 +43,40 @@
         will-change: transform;
     }
 
+    /* ---------- Scroll reveal ---------- */
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+            opacity 700ms ease var(--delay, 0ms),
+            transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms),
+            border-color 300ms ease 0ms;
+    }
+
+    /* On desktop the text slides in from the left and the photo from the right */
+    @media (min-width: 1024px) {
+        .reveal-left {
+            transform: translateX(-56px);
+        }
+        .reveal-right {
+            transform: translateX(56px);
+        }
+    }
+
+    .reveal:global(.in) {
+        opacity: 1;
+        transform: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
         .scroll-spin {
             transform: none !important;
+        }
+
+        .reveal {
+            opacity: 1;
+            transform: none;
+            transition: none;
         }
     }
 </style>
@@ -36,7 +88,7 @@
     <div class="mx-auto grid max-w-6xl items-center gap-10 sm:gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
 
         <!-- Photo (shown first on mobile and tablet, right side on desktop) -->
-        <div class="fadeUp relative mx-auto w-full max-w-xs sm:max-w-md lg:order-2 lg:max-w-none">
+        <div use:reveal class="reveal reveal-right relative mx-auto w-full max-w-xs sm:max-w-md lg:order-2 lg:max-w-none">
             <!-- Offset outline frame -->
             <div class="absolute inset-0 translate-x-2 translate-y-2 rounded-2xl border-2 border-emerald-400/40 sm:translate-x-4 sm:translate-y-4 sm:rounded-3xl" aria-hidden="true"></div>
 
@@ -60,11 +112,13 @@
         </div>
 
         <!-- Text -->
-        <div class="fadeUp min-w-0 text-center sm:text-left lg:order-1">
-            <h1 class="text-4xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">About me</h1>
-            <div class="mx-auto mt-4 h-1 w-14 rounded-full bg-emerald-400 sm:mx-0" aria-hidden="true"></div>
+        <div class="min-w-0 text-center sm:text-left lg:order-1">
+            <div use:reveal class="reveal reveal-left">
+                <h1 class="text-4xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">About me</h1>
+                <div class="mx-auto mt-4 h-1 w-14 rounded-full bg-emerald-400 sm:mx-0" aria-hidden="true"></div>
+            </div>
 
-            <div class="mt-6 space-y-5 text-left text-md leading-relaxed text-white sm:mt-8 sm:text-base lg:text-lg">
+            <div use:reveal class="reveal reveal-left mt-6 space-y-5 text-left text-md leading-relaxed text-white sm:mt-8 sm:text-base lg:text-lg" style="--delay: 120ms">
                 <p>
                     I am Jude Russel Cuya, 22 years old, a fresh graduate of STI College Legazpi with a Bachelor’s degree in Information Technology. I am a Junior Front-End Developer eager to learn, grow, and contribute to your company. I am committed to delivering tasks on time and maintaining a high standard of work. In addition to my development skills, I am also proficient in UI/UX design and graphic design, with experience using tools such as Figma, Adobe Illustrator, and Adobe Photoshop. Moreover, I possess strong communication skills that allow me to effectively collaborate with team members, clearly convey ideas, and engage with clients to ensure project goals are met.
                 </p>
@@ -73,10 +127,14 @@
                 </p>
             </div>
 
-            <!-- Quick facts -->
+            <!-- Quick facts (each card rises in one after the other) -->
             <dl class="mt-8 grid gap-3 text-left sm:mt-10 sm:grid-cols-2">
-                {#each facts as fact (fact.label)}
-                    <div class="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm transition duration-300 hover:border-emerald-400/50">
+                {#each facts as fact, i (fact.label)}
+                    <div
+                        use:reveal
+                        class="reveal min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm hover:border-emerald-400/50"
+                        style="--delay: {i * 100}ms"
+                    >
                         <dt class="text-sm text-white">{fact.label}</dt>
                         <dd class="mt-1 break-words font-semibold text-white">{fact.value}</dd>
                     </div>
