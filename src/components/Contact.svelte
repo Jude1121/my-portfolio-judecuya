@@ -14,6 +14,19 @@
     const phoneLink = '+639460419105';
     const location = 'Tiwi, Albay - Philippines';
     const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Tiwi+Albay+Philippines';
+    const mapEmbedUrl = 'https://www.google.com/maps?q=Tiwi,+Albay,+Philippines&output=embed';
+
+    // Map preview shown when hovering/focusing the "View on map" button.
+    // The iframe only loads the first time it's needed.
+    let mapOpen = false;
+    let mapLoaded = false;
+    function showMap() {
+        mapOpen = true;
+        mapLoaded = true;
+    }
+    function hideMap() {
+        mapOpen = false;
+    }
 
     const socials = [
         { name: 'Facebook', icon: fb, url: 'https://www.facebook.com/JUDERRRUSSEL11121' },
@@ -220,7 +233,38 @@
                         <p class="mt-1 text-stone-300">{location}</p>
                     </div>
                 </div>
-                <a href={mapsUrl} target="_blank" rel="noopener noreferrer" class="{outlineBtn} w-full sm:w-auto">View on map</a>
+                <div
+                    class="relative w-full sm:w-auto"
+                    role="presentation"
+                    on:mouseenter={showMap}
+                    on:mouseleave={hideMap}
+                    on:focusin={showMap}
+                    on:focusout={hideMap}
+                >
+                    <a href={mapsUrl} target="_blank" rel="noopener noreferrer" class="{outlineBtn} w-full">View on map</a>
+
+                    <!-- Map preview (hover / focus) -->
+                    <div
+                        class="pointer-events-none absolute bottom-full left-0 z-20 mb-3 w-72 origin-bottom-left overflow-hidden rounded-2xl border border-white/15 bg-stone-900 shadow-2xl shadow-black/60 transition duration-300 sm:w-80
+                            {mapOpen ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-2 scale-95 opacity-0'}"
+                        aria-hidden="true"
+                    >
+                        {#if mapLoaded}
+                            <iframe
+                                title="Map preview of {location}"
+                                src={mapEmbedUrl}
+                                class="block h-48 w-full border-0"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                tabindex="-1"
+                            ></iframe>
+                        {/if}
+                        <div class="flex items-center gap-2 border-t border-white/10 px-4 py-2.5 text-xs font-medium text-stone-200">
+                            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                            {location}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Social media -->
