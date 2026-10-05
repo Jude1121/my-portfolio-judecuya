@@ -127,35 +127,44 @@
 }
 </style>
 
-<div class="bg-stone-950 text-white lg:flex lg:justify-baseline justify-center lg:items-center">
-    <div class="lg:pl-45 lg:pt-15 lg:pb-20 lg:w-7xl pt-10 pr-10 pl-10 intro-animate">
-      <div class="orbit-ring">
-        <img class="rounded-full w-7xl  shadow-lg" src={myProfile} alt="">
+<div class="bg-stone-950 text-white flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-16 px-0 lg:px-16 pb-10 lg:py-20">
+
+    <!-- Profile (mobile size = original: full width minus 40px each side) -->
+    <div class="intro-animate shrink-0 w-full sm:w-auto px-10 pt-10 lg:p-2 flex justify-center">
+      <div class="orbit-ring w-full sm:w-auto">
+        <img
+          class="rounded-full shadow-lg object-cover aspect-square
+                 w-full sm:w-80 md:w-96 lg:w-72 xl:w-80 2xl:w-96"
+          src={myProfile}
+          alt="Jude Russel Cuya"
+        >
       </div>
     </div>
-    <div class=" lg:pl-20 pt-10  p-9 lg:p-0 intro-animate"> 
+
+    <!-- Text -->
+    <div class="intro-animate text-center lg:text-left max-w-xl lg:max-w-2xl px-9 pt-10 lg:p-0">
         <h1 class="animated-gradient bg-gradient-to-r from-green-500 via-lime-300 to-green-700 
            bg-clip-text text-transparent 
-            font-extrabold text-5xl"><a href="" class="font-extrabold text-5xl  text-white">Hi, I'm</a>
+            font-extrabold  text-5xl"><a href="" class="font-extraboldtext-5xl text-white">Hi, I'm</a>
             Jude Russel Cuya
         </h1>
-        <h2 class="lg:pt-5 lg:pr-30 lg:pb-20 pt-5 pb-5 intro-animate ">
-            <div class="flex justify-baseline pb-3">
+        <h2 class="pt-5 pb-5 lg:pb-10 intro-animate text-md sm:text-base">
+            <div class="flex justify-center lg:justify-start pb-3">
                 <img class="w-6" src={waveIcon} alt="">
                 <p class="font-bold pl-2 typing-animation">A Front-End Developer</p>
             </div>
              skilled in UI/UX and graphic design, creating responsive, user-friendly, and visually appealing digital experiences.
         </h2>
-        <div class=" flex gap-4 text-a items-center intro-animate">
+        <div class="flex flex-wrap gap-4 items-center justify-center lg:justify-start intro-animate">
                 <!-- Download CV Button -->
-                <div class="w-fit bg-green-500 hover:bg-lime-400 text-white rounded-md ">   
+                <div class="w-fit bg-green-500 hover:bg-lime-400 text-white rounded-md">   
                     <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2" href={myResume} download="My Official Resume.pdf">
                         <Download class="w-4 h-4" />
                         DOWNLOAD CV
                     </a>
                 </div>
                 <!-- Hire Me Button -->
-                <div class="w-fit  bg-transparent border-2 border-green-500 hover:bg-lime-400 text-white rounded-md "> 
+                <div class="w-fit bg-transparent border-2 border-green-500 hover:bg-lime-400 text-white rounded-md"> 
                     <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" class="font-extrabold text-sm px-4 py-2 flex items-center justify-center">
                         HIRE ME
                     </a>
