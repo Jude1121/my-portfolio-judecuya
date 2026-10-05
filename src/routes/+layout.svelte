@@ -4,7 +4,7 @@
 	import "../app.css";
 
 	import Footer from '../components/Footer.svelte';
-	import webIcon from '../lib/assets/Jude Russel LOGO white copy.svg';
+	import webIcon from '$lib/assets/jude-logo-white.svg';
 
 
 </script>

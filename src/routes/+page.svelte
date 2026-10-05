@@ -7,6 +7,7 @@
     import Contact from "../components/Contact.svelte";
     import GetInTouch from "../components/GetInTouch.svelte";
     import Footer from "../components/Footer.svelte";
+    import Test from "../components/Test.svelte";
     
 </script>
 <svelte:head>
@@ -18,6 +19,8 @@
 <div id="Home">
     <Navbar/>
 </div>
+
+<Test/>
 
 <div id="">
     <Dashboard/>
