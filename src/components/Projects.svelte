@@ -7,7 +7,7 @@
     const projects = [
         {
             title: 'Albay Travel and Tours',
-            type: 'UI/UX Figma prototype', 
+            type: ['TailwindCSS', 'Svelte', 'JavaScript / TypeScript', 'Vite', 'HTML5', 'CSS', 'Pexels', 'Git & Github', 'Vercel'], 
             image: ATT,
             alt: 'Albay Travel and Tours website prototype',
             figma: 'https://www.figma.com/design/egk8C5Samtl3l4tH1O1BK4/Albay-Travel-and-Tours?node-id=0-1&t=oCQ9QtKITnOFkkAJ-1',
@@ -141,9 +141,13 @@
                     <!-- Text -->
                     <div use:reveal class="reveal {i % 2 === 0 ? 'reveal-right' : 'reveal-left'} min-w-0" style="--delay: 150ms">
                         <h2 class="text-xl font-bold sm:text-2xl lg:text-3xl">{project.title}</h2>
-                        <p class="mt-3 inline-block rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-sm font-medium text-emerald-300">
-                            {project.type}
-                        </p>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            {#each [].concat(project.type) as tech (tech)}
+                                <span class="inline-block rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-sm font-medium text-emerald-300">
+                                    {tech}
+                                </span>
+                            {/each}
+                        </div>
 
                         <div class="mt-5 space-y-4 text-[15px] leading-relaxed text-stone-300 sm:mt-6 sm:text-base">
                             {#each project.description as paragraph (paragraph)}
