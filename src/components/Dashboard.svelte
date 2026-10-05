@@ -143,32 +143,7 @@
   .glow-drift, .glow-drift-alt { animation: none; }
 }
 
-/* ---------- New: button polish ---------- */
-.btn-primary {
-  transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
-}
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px -8px rgba(52, 211, 153, 0.7);
-}
-.btn-secondary {
-  transition: transform 200ms ease, background-color 200ms ease, color 200ms ease;
-}
-.btn-secondary:hover {
-  transform: translateY(-2px);
-  color: #0c0a09;
-}
-.btn-secondary :global(svg) {
-  transition: transform 200ms ease;
-}
-.btn-secondary:hover :global(svg) {
-  transform: translate(2px, -2px);
-}
-.btn-primary:focus-visible,
-.btn-secondary:focus-visible {
-  outline: 2px solid #a7f3d0;
-  outline-offset: 3px;
-}
+/* Button styles now come from Tailwind classes on the links (same as the Projects buttons) */
 </style>
 
 <div class="relative isolate overflow-hidden bg-stone-950 text-white flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-16 px-0 lg:px-16 pb-0 lg:py-20">
@@ -224,21 +199,33 @@
           {/each}
         </ul>
 
-        <div class="flex gap-4 text-a items-center justify-center lg:justify-start intro-animate">
+        <div class="flex flex-wrap gap-3 sm:gap-4 items-center justify-center lg:justify-start intro-animate">
                 <!-- Download CV Button -->
-                <div class="btn-primary w-fit bg-emerald-400 hover:bg-emerald-300 text-stone-950 rounded-md">   
-                    <a class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-2 rounded-md focus-visible:outline-none" href={myResume} download="My Official Resume.pdf">
-                        <Download class="w-4 h-4" />
-                        DOWNLOAD CV
-                    </a>
-                </div>
+                <a
+                    href={myResume}
+                    download="My Official Resume.pdf"
+                    class="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-emerald-400 px-6 py-3 text-sm font-semibold text-stone-950 shadow-lg shadow-emerald-500/20 transition duration-200 hover:-translate-y-1 hover:scale-105 hover:bg-emerald-300 hover:shadow-xl hover:shadow-emerald-400/50 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+                >
+                    <!-- Shine sweep on hover -->
+                    <span class="pointer-events-none absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-white/50 transition-all duration-700 ease-out group-hover:left-[150%]" aria-hidden="true"></span>
+
+                    <Download class="relative h-5 w-5 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                    <span class="relative">Download CV</span>
+                </a>
+
                 <!-- Hire Me Button -->
-                <div class="btn-secondary w-fit bg-transparent border-2 border-emerald-400 hover:bg-emerald-300 hover:border-emerald-300 text-white rounded-md"> 
-                    <a href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/" target="_blank" rel="noopener noreferrer" class="font-extrabold text-sm px-4 py-2 flex items-center justify-center gap-1 rounded-md focus-visible:outline-none">
-                        HIRE ME
-                        <ArrowUpRight class="w-4 h-4" />
-                    </a>
-                </div>
+                <a
+                    href="https://www.linkedin.com/in/jude-russel-cuya-3a4233333/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-white/25 px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-1 hover:scale-105 hover:border-emerald-300 hover:bg-white/10 hover:text-emerald-200 hover:shadow-lg hover:shadow-emerald-500/20 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+                >
+                    <!-- Shine sweep on hover -->
+                    <span class="pointer-events-none absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-white/15 transition-all duration-700 ease-out group-hover:left-[150%]" aria-hidden="true"></span>
+
+                    <span class="relative">Hire me</span>
+                    <ArrowUpRight class="relative h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
         </div>
     </div>
 </div>

@@ -97,7 +97,7 @@
 
 <style>
     .dot-grid {
-        background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+        background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
         background-size: 24px 24px;
         -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
         mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
@@ -150,13 +150,13 @@
 <section class="relative isolate w-full overflow-hidden bg-gradient-to-b from-emerald-950 to-stone-950 px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-28">
     <!-- Decorative background -->
     <div class="dot-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
-    <div class="pointer-events-none absolute left-1/2 top-28 -z-10 h-56 w-[36rem] -translate-x-1/2 rounded-full bg-emerald-400/10 blur-3xl" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute left-1/2 top-28 -z-10 h-56 w-[36rem] -translate-x-1/2 rounded-full bg-emerald-400/20 blur-3xl" aria-hidden="true"></div>
 
     <div class="mx-auto max-w-6xl">
         <!-- Header -->
         <div class="fadeUp mx-auto max-w-2xl text-center">
             <h1 use:reveal class="reveal text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Tech Stack</h1>
-            <p use:reveal class="reveal mt-4 text-stone-300 sm:text-lg" style="--delay: 120ms">
+            <p use:reveal class="reveal mt-4 text-stone-100 sm:text-lg" style="--delay: 120ms">
                 The languages and tools I use to design, build, and ship responsive web experiences.
             </p>
         </div>
@@ -189,33 +189,33 @@
                         aria-roledescription="slide"
                         aria-label="{i + 1} of {skills.length}"
                         style="--delay: {Math.min(i, 3) * 120}ms"
-                        class="reveal reveal-scale group relative flex w-[78%] shrink-0 snap-start flex-col rounded-3xl border border-white/10 bg-stone-900/60 p-6 shadow-xl shadow-black/30 backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:border-emerald-400/60 hover:bg-stone-900/80 hover:shadow-emerald-500/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+                        class="reveal reveal-scale group relative flex w-[78%] shrink-0 snap-start flex-col rounded-3xl border border-white/20 bg-stone-800/80 p-6 shadow-xl shadow-black/30 backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:border-emerald-300 hover:bg-stone-800 hover:shadow-emerald-500/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
                     >
                         <div class="flex items-start justify-between">
                             <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3 shadow-md">
                                 <img src={skill.icon} alt="" class="h-full w-full object-contain" />
                             </div>
-                            <span class="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300">
+                            <span class="rounded-full border border-emerald-300/50 bg-emerald-400/20 px-3 py-1 text-xs font-medium text-emerald-100">
                                 {skill.category}
                             </span>
                         </div>
 
-                        <h2 class="mt-6 text-xl font-bold">{skill.name}</h2>
-                        <p class="mt-1 text-sm text-stone-300">{skill.experience}</p>
+                        <h2 class="mt-6 text-xl font-bold text-white">{skill.name}</h2>
+                        <p class="mt-1 text-sm font-medium text-white">{skill.experience}</p>
 
                         <!-- Proficiency -->
                         <div class="mt-6">
                             <div class="flex items-center justify-between text-sm">
-                                <span class="font-medium text-emerald-300">{levels[skill.rating - 1]}</span>
+                                <span class="font-semibold text-emerald-100">{levels[skill.rating - 1]}</span>
                                 <div class="flex gap-1" role="img" aria-label="{skill.rating} out of 5 stars">
                                     {#each Array(5) as _, n (n)}
                                         <img src={n < skill.rating ? star : graystar} alt="" class="h-4 w-4" />
                                     {/each}
                                 </div>
                             </div>
-                            <div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                            <div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/20">
                                 <div
-                                    class="h-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-200"
+                                    class="h-full rounded-full bg-gradient-to-r from-emerald-300 to-emerald-100"
                                     style="width: {(skill.rating / 5) * 100}%"
                                 ></div>
                             </div>
@@ -226,8 +226,8 @@
 
             <!-- Controls -->
             <div use:reveal class="reveal mt-6 flex items-center gap-5 sm:mt-8" style="--delay: 300ms">
-                <div class="h-1 flex-1 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
-                    <div class="progress-fill h-full rounded-full bg-emerald-400" style="width: {progress}%"></div>
+                <div class="h-1 flex-1 overflow-hidden rounded-full bg-white/20" aria-hidden="true">
+                    <div class="progress-fill h-full rounded-full bg-emerald-300" style="width: {progress}%"></div>
                 </div>
 
                 <div class="flex gap-3">
@@ -235,9 +235,9 @@
                         type="button"
                         on:click={prev}
                         aria-label="Previous skills"
-                        class="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition duration-200 hover:border-emerald-400 hover:bg-emerald-400 hover:text-stone-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 active:scale-95"
+                        class="group flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white transition duration-200 hover:scale-110 hover:border-emerald-400 hover:bg-emerald-400 hover:text-stone-950 hover:shadow-lg hover:shadow-emerald-500/40 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 active:scale-95"
                     >
-                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <svg class="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M15 18l-6-6 6-6" />
                         </svg>
                     </button>
@@ -245,9 +245,9 @@
                         type="button"
                         on:click={next}
                         aria-label="Next skills"
-                        class="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition duration-200 hover:border-emerald-400 hover:bg-emerald-400 hover:text-stone-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 active:scale-95"
+                        class="group flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white transition duration-200 hover:scale-110 hover:border-emerald-400 hover:bg-emerald-400 hover:text-stone-950 hover:shadow-lg hover:shadow-emerald-500/40 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 active:scale-95"
                     >
-                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <svg class="h-5 w-5 transition-transform duration-200 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M9 6l6 6-6 6" />
                         </svg>
                     </button>

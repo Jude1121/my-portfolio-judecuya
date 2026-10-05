@@ -62,6 +62,22 @@
 
         return { destroy: () => observer.disconnect() };
     }
+
+    // Hover preview: shows a live, scaled-down preview above a button.
+    // The iframe only loads the first time its button is hovered/focused.
+    let preview = null; // key of the preview currently open, e.g. "0-figma"
+    let loaded = {};
+
+    function showPreview(key) {
+        preview = key;
+        loaded = { ...loaded, [key]: true };
+    }
+    function hidePreview() {
+        preview = null;
+    }
+
+    const figmaEmbed = (url) =>
+        `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`;
 </script>
 
 <style>
@@ -137,38 +153,110 @@
 
                         <!-- Buttons -->
                         <div class="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-4">
-                            <a
-                                href={project.figma}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-400 px-6 py-3.5 sm:w-auto sm:py-3 font-semibold text-stone-950 shadow-lg shadow-emerald-500/20 transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-300 hover:shadow-emerald-400/40 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+                            <!-- View prototype + hover preview -->
+                            <div
+                                class="relative w-full sm:w-auto"
+                                role="presentation"
+                                on:mouseenter={() => showPreview(`${i}-figma`)}
+                                on:mouseleave={hidePreview}
+                                on:focusin={() => showPreview(`${i}-figma`)}
+                                on:focusout={hidePreview}
                             >
-                                <!-- Prototype icon -->
-                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <rect x="3" y="3" width="18" height="18" rx="3" />
-                                    <path d="M8 16l3-8 3 8M9 13.5h4" />
-                                </svg>
-                                View prototype
-                            </a>
-
-                            {#if project.website}
                                 <a
-                                    href={project.website}
+                                    href={project.figma}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="group inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 px-6 py-3.5 sm:w-auto sm:py-3 font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-white/10 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+                                    class="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-emerald-400 px-6 py-3.5 sm:w-auto sm:py-3 font-semibold text-stone-950 shadow-lg shadow-emerald-500/20 transition duration-200 hover:-translate-y-1 hover:scale-105 hover:bg-emerald-300 hover:shadow-xl hover:shadow-emerald-400/50 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
                                 >
-                                    <!-- Globe icon -->
-                                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <circle cx="12" cy="12" r="9" />
-                                        <path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18" />
+                                    <!-- Shine sweep on hover -->
+                                    <span class="pointer-events-none absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-white/50 transition-all duration-700 ease-out group-hover:left-[150%]" aria-hidden="true"></span>
+
+                                    <!-- Prototype icon -->
+                                    <svg class="relative h-5 w-5 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <rect x="3" y="3" width="18" height="18" rx="3" />
+                                        <path d="M8 16l3-8 3 8M9 13.5h4" />
                                     </svg>
-                                    Visit website
-                                    <!-- External link icon -->
-                                    <svg class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <path d="M7 17L17 7M8 7h9v9" />
-                                    </svg>
+                                    <span class="relative">View prototype</span>
                                 </a>
+
+                                <!-- Prototype preview (hover / focus) -->
+                                <div
+                                    class="pointer-events-none absolute bottom-full left-0 z-20 mb-3 w-80 max-w-[calc(100vw-2.5rem)] origin-bottom-left overflow-hidden rounded-2xl border border-white/15 bg-stone-900 shadow-2xl shadow-black/60 transition duration-300
+                                        {preview === `${i}-figma` ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-2 scale-95 opacity-0'}"
+                                    aria-hidden="true"
+                                >
+                                    <div class="relative h-[200px] w-full overflow-hidden bg-stone-800">
+                                        {#if loaded[`${i}-figma`]}
+                                            <iframe
+                                                title="Preview of {project.title} prototype"
+                                                src={figmaEmbed(project.figma)}
+                                                class="absolute left-0 top-0 h-[800px] w-[1280px] origin-top-left scale-[0.25] border-0"
+                                                loading="lazy"
+                                                tabindex="-1"
+                                            ></iframe>
+                                        {/if}
+                                    </div>
+                                    <div class="flex items-center gap-2 border-t border-white/10 px-4 py-2.5 text-xs font-medium text-stone-200">
+                                        <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                                        {project.title} · Figma prototype
+                                    </div>
+                                </div>
+                            </div>
+
+                            {#if project.website}
+                                <!-- Visit website + hover preview -->
+                                <div
+                                    class="relative w-full sm:w-auto"
+                                    role="presentation"
+                                    on:mouseenter={() => showPreview(`${i}-site`)}
+                                    on:mouseleave={hidePreview}
+                                    on:focusin={() => showPreview(`${i}-site`)}
+                                    on:focusout={hidePreview}
+                                >
+                                    <a
+                                        href={project.website}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full border border-white/25 px-6 py-3.5 sm:w-auto sm:py-3 font-semibold text-white transition duration-200 hover:-translate-y-1 hover:scale-105 hover:border-emerald-300 hover:bg-white/10 hover:text-emerald-200 hover:shadow-lg hover:shadow-emerald-500/20 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+                                    >
+                                        <!-- Shine sweep on hover -->
+                                        <span class="pointer-events-none absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-white/15 transition-all duration-700 ease-out group-hover:left-[150%]" aria-hidden="true"></span>
+
+                                        <!-- Globe icon -->
+                                        <svg class="relative h-5 w-5 transition-transform duration-700 group-hover:rotate-[360deg]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <circle cx="12" cy="12" r="9" />
+                                            <path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18" />
+                                        </svg>
+                                        <span class="relative">Visit website</span>
+                                        <!-- External link icon -->
+                                        <svg class="relative h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M7 17L17 7M8 7h9v9" />
+                                        </svg>
+                                    </a>
+
+                                    <!-- Website preview (hover / focus) -->
+                                    <div
+                                        class="pointer-events-none absolute bottom-full left-0 z-20 mb-3 w-80 max-w-[calc(100vw-2.5rem)] origin-bottom-left overflow-hidden rounded-2xl border border-white/15 bg-stone-900 shadow-2xl shadow-black/60 transition duration-300
+                                            {preview === `${i}-site` ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-2 scale-95 opacity-0'}"
+                                        aria-hidden="true"
+                                    >
+                                        <div class="relative h-[200px] w-full overflow-hidden bg-stone-800">
+                                            {#if loaded[`${i}-site`]}
+                                                <iframe
+                                                    title="Preview of {project.title} website"
+                                                    src={project.website}
+                                                    class="absolute left-0 top-0 h-[800px] w-[1280px] origin-top-left scale-[0.25] border-0"
+                                                    loading="lazy"
+                                                    tabindex="-1"
+                                                ></iframe>
+                                            {/if}
+                                        </div>
+                                        <div class="flex items-center gap-2 border-t border-white/10 px-4 py-2.5 text-xs font-medium text-stone-200">
+                                            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                                            {project.title} · Live website
+                                        </div>
+                                    </div>
+                                </div>
                             {/if}
                         </div>
                     </div>
