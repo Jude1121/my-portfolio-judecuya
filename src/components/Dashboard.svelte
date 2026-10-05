@@ -8,7 +8,7 @@
     // download icon
     import { Download, ArrowUpRight } from 'lucide-svelte';
 
-    const skills = ['UI/UX design', 'Graphic design', 'Responsive web'];
+    const skills = ['Front-end Development','Backend Development','UI/UX design', 'Graphic design'];
 </script>
 
 <style>

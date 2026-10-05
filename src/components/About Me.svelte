@@ -8,10 +8,10 @@
 
     // Quick facts shown under the intro. Edit or add items here.
     const facts = [
-        { label: 'Role', value: 'Junior Front-End Developer' },
-        { label: 'Education', value: 'BS Information Technology, STI College Legazpi' },
+        { label: 'Role', value: 'Front-End Developer | UI/UX Designer' },
+        { label: 'Education', value: 'BS Information Technology - STI College Legazpi' },
         { label: 'Design tools', value: 'Figma, Adobe Illustrator, Adobe Photoshop' },
-        { label: 'Hometown', value: 'Tiwi, Albay' }
+        { label: 'Hometown', value: 'Tiwi, Albay - Philippines' }
     ];
 </script>
 
