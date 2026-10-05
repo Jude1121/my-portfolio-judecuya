@@ -153,7 +153,8 @@
     .card-fade:global(.in):hover,
     .card-fade:global(.in):focus-visible {
         opacity: 1;
-        background-color: #292524; /* solid stone-800, fully opaque */
+        background-color: #000; /* pure solid black, fully opaque: nothing shows through */
+        background-image: none;
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
     }
@@ -213,11 +214,8 @@
                         aria-roledescription="slide"
                         aria-label="{i + 1} of {skills.length}"
                         style="--delay: {Math.min(i, 3) * 120}ms"
-                        class="reveal reveal-scale card-fade group relative flex w-[78%] shrink-0 snap-start flex-col overflow-hidden rounded-3xl border border-white/20 bg-stone-800/80 p-6 shadow-xl shadow-black/30 backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:border-emerald-300 hover:bg-stone-800 hover:shadow-2xl hover:shadow-emerald-400/30 hover:ring-2 hover:ring-emerald-300/60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+                        class="reveal reveal-scale card-fade group relative flex w-[78%] shrink-0 snap-start flex-col overflow-hidden rounded-3xl border border-white/20 bg-stone-800/80 p-6 shadow-xl shadow-black/30 backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:border-emerald-300 hover:bg-black hover:shadow-2xl hover:shadow-emerald-400/30 hover:ring-2 hover:ring-emerald-300/60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
                     >
-                        <!-- Hover highlight glow -->
-                        <span class="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-300/15 via-emerald-300/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></span>
-
                         <div class="flex items-start justify-between">
                             <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3 shadow-md transition duration-300 group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-lg group-hover:shadow-emerald-300/60">
                                 <img src={skill.icon} alt="" class="h-full w-full object-contain" />
@@ -228,7 +226,7 @@
                         </div>
 
                         <h2 class="mt-6 text-xl font-bold text-white transition duration-300 group-hover:text-emerald-200">{skill.name}</h2>
-                        <p class="mt-1 text-sm font-medium text-white transition duration-300 group-hover:text-emerald-50">{skill.experience}</p>
+                        <p class="mt-1 text-md font-medium text-white transition duration-300">{skill.experience}</p>
 
                         <!-- Proficiency -->
                         <div class="mt-6">
