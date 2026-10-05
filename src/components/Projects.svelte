@@ -11,7 +11,7 @@
             image: ATT,
             alt: 'Albay Travel and Tours website prototype',
             figma: 'https://www.figma.com/design/egk8C5Samtl3l4tH1O1BK4/Albay-Travel-and-Tours?node-id=0-1&t=oCQ9QtKITnOFkkAJ-1',
-            website: 'https://albay-travel-and-tours.vercel.app/', // <- replace with your real URL
+            website: 'https://albay-travel-and-tours.vercel.app/', 
             description: [
                 'Albay Travel and Tours is your go-to guide for exploring the best of Albay—from the majestic Mayon Volcano to exciting adventures, scenic spots, and rich local cuisine. It provides curated travel ideas, must-visit destinations, and helpful tips to make your trip easy and memorable.',
                 "Whether you're looking for thrilling outdoor activities, relaxing nature escapes, or cultural experiences, this platform helps you plan every step of your journey. Discover hidden gems, explore top attractions, and experience the beauty and warmth of Albay in the heart of Bicol."
@@ -126,7 +126,7 @@
                     <!-- Image (alternates sides on desktop) -->
                     <a
                         use:reveal
-                        href={project.figma}
+                        href={project.website}
                         target="_blank"
                         rel="noopener noreferrer"
                         class="reveal {i % 2 === 0 ? 'reveal-left' : 'reveal-right'} group block overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 bg-stone-900 shadow-2xl shadow-black/50 transition duration-300 hover:border-emerald-400/60 hover:shadow-emerald-500/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 {i % 2 === 1 ? 'lg:order-2' : ''}"
