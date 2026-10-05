@@ -23,10 +23,32 @@
     ];
 
     // Shared styles
-    const card = 'fadeUp rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/[0.02] p-6 shadow-xl shadow-black/30 sm:p-7';
+    const card = 'rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/[0.02] p-6 shadow-xl shadow-black/30 sm:p-7';
     const tile = 'flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white p-2.5';
     const primaryBtn = 'inline-flex items-center justify-center gap-2 rounded-full bg-emerald-400 px-5 py-3 text-sm font-semibold text-stone-950 shadow-lg shadow-emerald-500/20 transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-300 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300';
     const outlineBtn = 'inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-white/10 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300';
+
+    // Scroll reveal: fades and slides an element up the first time it enters the viewport.
+    // Usage: use:reveal or use:reveal={delayInMs}
+    function reveal(node, delay = 0) {
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce || !('IntersectionObserver' in window)) return;
+
+        node.classList.add('reveal');
+        node.style.transitionDelay = `${delay}ms`;
+
+        const io = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting) return;
+                node.classList.add('reveal-in');
+                io.disconnect(); // animate once
+            },
+            { threshold: 0.15 }
+        );
+        io.observe(node);
+
+        return { destroy: () => io.disconnect() };
+    }
 
     // Fallback for browsers/contexts where navigator.clipboard is unavailable
     // (e.g. the site is opened over http, inside an iframe, or an older browser)
@@ -127,9 +149,9 @@
 
 <section class="w-full bg-stone-950 px-5 py-1 text-white sm:px-8 sm:py-16 lg:px-20 lg:py-5">
     <div class="mx-auto max-w-5xl">
-        <div class="mx-auto max-w-2xl text-center">
-            <h1 class="fadeUp text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Contact</h1>
-            <p class="fadeUp mt-4 text-[15px] leading-relaxed text-stone-300 sm:text-base">
+        <div use:reveal class="mx-auto max-w-2xl text-center">
+            <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Contact</h1>
+            <p class="mt-4 text-[15px] leading-relaxed text-stone-300 sm:text-base">
                 Have a project, a question, or an idea? Reach out through any of these and I'll get back to you.
             </p>
         </div>
@@ -137,7 +159,7 @@
         <div class="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
 
             <!-- Email (featured) -->
-            <div class="{card} flex flex-col justify-between gap-6 !border-emerald-400/30 !from-emerald-400/10 sm:col-span-2 sm:p-8 lg:col-span-2">
+            <div use:reveal={100} class="{card} flex flex-col justify-between gap-6 !border-emerald-400/30 !from-emerald-400/10 sm:col-span-2 sm:p-8 lg:col-span-2">
                 <div class="flex items-center gap-4">
                     <div class={tile}>
                         <img src={email} alt="" class="h-full w-full object-contain" />
@@ -169,7 +191,7 @@
             </div>
 
             <!-- Phone -->
-            <div class="{card} flex flex-col justify-between gap-6">
+            <div use:reveal={200} class="{card} flex flex-col justify-between gap-6">
                 <div class="flex items-center gap-4">
                     <div class={tile}>
                         <img src={pNumber} alt="" class="h-full w-full object-contain" />
@@ -188,7 +210,7 @@
             </div>
 
             <!-- Address -->
-            <div class="{card} flex flex-col justify-between gap-6">
+            <div use:reveal={300} class="{card} flex flex-col justify-between gap-6">
                 <div class="flex items-center gap-4">
                     <div class={tile}>
                         <img src={address} alt="" class="h-full w-full object-contain" />
@@ -202,7 +224,7 @@
             </div>
 
             <!-- Social media -->
-            <div class="{card} sm:col-span-2 lg:col-span-2">
+            <div use:reveal={100} class="{card} sm:col-span-2 lg:col-span-2">
                 <div class="flex items-center gap-4">
                     <div class={tile}>
                         <img src={links} alt="" class="h-full w-full object-contain" />
@@ -229,3 +251,16 @@
         </div>
     </div>
 </section>
+
+<style>
+    :global(.reveal) {
+        opacity: 0;
+        transform: translateY(32px);
+        transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        will-change: opacity, transform;
+    }
+    :global(.reveal.reveal-in) {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
