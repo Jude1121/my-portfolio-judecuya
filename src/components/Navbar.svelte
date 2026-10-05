@@ -145,7 +145,7 @@
       <!-- Right side: CTA (desktop) + hamburger (mobile) -->
       <div class="flex items-center gap-2">
         <a
-          href="#Contact"
+          href="#GetInTouch"
           class="group hidden items-center gap-2 rounded-full border border-emerald-400/40 px-5 py-2.5 text-sm font-bold text-emerald-300 transition duration-200 hover:bg-emerald-400 hover:text-stone-950 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 lg:inline-flex"
         >
           Let's talk
@@ -214,7 +214,7 @@
       </ul>
 
       <a
-        href="#Contact"
+        href="#GetInTouch"
         tabindex={open ? 0 : -1}
         on:click={closeMenu}
         class="mt-3 flex items-center justify-center gap-2 rounded-2xl border border-emerald-400/40 px-4 py-3.5 font-bold text-emerald-300 transition duration-200 hover:bg-emerald-400 hover:text-stone-950 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-emerald-300"

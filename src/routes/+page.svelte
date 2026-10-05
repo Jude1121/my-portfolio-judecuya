@@ -34,9 +34,11 @@
 <div id="Project">
     <Projects/>
 </div>
-<div id="Contact" class="">
+<div id="Contact">
      <Contact/>
-     <GetInTouch/>
+</div>
+<div id="GetInTouch">
+    <GetInTouch/>
 </div>
 <div>
     <Footer/>
