@@ -2,6 +2,46 @@
   import { onMount } from 'svelte';
   import waveIcon from '../lib/assets/Waving Hand Emoji [Free Download IOS Emojis].png';
 
+  // ---------- "I was here" heart counter ----------
+  // Replace YOUR-PROJECT with your Firebase Realtime Database name.
+  const COUNTER_URL = 'https://YOUR-PROJECT-default-rtdb.firebaseio.com/visitors/count.json';
+
+  let count = null;        // null = still loading
+  let clicks = 0;          // clicks by this visitor (drives the heart animation)
+  let counterError = '';
+
+  async function loadCount() {
+    try {
+      const res = await fetch(COUNTER_URL);
+      if (!res.ok) throw new Error();
+      count = (await res.json()) ?? 0;
+      counterError = '';
+    } catch {
+      counterError = "Couldn't load the counter.";
+    }
+  }
+
+  async function iWasHere() {
+    if (count === null) return;
+
+    // Update instantly so the heart feels responsive
+    count += 1;
+    clicks += 1;
+    counterError = '';
+
+    try {
+      // Atomic server-side +1, so simultaneous clicks from different people never overwrite each other
+      const res = await fetch(COUNTER_URL, {
+        method: 'PUT',
+        body: JSON.stringify({ '.sv': { increment: 1 } })
+      });
+      if (!res.ok) throw new Error();
+    } catch {
+      count -= 1; // roll back the optimistic update
+      counterError = 'Something went wrong. Please try again.';
+    }
+  }
+
   // Scroll reveal: adds the "in" class once the element scrolls into view.
   function reveal(node) {
     if (typeof IntersectionObserver === 'undefined') {
@@ -39,6 +79,8 @@
     });
 
   onMount(() => {
+    loadCount();
+
     const form   = document.getElementById("contactForm");
     const btn    = document.getElementById("sendBtn");
     const label  = document.getElementById("sendLabel");
@@ -185,11 +227,36 @@
     transform: none;
   }
 
+  /* ---------- Heart button ---------- */
+  .heart-beat {
+    animation: heart-beat 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  @keyframes heart-beat {
+    0%   { transform: scale(1); }
+    35%  { transform: scale(1.35); }
+    100% { transform: scale(1); }
+  }
+
+  .count-pop {
+    animation: count-pop 350ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  @keyframes count-pop {
+    0%   { transform: translateY(0); }
+    40%  { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal {
       opacity: 1;
       transform: none;
       transition: none;
+    }
+    .heart-beat,
+    .count-pop {
+      animation: none;
     }
   }
 </style>
@@ -271,5 +338,49 @@
     </form>
 
     <p id="statusMessage" role="status" aria-live="polite" class="hidden"></p>
+
+    <!-- I was here: heart button -->
+    <div use:reveal class="reveal mt-10 border-t border-white/10 pt-8 text-center" style="--delay: 150ms">
+      <button
+        type="button"
+        on:click={iWasHere}
+        disabled={count === null}
+        aria-label="I was here. Add a heart to the counter"
+        class="group inline-flex items-center gap-3 rounded-full border border-rose-400/40 bg-rose-400/10 px-6 py-3 font-semibold text-rose-300 transition duration-200 hover:-translate-y-0.5 hover:bg-rose-400/20 active:scale-95 disabled:cursor-wait disabled:opacity-60 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-300"
+      >
+        {#key clicks}
+          <svg
+            class="h-6 w-6 {clicks > 0 ? 'heart-beat' : ''}"
+            viewBox="0 0 24 24"
+            fill={clicks > 0 ? 'currentColor' : 'none'}
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+        {/key}
+        <span>I was here</span>
+        <span class="rounded-full bg-rose-400/20 px-3 py-0.5 text-sm tabular-nums text-rose-200">
+          {#key count}
+            <span class="inline-block {clicks > 0 ? 'count-pop' : ''}">
+              {count === null ? '…' : count.toLocaleString()}
+            </span>
+          {/key}
+        </span>
+      </button>
+
+      <p class="mt-4 text-sm text-stone-400" aria-live="polite">
+        {#if counterError}
+          <span class="text-red-300">{counterError}</span>
+        {:else if clicks > 0}
+          Thanks for stopping by!
+        {:else}
+          Tap the heart to let me know you were here.
+        {/if}
+      </p>
+    </div>
   </div>
 </section>
