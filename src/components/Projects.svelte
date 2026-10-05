@@ -7,11 +7,11 @@
     const projects = [
         {
             title: 'Albay Travel and Tours',
-            type: 'UI/UX Figma prototype', 
+            type: ['TailwindCSS', 'Svelte', 'JavaScript / TypeScript', 'Vite', 'HTML5', 'CSS', 'Pexels', 'Git & Github', 'Vercel'], 
             image: ATT,
             alt: 'Albay Travel and Tours website prototype',
             figma: 'https://www.figma.com/design/egk8C5Samtl3l4tH1O1BK4/Albay-Travel-and-Tours?node-id=0-1&t=oCQ9QtKITnOFkkAJ-1',
-            website: 'https://albay-travel-and-tours.vercel.app/', // <- replace with your real URL
+            website: 'https://albay-travel-and-tours.vercel.app/', 
             description: [
                 'Albay Travel and Tours is your go-to guide for exploring the best of Albay—from the majestic Mayon Volcano to exciting adventures, scenic spots, and rich local cuisine. It provides curated travel ideas, must-visit destinations, and helpful tips to make your trip easy and memorable.',
                 "Whether you're looking for thrilling outdoor activities, relaxing nature escapes, or cultural experiences, this platform helps you plan every step of your journey. Discover hidden gems, explore top attractions, and experience the beauty and warmth of Albay in the heart of Bicol."
@@ -126,7 +126,7 @@
                     <!-- Image (alternates sides on desktop) -->
                     <a
                         use:reveal
-                        href={project.figma}
+                        href={project.website}
                         target="_blank"
                         rel="noopener noreferrer"
                         class="reveal {i % 2 === 0 ? 'reveal-left' : 'reveal-right'} group block overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 bg-stone-900 shadow-2xl shadow-black/50 transition duration-300 hover:border-emerald-400/60 hover:shadow-emerald-500/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400 {i % 2 === 1 ? 'lg:order-2' : ''}"
@@ -141,9 +141,13 @@
                     <!-- Text -->
                     <div use:reveal class="reveal {i % 2 === 0 ? 'reveal-right' : 'reveal-left'} min-w-0" style="--delay: 150ms">
                         <h2 class="text-xl font-bold sm:text-2xl lg:text-3xl">{project.title}</h2>
-                        <p class="mt-3 inline-block rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-sm font-medium text-emerald-300">
-                            {project.type}
-                        </p>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            {#each [].concat(project.type) as tech (tech)}
+                                <span class="inline-block rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-sm font-medium text-emerald-300">
+                                    {tech}
+                                </span>
+                            {/each}
+                        </div>
 
                         <div class="mt-5 space-y-4 text-[15px] leading-relaxed text-stone-300 sm:mt-6 sm:text-base">
                             {#each project.description as paragraph (paragraph)}
