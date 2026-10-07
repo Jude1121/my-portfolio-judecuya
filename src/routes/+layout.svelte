@@ -1,9 +1,9 @@
 <script>
 	let { children } = $props();
-	import favicon from '$lib/assets/favicon.svg';
+	
 	import "../app.css";
+	import HereCounter from '../components/HereCounter.svelte';
 
-	import Footer from '../components/Footer.svelte';
 	import webIcon from '$lib/assets/jude-logo-white.svg';
 
 
@@ -19,3 +19,4 @@
 
 
 {@render children?.()}
+<HereCounter />
