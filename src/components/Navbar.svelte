@@ -17,6 +17,7 @@
   let active = '#Home';
 
   // Sliding highlight (desktop)
+  let navList;
   let linkEls = [];
   let hovered = null;
   let indicator = { left: 0, width: 0, ready: false };
@@ -27,8 +28,15 @@
 
   function measure(index, els) {
     const el = els[index];
-    if (!el) return;
-    indicator = { left: el.offsetLeft, width: el.offsetWidth, ready: true };
+    if (!el || !navList) return;
+    const a = el.getBoundingClientRect();
+    const b = navList.getBoundingClientRect();
+    if (!a.width) return; // list is display:none (mobile), skip
+    indicator = {
+      left: a.left - b.left - navList.clientLeft,
+      width: a.width,
+      ready: true
+    };
   }
 
   // Lock page scroll while the mobile menu is open
@@ -40,6 +48,9 @@
   function onScroll() {
     const y = window.scrollY;
     scrolled = y > 10;
+
+    // Always treat HOME as active at the very top
+    if (y < 100) active = '#Home';
 
     const max = document.documentElement.scrollHeight - window.innerHeight;
     progress = max > 0 ? Math.min(y / max, 1) : 0;
@@ -63,6 +74,12 @@
     onScroll();
     measure(target, linkEls);
 
+    // Re-measure when the list or any link changes size (fonts, layout shifts)
+    const ro = new ResizeObserver(() => measure(target, linkEls));
+    if (navList) ro.observe(navList);
+    linkEls.forEach((el) => el && ro.observe(el));
+    document.fonts?.ready.then(() => measure(target, linkEls));
+
     // Scroll-spy
     const observer = new IntersectionObserver(
       (entries) => {
@@ -79,6 +96,7 @@
 
     return () => {
       observer.disconnect();
+      ro.disconnect();
       document.body.style.overflow = '';
     };
   });
@@ -113,6 +131,7 @@
 
       <!-- Desktop links with sliding highlight -->
       <ul
+        bind:this={navList}
         class="relative hidden items-center rounded-full bg-white/5 p-1 lg:flex"
         on:mouseleave={() => (hovered = null)}
       >
