@@ -36,10 +36,10 @@
         "Worked on the design and recreation of the FilPass and FPAS websites, ensuring consistency with the established brand identity and design system.",
         "Created interactive prototypes and explored UI enhancements to improve user experience while maintaining a clean, modern, and user-friendly design.",
         "Collaborated with team members and incorporated feedback to refine designs and improve usability.",
-        "Used Claude.AI and ChatGPT to help replicate and upgrade the interactivity and modernity of the existing FilPass and FPAS websites.",
+        "Used Claude.AI and ChatGPT to help recreate and upgrade the interactivity and modernity of the existing FilPass and FPAS websites.",
         "Applied UI/UX design principles, responsive design concepts, and front-end development knowledge to website design projects."
       ],
-      tags: ["Figma", "Miro", "Jira", "Confluence", "Prototyping", "Responsive Design", "UI/UX"]
+      tags: ["UI/UX Design", "Front-end Developer","Web Developer" ,"Vibe-Coding"]
     },
     {
       role: "IT Officer Internship / On-the-job Training",
