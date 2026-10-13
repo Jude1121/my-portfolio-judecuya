@@ -4,6 +4,7 @@
     import AboutMe from "../components/About Me.svelte";
     import Skills from "../components/Skills.svelte";
     import Projects from "../components/Projects.svelte";
+    import ExperienceCertificates from "../components/ExperienceCertificates.svelte";
     import Contact from "../components/Contact.svelte";
     import GetInTouch from "../components/GetInTouch.svelte";
     import Footer from "../components/Footer.svelte";
@@ -33,6 +34,9 @@
 </div>
 <div id="Project">
     <Projects/>
+</div>
+<div id="ExpCert">
+    <ExperienceCertificates/>
 </div>
 <div id="Contact">
      <Contact/>

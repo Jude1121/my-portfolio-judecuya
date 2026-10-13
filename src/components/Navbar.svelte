@@ -7,6 +7,7 @@
     { label: 'ABOUT', href: '#AboutMe' },
     { label: 'SKILLS', href: '#Skills' },
     { label: 'PROJECT', href: '#Project' },
+    { label: 'EXPERIENCE', href: '#exp-cert' }, // Experience & Certificates module (05)
     { label: 'CONTACT', href: '#Contact' }
   ];
 
@@ -152,7 +153,7 @@
               on:mouseenter={() => (hovered = i)}
               on:focus={() => (hovered = i)}
               on:blur={() => (hovered = null)}
-              class="relative z-10 block rounded-full px-4 py-2 text-sm font-bold tracking-wide transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300
+              class="relative z-10 block rounded-full px-3 py-2 text-sm font-bold tracking-wide transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 xl:px-4
                 {target === i ? 'text-stone-950' : 'text-stone-200'}"
             >
               {link.label}
