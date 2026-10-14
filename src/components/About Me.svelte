@@ -1,6 +1,7 @@
 <script>
     import logo from '$lib/assets/jude-logo-white.svg';
-    import myimage2 from  '$lib/assets/ABOUT ME IMAGE.jpg';
+    //import myimage2 from  '$lib/assets/ABOUT ME IMAGE.jpg';
+    import myImage3 from  '../lib/assets/About me Image.png';
 
     // Page scroll position (px). The logo rotates as you scroll.
     let scrollY = $state(0);
@@ -94,7 +95,7 @@
 
             <img
                 class="relative z-10 h-auto w-full rounded-2xl border border-white/10 object-cover shadow-2xl shadow-black/50 sm:rounded-3xl"
-                src={myimage2}
+                src={myImage3}
                 alt="Jude Russel Cuya"
             />
 
