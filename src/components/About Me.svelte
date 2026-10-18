@@ -12,6 +12,7 @@
         { label: 'Role', value: 'Front-End Developer | UI/UX Designer' },
         { label: 'Education', value: 'BS Information Technology - STI College Legazpi' },
         { label: 'Design tools', value: 'Figma, Adobe Illustrator, Adobe Photoshop' },
+        { label: 'AI video tools', value: 'Google Flow, Qwen.AI, Vibes.AI, ChatGPT, CapCut' },
         { label: 'Hometown', value: 'Tiwi, Albay - Philippines' }
     ];
 
@@ -126,6 +127,9 @@
                 <p class="border-l-2 border-emerald-400/60 pl-4">
                     During my senior year, I focused on enhancing my knowledge in Front-End Development, which played a key role in our Capstone Project. Together with my groupmates, we developed an Online Hotel Reservation System for Villa Salome Resort, located in my hometown - Tiwi, Albay.
                 </p>
+                <p>
+                    Beyond web development and design, I also create and edit AI videos using Google Flow, Qwen.AI, Vibes.AI, ChatGPT, and CapCut. You can watch some of my work in the AI Projects tab.
+                </p>
             </div>
 
             <!-- Quick facts (each card rises in one after the other) -->
@@ -133,7 +137,7 @@
                 {#each facts as fact, i (fact.label)}
                     <div
                         use:reveal
-                        class="reveal min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm hover:border-emerald-400/50"
+                        class="reveal min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm hover:border-emerald-400/50 {i === facts.length - 1 && facts.length % 2 === 1 ? 'sm:col-span-2' : ''}"
                         style="--delay: {i * 100}ms"
                     >
                         <dt class="text-sm text-white">{fact.label}</dt>
