@@ -67,7 +67,19 @@
     //   - Facebook:      https://www.facebook.com/reel/123... (video must be set to Public)
     //   - Direct file:   https://your-host.com/video.mp4  (or a local /videos/ai-1.mp4 in static/)
     // `poster` is an optional thumbnail image URL. Leave it '' to use the automatic thumbnail.
+    // `date` drives the sorting. Use the format 'Mon D, YYYY' (e.g. 'Oct 20, 2026').
+    // Empty `tool` / `duration` / `tags` are simply hidden on the card.
     const videos = [
+        {
+            title: 'Bakit Lagi Kang Nauubusan ng Pera Kahit May Sahod Ka?',
+            src: 'https://www.youtube.com/watch?v=DxfOtctC4Xw',
+            poster: '',
+            tool: 'Google Flow', // TODO: add the AI generator you used
+            duration: '1:48', // TODO: add the video length, e.g. '1:00'
+            date: 'Oct 20, 2026',
+            tags: ['Explainer'],
+            description: 'An explainer on why your money keeps running out even when you have a regular salary.'
+        },
         {
             title: 'Episode 1: Ang Masungit ko na CEO',
             src: 'https://www.facebook.com/reel/1440756321332551/?s=single_unit',
@@ -172,7 +184,53 @@
         return { kind: 'file', embed: '', thumb: '' };
     }
 
-    const items = videos.map((v) => ({ ...v, media: parseVideo(v.src) }));
+    // `order` remembers the position in the list above, so ties (same date)
+    // keep the order you wrote them in.
+    const items = videos.map((v, order) => ({
+        ...v,
+        order,
+        time: Date.parse(v.date) || 0,
+        media: parseVideo(v.src)
+    }));
+
+    // ---------- Sorting ----------
+    const sortOptions = [
+        { id: 'newest', label: 'Newest first' },
+        { id: 'oldest', label: 'Oldest first' },
+        { id: 'title-asc', label: 'Title (A–Z)' },
+        { id: 'title-desc', label: 'Title (Z–A)' },
+        { id: 'tool', label: 'AI tool' }
+    ];
+    let sortBy = 'newest';
+
+    const byTitle = (a, b) =>
+        a.title.trim().localeCompare(b.title.trim(), undefined, { sensitivity: 'base', numeric: true });
+
+    function sortItems(list, mode) {
+        const arr = [...list];
+        switch (mode) {
+            case 'oldest':
+                return arr.sort((a, b) => a.time - b.time || b.order - a.order);
+            case 'title-asc':
+                return arr.sort(byTitle);
+            case 'title-desc':
+                return arr.sort((a, b) => byTitle(b, a));
+            case 'tool':
+                // Videos with no tool listed go last
+                return arr.sort(
+                    (a, b) =>
+                        (a.tool ? 0 : 1) - (b.tool ? 0 : 1) ||
+                        a.tool.localeCompare(b.tool) ||
+                        b.time - a.time ||
+                        a.order - b.order
+                );
+            case 'newest':
+            default:
+                return arr.sort((a, b) => b.time - a.time || a.order - b.order);
+        }
+    }
+
+    $: sortedItems = sortItems(items, sortBy);
 
     let activeVideo = null; // video currently open in the player modal
 
@@ -312,6 +370,16 @@
             opacity: 1;
             transform: none;
         }
+    }
+
+    /* Native dropdown arrow replaced with our own */
+    .sort-select {
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236ee7b7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 0.85rem center;
+        background-size: 1rem;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -526,8 +594,28 @@
                     A collection of videos I generated with AI tools. Click a video to watch it and see the details.
                 </p>
 
-                <div class="mt-10 grid gap-6 sm:mt-12 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
-                    {#each items as video, i (video.title)}
+                <!-- Sort bar -->
+                <div class="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center sm:justify-between">
+                    <p class="text-sm text-stone-400" aria-live="polite">
+                        {sortedItems.length} videos
+                    </p>
+
+                    <div class="flex items-center gap-3">
+                        <label for="video-sort" class="text-sm font-medium text-stone-300">Sort by</label>
+                        <select
+                            id="video-sort"
+                            bind:value={sortBy}
+                            class="sort-select w-full cursor-pointer rounded-full border border-white/15 bg-stone-900 py-2.5 pl-4 pr-10 text-sm font-semibold text-white transition duration-200 hover:border-emerald-400/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 sm:w-auto"
+                        >
+                            {#each sortOptions as opt (opt.id)}
+                                <option class="bg-stone-900 text-white" value={opt.id}>{opt.label}</option>
+                            {/each}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-6 grid gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
+                    {#each sortedItems as video, i (video.title)}
                         <article
                             use:reveal
                             class="reveal group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-stone-900 shadow-xl shadow-black/40 transition duration-300 hover:-translate-y-1 hover:border-emerald-400/60 hover:shadow-emerald-500/10"
