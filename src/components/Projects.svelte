@@ -71,6 +71,16 @@
     // Empty `tool` / `duration` / `tags` are simply hidden on the card.
     const videos = [
         {
+            title: 'Sino ang totoong nag papatay kay Heneral Luna?',
+            src: 'https://www.youtube.com/watch?v=lib5qygFlr8&t=81s',
+            poster: '',
+            tool: 'Google Flow', // TODO: add the AI generator you used
+            duration: '4:37', // TODO: add the video length, e.g. '1:00'
+            date: 'Oct 21, 2026',
+            tags: ['Explainer'],
+            description: 'Storytelling video about who actually kill General Luna. '
+        },
+        {
             title: 'Bakit Lagi Kang Nauubusan ng Pera Kahit May Sahod Ka?',
             src: 'https://www.youtube.com/watch?v=DxfOtctC4Xw',
             poster: '',
