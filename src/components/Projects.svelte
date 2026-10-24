@@ -19,6 +19,22 @@
         document.getElementById(`tab-${activeTab}`)?.focus();
     }
 
+    // ---------- AI sub-tabs (Videos = horizontal, Shorts = vertical) ----------
+    const aiTabs = [
+        { id: 'videos', label: 'Videos', hint: 'Horizontal' },
+        { id: 'shorts', label: 'Shorts', hint: 'Vertical' }
+    ];
+    let aiTab = 'videos';
+
+    function onAiTabKeydown(e) {
+        const idx = aiTabs.findIndex((t) => t.id === aiTab);
+        if (e.key === 'ArrowRight') aiTab = aiTabs[(idx + 1) % aiTabs.length].id;
+        else if (e.key === 'ArrowLeft') aiTab = aiTabs[(idx - 1 + aiTabs.length) % aiTabs.length].id;
+        else return;
+        e.preventDefault();
+        document.getElementById(`aitab-${aiTab}`)?.focus();
+    }
+
     // ---------- Web Dev Projects ----------
     // Add or edit projects here. Leave `website` empty ('') to hide the "Visit website" button.
     const projects = [
@@ -69,7 +85,22 @@
     // `poster` is an optional thumbnail image URL. Leave it '' to use the automatic thumbnail.
     // `date` drives the sorting. Use the format 'Mon D, YYYY' (e.g. 'Oct 20, 2026').
     // Empty `tool` / `duration` / `tags` are simply hidden on the card.
+    //
+    // `orientation` (optional): 'horizontal' -> "Videos" tab, 'vertical' -> "Shorts" tab.
+    //   If you leave it out, it is detected from the link:
+    //   YouTube /shorts/ and Facebook /reel/ links = vertical, everything else = horizontal.
+    //   Add orientation: 'horizontal' | 'vertical' to override (needed for Vimeo, Drive and direct files that are vertical).
     const videos = [
+         {
+            title: 'Paano kung bawat minuto ng buhay mo, may katumbas na pera?',
+            src: 'https://www.youtube.com/shorts/s006KrWfzho',
+            poster: '',
+            tool: 'Google Flow', // TODO: add the AI generator you used
+            duration: '4:37', // TODO: add the video length, e.g. '1:00'
+            date: 'Oct 21, 2026',
+            tags: ['Explainer'],
+            description: 'What if, story about every minute of your life earns money.'
+        },
         {
             title: 'Sino ang totoong nag papatay kay Heneral Luna?',
             src: 'https://www.youtube.com/watch?v=lib5qygFlr8&t=81s',
@@ -194,14 +225,28 @@
         return { kind: 'file', embed: '', thumb: '' };
     }
 
+    // Works out whether a video belongs in "Videos" (horizontal) or "Shorts" (vertical).
+    // An explicit `orientation` on the video always wins.
+    function detectOrientation(v) {
+        if (v.orientation === 'vertical' || v.orientation === 'horizontal') return v.orientation;
+        if (/youtube\.com\/shorts\//.test(v.src)) return 'vertical';
+        if (/facebook\.com\/reel\//.test(v.src)) return 'vertical';
+        return 'horizontal';
+    }
+
     // `order` remembers the position in the list above, so ties (same date)
     // keep the order you wrote them in.
     const items = videos.map((v, order) => ({
         ...v,
         order,
         time: Date.parse(v.date) || 0,
-        media: parseVideo(v.src)
+        media: parseVideo(v.src),
+        orientation: detectOrientation(v)
     }));
+
+    const horizontalCount = items.filter((v) => v.orientation === 'horizontal').length;
+    const verticalCount = items.filter((v) => v.orientation === 'vertical').length;
+    const counts = { videos: horizontalCount, shorts: verticalCount };
 
     // ---------- Sorting ----------
     const sortOptions = [
@@ -240,7 +285,12 @@
         }
     }
 
-    $: sortedItems = sortItems(items, sortBy);
+    // Filter by the active sub-tab first, then sort.
+    $: isShorts = aiTab === 'shorts';
+    $: visibleItems = sortItems(
+        items.filter((v) => v.orientation === (isShorts ? 'vertical' : 'horizontal')),
+        sortBy
+    );
 
     let activeVideo = null; // video currently open in the player modal
 
@@ -592,7 +642,7 @@
             </div>
         {/if}
 
-        <!-- ================= AI GENERATOR PROJECTS (VIDEO GALLERY) ================= -->
+        <!-- ================= AI GENERATOR PROJECTS (VIDEOS + SHORTS) ================= -->
         {#if activeTab === 'ai'}
             <div
                 class="panel mt-10 sm:mt-14 lg:mt-20"
@@ -604,10 +654,59 @@
                     A collection of videos I generated with AI tools. Click a video to watch it and see the details.
                 </p>
 
+                <!-- Videos / Shorts sub-tabs -->
+                <div class="mt-8 flex justify-center">
+                    <div
+                        role="tablist"
+                        aria-label="AI project formats"
+                        tabindex="-1"
+                        class="inline-flex w-full max-w-md gap-6 border-b border-white/10 sm:w-auto sm:gap-10"
+                        on:keydown={onAiTabKeydown}
+                    >
+                        {#each aiTabs as t (t.id)}
+                            <button
+                                type="button"
+                                role="tab"
+                                id="aitab-{t.id}"
+                                aria-selected={aiTab === t.id}
+                                aria-controls="aipanel-{t.id}"
+                                tabindex={aiTab === t.id ? 0 : -1}
+                                on:click={() => (aiTab = t.id)}
+                                class="relative flex flex-1 items-center justify-center gap-2 px-2 pb-3 text-sm font-semibold transition duration-200 sm:flex-none sm:px-3 sm:text-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300
+                                    {aiTab === t.id ? 'text-emerald-300' : 'text-stone-400 hover:text-white'}"
+                            >
+                                <!-- Orientation icon: wide rectangle for Videos, tall rectangle for Shorts -->
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    {#if t.id === 'videos'}
+                                        <rect x="2" y="6" width="20" height="12" rx="2.5" />
+                                        <path d="M10 9.5v5l4.5-2.5z" fill="currentColor" stroke="none" />
+                                    {:else}
+                                        <rect x="6" y="2" width="12" height="20" rx="2.5" />
+                                        <path d="M10.5 9v6l4.5-3z" fill="currentColor" stroke="none" />
+                                    {/if}
+                                </svg>
+                                {t.label}
+                                <span
+                                    class="rounded-full px-2 py-0.5 text-xs font-bold
+                                        {aiTab === t.id ? 'bg-emerald-400 text-stone-950' : 'bg-white/10 text-stone-300'}"
+                                >
+                                    {counts[t.id]}
+                                </span>
+                                <!-- Active underline -->
+                                <span
+                                    class="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-emerald-400 transition-opacity duration-200 {aiTab === t.id ? 'opacity-100' : 'opacity-0'}"
+                                    aria-hidden="true"
+                                ></span>
+                            </button>
+                        {/each}
+                    </div>
+                </div>
+
                 <!-- Sort bar -->
                 <div class="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center sm:justify-between">
                     <p class="text-sm text-stone-400" aria-live="polite">
-                        {sortedItems.length} videos
+                        {visibleItems.length}
+                        {isShorts ? (visibleItems.length === 1 ? 'short' : 'shorts') : visibleItems.length === 1 ? 'video' : 'videos'}
                     </p>
 
                     <div class="flex items-center gap-3">
@@ -624,97 +723,128 @@
                     </div>
                 </div>
 
-                <div class="mt-6 grid gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
-                    {#each sortedItems as video, i (video.title)}
-                        <article
-                            use:reveal
-                            class="reveal group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-stone-900 shadow-xl shadow-black/40 transition duration-300 hover:-translate-y-1 hover:border-emerald-400/60 hover:shadow-emerald-500/10"
-                            style="--delay: {(i % 3) * 100}ms"
-                        >
-                            <!-- Thumbnail / hover preview -->
-                            <button
-                                type="button"
-                                class="relative block aspect-video w-full overflow-hidden bg-stone-800 text-left focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-emerald-300"
-                                on:click={() => openVideo(video)}
-                                on:mouseenter={hoverPlay}
-                                on:mouseleave={hoverStop}
-                                aria-label="Play {video.title}"
-                            >
-                                {#if video.media.kind === 'file'}
-                                    <video
-                                        class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                        src="{video.src}#t=0.5"
-                                        poster={video.poster || undefined}
-                                        preload="metadata"
-                                        muted
-                                        loop
-                                        playsinline
-                                        tabindex="-1"
-                                    ></video>
-                                {:else if video.poster || video.media.thumb}
-                                    <img
-                                        class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                        src={video.poster || video.media.thumb}
-                                        alt="{video.title} thumbnail"
-                                        loading="lazy"
-                                    />
-                                {:else}
-                                    <span class="block h-full w-full bg-gradient-to-br from-emerald-900/40 via-stone-800 to-stone-900" aria-hidden="true"></span>
-                                {/if}
-
-                                <!-- Gradient + play button -->
-                                <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" aria-hidden="true"></span>
-                                <span class="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
-                                    <span class="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-400 text-stone-950 shadow-lg shadow-emerald-500/30 transition duration-300 group-hover:scale-110">
-                                        <svg class="ml-0.5 h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-                                    </span>
-                                </span>
-
-                                <!-- Duration badge -->
-                                {#if video.duration}
-                                    <span class="absolute bottom-3 right-3 rounded-md bg-black/70 px-2 py-0.5 text-xs font-semibold text-white">
-                                        {video.duration}
-                                    </span>
-                                {/if}
-                            </button>
-
-                            <!-- Details -->
-                            <div class="flex flex-1 flex-col p-5">
-                                <div class="flex items-start justify-between gap-3">
-                                    <h2 class="text-lg font-bold leading-snug">{video.title}</h2>
-                                    {#if video.tool}
-                                        <span class="shrink-0 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-300">
-                                            {video.tool}
-                                        </span>
-                                    {/if}
-                                </div>
-
-                                {#if video.date}
-                                    <p class="mt-1 text-xs text-stone-400">{video.date}</p>
-                                {/if}
-
-                                <p class="mt-3 text-sm leading-relaxed text-stone-300">{video.description}</p>
-
-                                {#if video.tags?.length}
-                                    <div class="mt-4 flex flex-wrap gap-2">
-                                        {#each video.tags as tag (tag)}
-                                            <span class="rounded-full bg-white/5 px-2.5 py-1 text-xs font-medium text-stone-300">#{tag}</span>
-                                        {/each}
-                                    </div>
-                                {/if}
-
-                                <button
-                                    type="button"
-                                    class="mt-5 inline-flex items-center gap-2 self-start text-sm font-semibold text-emerald-300 transition hover:text-emerald-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
-                                    on:click={() => openVideo(video)}
-                                >
-                                    Watch video
-                                    <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                                </button>
+                {#key aiTab}
+                    <div
+                        class="panel mt-6"
+                        role="tabpanel"
+                        id="aipanel-{aiTab}"
+                        aria-labelledby="aitab-{aiTab}"
+                    >
+                        {#if visibleItems.length === 0}
+                            <div class="rounded-2xl border border-dashed border-white/15 bg-stone-900/50 px-6 py-16 text-center text-stone-400">
+                                Nothing here yet. {isShorts ? 'Vertical shorts' : 'Horizontal videos'} will show up in this tab.
                             </div>
-                        </article>
-                    {/each}
-                </div>
+                        {:else}
+                            <div
+                                class="grid gap-6 sm:gap-8
+                                    {isShorts
+                                    ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 sm:gap-6'
+                                    : 'sm:grid-cols-2 lg:grid-cols-3'}"
+                            >
+                                {#each visibleItems as video, i (video.title)}
+                                    <article
+                                        use:reveal
+                                        class="reveal group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-stone-900 shadow-xl shadow-black/40 transition duration-300 hover:-translate-y-1 hover:border-emerald-400/60 hover:shadow-emerald-500/10"
+                                        style="--delay: {(i % (isShorts ? 4 : 3)) * 100}ms"
+                                    >
+                                        <!-- Thumbnail / hover preview -->
+                                        <button
+                                            type="button"
+                                            class="relative block w-full overflow-hidden bg-stone-800 text-left focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-emerald-300
+                                                {isShorts ? 'aspect-[9/16]' : 'aspect-video'}"
+                                            on:click={() => openVideo(video)}
+                                            on:mouseenter={hoverPlay}
+                                            on:mouseleave={hoverStop}
+                                            aria-label="Play {video.title}"
+                                        >
+                                            {#if video.media.kind === 'file'}
+                                                <video
+                                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                                    src="{video.src}#t=0.5"
+                                                    poster={video.poster || undefined}
+                                                    preload="metadata"
+                                                    muted
+                                                    loop
+                                                    playsinline
+                                                    tabindex="-1"
+                                                ></video>
+                                            {:else if video.poster || video.media.thumb}
+                                                <img
+                                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                                    src={video.poster || video.media.thumb}
+                                                    alt="{video.title} thumbnail"
+                                                    loading="lazy"
+                                                />
+                                            {:else}
+                                                <span class="block h-full w-full bg-gradient-to-br from-emerald-900/40 via-stone-800 to-stone-900" aria-hidden="true"></span>
+                                            {/if}
+
+                                            <!-- Gradient + play button -->
+                                            <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" aria-hidden="true"></span>
+                                            <span class="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                                                <span
+                                                    class="flex items-center justify-center rounded-full bg-emerald-400 text-stone-950 shadow-lg shadow-emerald-500/30 transition duration-300 group-hover:scale-110
+                                                        {isShorts ? 'h-12 w-12' : 'h-14 w-14'}"
+                                                >
+                                                    <svg class="ml-0.5 h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                                                </span>
+                                            </span>
+
+                                            <!-- Duration badge -->
+                                            {#if video.duration}
+                                                <span class="absolute bottom-3 right-3 rounded-md bg-black/70 px-2 py-0.5 text-xs font-semibold text-white">
+                                                    {video.duration}
+                                                </span>
+                                            {/if}
+
+                                            <!-- Tool badge sits on the thumbnail for shorts (cards are narrow) -->
+                                            {#if isShorts && video.tool}
+                                                <span class="absolute left-3 top-3 rounded-full border border-emerald-400/30 bg-black/60 px-2.5 py-0.5 text-xs font-semibold text-emerald-300 backdrop-blur-sm">
+                                                    {video.tool}
+                                                </span>
+                                            {/if}
+                                        </button>
+
+                                        <!-- Details -->
+                                        <div class="flex flex-1 flex-col {isShorts ? 'p-4' : 'p-5'}">
+                                            <div class="flex items-start justify-between gap-3">
+                                                <h2 class="font-bold leading-snug {isShorts ? 'text-sm sm:text-base' : 'text-lg'}">{video.title}</h2>
+                                                {#if !isShorts && video.tool}
+                                                    <span class="shrink-0 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-300">
+                                                        {video.tool}
+                                                    </span>
+                                                {/if}
+                                            </div>
+
+                                            {#if video.date}
+                                                <p class="mt-1 text-xs text-stone-400">{video.date}</p>
+                                            {/if}
+
+                                            <p class="mt-3 text-sm leading-relaxed text-stone-300 {isShorts ? 'line-clamp-3' : ''}">{video.description}</p>
+
+                                            {#if video.tags?.length}
+                                                <div class="mt-4 flex flex-wrap gap-2">
+                                                    {#each video.tags as tag (tag)}
+                                                        <span class="rounded-full bg-white/5 px-2.5 py-1 text-xs font-medium text-stone-300">#{tag}</span>
+                                                    {/each}
+                                                </div>
+                                            {/if}
+
+                                            <button
+                                                type="button"
+                                                class="mt-5 inline-flex items-center gap-2 self-start text-sm font-semibold text-emerald-300 transition hover:text-emerald-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+                                                on:click={() => openVideo(video)}
+                                            >
+                                                {isShorts ? 'Watch short' : 'Watch video'}
+                                                <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                                            </button>
+                                        </div>
+                                    </article>
+                                {/each}
+                            </div>
+                        {/if}
+                    </div>
+                {/key}
             </div>
         {/if}
     </div>
@@ -728,7 +858,8 @@
         on:click|self={closeVideo}
     >
         <div
-            class="modal-card relative my-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-stone-900 text-white shadow-2xl shadow-black/70"
+            class="modal-card relative my-auto w-full overflow-hidden rounded-2xl border border-white/10 bg-stone-900 text-white shadow-2xl shadow-black/70
+                {activeVideo.orientation === 'vertical' ? 'max-w-sm sm:max-w-md' : 'max-w-4xl'}"
             role="dialog"
             aria-modal="true"
             aria-label={activeVideo.title}
@@ -744,7 +875,7 @@
 
             {#if activeVideo.media.kind === 'embed'}
                 <iframe
-                    class="aspect-video w-full border-0 bg-black"
+                    class="w-full border-0 bg-black {activeVideo.orientation === 'vertical' ? 'aspect-[9/16]' : 'aspect-video'}"
                     src={activeVideo.media.embed}
                     title={activeVideo.title}
                     allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
@@ -753,7 +884,7 @@
             {:else}
                 <!-- svelte-ignore a11y-media-has-caption -->
                 <video
-                    class="aspect-video w-full bg-black"
+                    class="w-full bg-black {activeVideo.orientation === 'vertical' ? 'aspect-[9/16] object-contain' : 'aspect-video'}"
                     src={activeVideo.src}
                     poster={activeVideo.poster || undefined}
                     controls
