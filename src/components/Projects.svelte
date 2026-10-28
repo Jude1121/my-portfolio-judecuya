@@ -2,6 +2,11 @@
     import VillaSalome from '../lib/assets/Villa Salome Resort Prototype.png';
     import oMart from '../lib/assets/O -MART - MOBILE UI UX Prototype.png';
     import ATT from '../lib/assets/Albay Travel and Tours - Website.png';
+    import PrLexu from '../lib/assets/Lexu.jpg';
+    import PrStick from '../lib/assets/Stickman Profile.png';
+    import PrDrama from '../lib/assets/Drama Profile.png';
+    import PrFoodie from '../lib/assets/Foodie Masters Profile.png'
+    import PrYsk from '../lib/assets/You should know profile picture.png';
 
     // ---------- Tabs ----------
     const tabs = [
@@ -74,6 +79,99 @@
             ]
         }
     ];
+
+    // ---------- Content Channels ----------
+    // Your 4 social media pages. Edit the placeholders below.
+    //   name:     page name shown under the profile picture
+    //   platform: small label (YouTube, Facebook, TikTok, Instagram...)
+    //   url:      link to the page (opens in a new tab when clicked)
+    //   avatar:   profile picture. Import it at the top (like the project images) or use a
+    //             link / '/images/channel.png' from static/. Leave '' to show the page's initials.
+    //   preview:  (optional) custom embed link shown on hover. Leave '' for the automatic preview:
+    //               - Facebook pages  -> Facebook Page plugin (works for public pages)
+    //               - YouTube         -> latest uploads, if you fill in `youtubeChannelId` (starts with "UC")
+    //               - anything else   -> the site itself, scaled down
+    //   Note: TikTok / Instagram / YouTube channel pages refuse to be shown inside other sites,
+    //   so for those the hover shows the page name card instead. Add a `preview` embed link
+    //   (for example a TikTok or Instagram post embed URL) if you want a live preview there.
+    const channels = [
+        {
+            name: 'TimeStick TV', // TODO
+            platform: 'YouTube',
+            url: 'https://www.youtube.com/@TimeStickTV', // TODO
+            avatar: PrStick, // TODO
+            youtubeChannelId: '', // TODO e.g. 'UCxxxxxxxxxxxxxxxxxxxxxx'
+            preview: ''
+        },
+        {
+            name: 'You Should Know', // TODO
+            platform: 'YouTube',
+            url: 'https://www.youtube.com/@YouShouldKnow-o2d', // TODO
+            avatar: PrYsk, // TODO
+            preview: ''
+        },
+        {
+            name: 'Lexu', // TODO
+            platform: 'Youtube',
+            url: 'https://www.youtube.com/@lexu9714', // TODO
+            avatar: PrLexu, // TODO
+            preview: ''
+        },
+        {
+            name: 'Drama TV Series', // TODO
+            platform: 'Facebook',
+            url: 'https://www.facebook.com/profile.php?id=61594160738340', // TODO
+            avatar: PrDrama, // TODO
+            preview: ''
+        },
+         {
+            name: 'Foodie Masters', // TODO
+            platform: 'Facebook',
+            url: 'https://www.facebook.com/profile.php?id=61595323266488', // TODO
+            avatar: PrFoodie, // TODO
+            preview: ''
+        }
+    ];
+
+    const initials = (name) =>
+        name
+            .replace(/^your\s+/i, '')
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((w) => w[0].toUpperCase())
+            .join('');
+
+    // Works out what to show in the hover preview for each channel.
+    //  - 'embed': fills the preview box at its natural size
+    //  - 'site':  loads the site at desktop size and scales it down
+    //  - 'card':  nothing embeddable, so a name card is shown
+    function channelPreview(ch) {
+        if (ch.preview) return { kind: 'embed', src: ch.preview };
+
+        if (/(?:facebook\.com|fb\.com)\//.test(ch.url)) {
+            return {
+                kind: 'embed',
+                src: `https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(ch.url)}&tabs=timeline&width=340&height=200&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false`
+            };
+        }
+
+        if (/youtube\.com|youtu\.be/.test(ch.url)) {
+            if (ch.youtubeChannelId && ch.youtubeChannelId.startsWith('UC')) {
+                return {
+                    kind: 'embed',
+                    src: `https://www.youtube.com/embed/videoseries?list=UU${ch.youtubeChannelId.slice(2)}`
+                };
+            }
+            return { kind: 'card', src: '' };
+        }
+
+        if (/tiktok\.com|instagram\.com/.test(ch.url)) return { kind: 'card', src: '' };
+
+        return { kind: 'site', src: ch.url };
+    }
+
+    const channelItems = channels.map((c) => ({ ...c, initials: initials(c.name), previewInfo: channelPreview(c) }));
 
     // ---------- AI Generator Projects (Video Gallery) ----------
     // Just paste a link into `src` for each video. Supported:
@@ -339,9 +437,9 @@
         return { destroy: () => observer.disconnect() };
     }
 
-    // Hover preview: shows a live, scaled-down preview above a button.
-    // The iframe only loads the first time its button is hovered/focused.
-    let preview = null; // key of the preview currently open, e.g. "0-figma"
+    // Hover preview: shows a live, scaled-down preview above a button (or below a channel profile).
+    // The iframe only loads the first time its trigger is hovered/focused.
+    let preview = null; // key of the preview currently open, e.g. "0-figma" or "ch-1"
     let loaded = {};
 
     function showPreview(key) {
@@ -354,6 +452,13 @@
 
     const figmaEmbed = (url) =>
         `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`;
+
+    // Keeps the channel preview inside the screen: first = left edge, last = right edge, rest = centered.
+    function channelAlign(i, total) {
+        if (i === 0) return 'left-0';
+        if (i === total - 1) return 'right-0';
+        return 'left-1/2 -translate-x-1/2';
+    }
 </script>
 
 <style>
@@ -642,7 +747,7 @@
             </div>
         {/if}
 
-        <!-- ================= AI GENERATOR PROJECTS (VIDEOS + SHORTS) ================= -->
+        <!-- ================= AI GENERATOR PROJECTS (CHANNELS + VIDEOS + SHORTS) ================= -->
         {#if activeTab === 'ai'}
             <div
                 class="panel mt-10 sm:mt-14 lg:mt-20"
@@ -650,9 +755,111 @@
                 id="panel-ai"
                 aria-labelledby="tab-ai"
             >
-                <p class="mx-auto max-w-2xl text-center text-[15px] leading-relaxed text-stone-300 sm:text-base">
-                    A collection of videos I generated with AI tools. Click a video to watch it and see the details.
-                </p>
+                <!-- ===== Content Channels ===== -->
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">Content Channels</h2>
+                    <p class="mx-auto mt-3 max-w-2xl text-[15px] leading-relaxed text-stone-300 sm:text-base">
+                        Where my AI videos are published. Hover a profile to peek at the page, or click to open it.
+                    </p>
+                </div>
+
+                <div class="mt-8 flex flex-wrap items-start justify-center gap-x-6 gap-y-8 sm:mt-10 sm:gap-x-12">
+                    {#each channelItems as ch, i (ch.name + i)}
+                        <div
+                            class="relative w-[40%] sm:w-36"
+                            role="presentation"
+                            on:mouseenter={() => showPreview(`ch-${i}`)}
+                            on:mouseleave={hidePreview}
+                            on:focusin={() => showPreview(`ch-${i}`)}
+                            on:focusout={hidePreview}
+                        >
+                            <a
+                                use:reveal
+                                href={ch.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style="--delay: {i * 100}ms"
+                                class="reveal group flex flex-col items-center text-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+                            >
+                                <!-- Profile picture -->
+                                <span
+                                    class="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-white/15 bg-stone-900 shadow-xl shadow-black/40 ring-4 ring-transparent transition duration-300 group-hover:-translate-y-1 group-hover:border-emerald-400 group-hover:ring-emerald-400/20 sm:h-28 sm:w-28"
+                                >
+                                    {#if ch.avatar}
+                                        <img
+                                            class="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                                            src={ch.avatar}
+                                            alt="{ch.name} profile picture"
+                                            loading="lazy"
+                                        />
+                                    {:else}
+                                        <span class="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-700/60 via-stone-800 to-stone-900 text-2xl font-extrabold text-emerald-200 sm:text-3xl" aria-hidden="true">
+                                            {ch.initials}
+                                        </span>
+                                    {/if}
+                                </span>
+
+                                <!-- Page name -->
+                                <span class="mt-4 text-sm font-bold leading-snug text-white transition group-hover:text-emerald-300 sm:text-base">{ch.name}</span>
+                                <span class="mt-0.5 text-xs text-stone-400">{ch.platform}</span>
+                            </a>
+
+                            <!-- Site preview (hover / focus, desktop only) -->
+                            <div
+                                class="pointer-events-none absolute top-full z-30 mt-3 hidden w-[340px] origin-top overflow-hidden rounded-2xl border border-white/15 bg-stone-900 shadow-2xl shadow-black/60 transition duration-300 sm:block {channelAlign(i, channelItems.length)}
+                                    {preview === `ch-${i}` ? 'translate-y-0 scale-100 opacity-100' : '-translate-y-2 scale-95 opacity-0'}"
+                                aria-hidden="true"
+                            >
+                                <div class="relative h-[200px] w-full overflow-hidden bg-stone-800">
+                                    {#if ch.previewInfo.kind === 'card'}
+                                        <div class="flex h-full w-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-emerald-900/40 via-stone-800 to-stone-900 px-6 text-center">
+                                            <span class="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-stone-900 text-xl font-extrabold text-emerald-200">
+                                                {#if ch.avatar}
+                                                    <img class="h-full w-full object-cover" src={ch.avatar} alt="" />
+                                                {:else}
+                                                    {ch.initials}
+                                                {/if}
+                                            </span>
+                                            <span class="text-base font-bold text-white">{ch.name}</span>
+                                            <span class="text-xs text-stone-300">{ch.platform} · Click to open the page</span>
+                                        </div>
+                                    {:else if loaded[`ch-${i}`]}
+                                        {#if ch.previewInfo.kind === 'embed'}
+                                            <iframe
+                                                title="Preview of {ch.name}"
+                                                src={ch.previewInfo.src}
+                                                class="absolute left-0 top-0 h-full w-full border-0"
+                                                loading="lazy"
+                                                tabindex="-1"
+                                                allow="encrypted-media; picture-in-picture"
+                                            ></iframe>
+                                        {:else}
+                                            <iframe
+                                                title="Preview of {ch.name}"
+                                                src={ch.previewInfo.src}
+                                                class="absolute left-0 top-0 h-[800px] w-[1280px] origin-top-left scale-[0.265] border-0"
+                                                loading="lazy"
+                                                tabindex="-1"
+                                            ></iframe>
+                                        {/if}
+                                    {/if}
+                                </div>
+                                <div class="flex items-center gap-2 border-t border-white/10 px-4 py-2.5 text-xs font-medium text-stone-200">
+                                    <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                                    {ch.name} · {ch.platform}
+                                </div>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+
+                <!-- ===== Videos made for these channels ===== -->
+                <div class="mt-16 border-t border-white/10 pt-12 text-center sm:mt-20 sm:pt-16">
+                    <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">My AI Videos</h2>
+                    <p class="mx-auto mt-3 max-w-2xl text-[15px] leading-relaxed text-stone-300 sm:text-base">
+                        A collection of videos I generated with AI tools. Click a video to watch it and see the details.
+                    </p>
+                </div>
 
                 <!-- Videos / Shorts sub-tabs -->
                 <div class="mt-8 flex justify-center">
@@ -808,7 +1015,7 @@
                                         <!-- Details -->
                                         <div class="flex flex-1 flex-col {isShorts ? 'p-4' : 'p-5'}">
                                             <div class="flex items-start justify-between gap-3">
-                                                <h2 class="font-bold leading-snug {isShorts ? 'text-sm sm:text-base' : 'text-lg'}">{video.title}</h2>
+                                                <h3 class="font-bold leading-snug {isShorts ? 'text-sm sm:text-base' : 'text-lg'}">{video.title}</h3>
                                                 {#if !isShorts && video.tool}
                                                     <span class="shrink-0 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-300">
                                                         {video.tool}
