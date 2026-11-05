@@ -3,7 +3,7 @@
     import oMart from '../lib/assets/O -MART - MOBILE UI UX Prototype.png';
     import ATT from '../lib/assets/Albay Travel and Tours - Website.png';
     import PrLexu from '../lib/assets/Lexu.jpg';
-    import PrStick from '../lib/assets/Stickman Profile.png';
+    import PrDramaVerse from '../lib/assets/DramaVerse Profile.jpg';
     import PrDrama from '../lib/assets/Drama Profile.png';
     import PrFoodie from '../lib/assets/Foodie Masters Profile.png'
     import PrYsk from '../lib/assets/You should know profile picture.png';
@@ -96,10 +96,10 @@
     //   (for example a TikTok or Instagram post embed URL) if you want a live preview there.
     const channels = [
         {
-            name: 'TimeStick TV', // TODO
-            platform: 'YouTube',
-            url: 'https://www.youtube.com/@TimeStickTV', // TODO
-            avatar: PrStick, // TODO
+            name: 'DramaVerse PH - JC', // TODO
+            platform: 'Facebook',
+            url: 'https://www.facebook.com/profile.php?id=61596175919730', // TODO
+            avatar: PrDramaVerse, // TODO
             youtubeChannelId: '', // TODO e.g. 'UCxxxxxxxxxxxxxxxxxxxxxx'
             preview: ''
         },
@@ -126,8 +126,8 @@
         },
          {
             name: 'Foodie Masters', // TODO
-            platform: 'Facebook',
-            url: 'https://www.facebook.com/profile.php?id=61595323266488', // TODO
+            platform: 'Tiktok',
+            url: 'https://www.tiktok.com/@foodie.masters?is_from_webapp=1&sender_device=pc', // TODO
             avatar: PrFoodie, // TODO
             preview: ''
         }
