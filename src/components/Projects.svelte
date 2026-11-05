@@ -190,6 +190,26 @@
     //   Add orientation: 'horizontal' | 'vertical' to override (needed for Vimeo, Drive and direct files that are vertical).
     const videos = [
          {
+            title: 'Ang Asawang Ginawang Katulong - Part 2',
+            src: 'https://www.facebook.com/reel/2183893722165115',
+            poster: '',
+            tool: 'Google Flow', // TODO: add the AI generator you used
+            duration: '0:10', // TODO: add the video length, e.g. '1:00'
+            date: 'Nov 5, 2026',
+            tags: ['Explainer'],
+            description: 'Drama story about wife and mother in law.'
+        },
+         {
+            title: 'Ang Asawang Ginawang Katulong - Part 1',
+            src: 'https://www.facebook.com/reel/1166328839680659',
+            poster: '',
+            tool: 'Google Flow', // TODO: add the AI generator you used
+            duration: '0:10', // TODO: add the video length, e.g. '1:00'
+            date: 'Nov 3, 2026',
+            tags: ['Explainer'],
+            description: 'Drama story about wife and mother in law.'
+        },
+         {
             title: 'Paano kung bawat minuto ng buhay mo, may katumbas na pera?',
             src: 'https://www.youtube.com/shorts/s006KrWfzho',
             poster: '',
@@ -261,7 +281,7 @@
         },
         {
             title: 'Graham Balls Tutorial',
-            src: 'https://www.facebook.com/reel/4624640127772727',
+            src: 'https://www.tiktok.com/@foodie.masters/video/7697168104664747271?is_from_webapp=1',
             poster: '',
             tool: 'Google Flow',
             duration: '0:10',
@@ -270,8 +290,8 @@
             description: 'AI Tutorial to make a delicious and sweet Graham balls.'
         },
         {
-            title: 'Buttered Garlic Shirmp Tutorial',
-            src: 'https://www.facebook.com/reel/4575344796053416/?s=single_unit',
+            title: 'Choco Butternut Tutorial',
+            src: 'https://www.tiktok.com/@foodie.masters/video/7701107996671233286?lang=en',
             poster: '',
             tool: 'Google Flow',
             duration: '0:10',
