@@ -2,7 +2,7 @@
     import VillaSalome from '../lib/assets/Villa Salome Resort Prototype.png';
     import oMart from '../lib/assets/O -MART - MOBILE UI UX Prototype.png';
     import ATT from '../lib/assets/Albay Travel and Tours - Website.png';
-    import PrLexu from '../lib/assets/Lexu.jpg';
+    import PrPDS from '../lib/assets/Pinoy Drama Serye - Profile.png';
     import PrDramaVerse from '../lib/assets/DramaVerse Profile.jpg';
     import PrDrama from '../lib/assets/Drama Profile.png';
     import PrFoodie from '../lib/assets/Foodie Masters Profile.png'
@@ -111,10 +111,10 @@
             preview: ''
         },
         {
-            name: 'Lexu', // TODO
-            platform: 'Youtube',
-            url: 'https://www.youtube.com/@lexu9714', // TODO
-            avatar: PrLexu, // TODO
+            name: 'Pinoy Drama Serye - JC', // TODO
+            platform: 'Facebook',
+            url: 'https://www.facebook.com/profile.php?id=61596152371553', // TODO
+            avatar: PrPDS, // TODO
             preview: ''
         },
         {
@@ -189,6 +189,16 @@
     //   YouTube /shorts/ and Facebook /reel/ links = vertical, everything else = horizontal.
     //   Add orientation: 'horizontal' | 'vertical' to override (needed for Vimeo, Drive and direct files that are vertical).
     const videos = [
+        {
+            title: 'ANG DRIVER NA NA-INLOVE SA MASUNGIT NA CEO - Part 1',
+            src: 'https://www.facebook.com/reel/1136719582051590',
+            poster: '',
+            tool: 'Google Flow', // TODO: add the AI generator you used
+            duration: '0:10', // TODO: add the video length, e.g. '1:00'
+            date: 'Nov 8, 2026',
+            tags: ['AI Love Drama'],
+            description: 'Drama story about wife and mother in law.'
+        },
          {
             title: 'Ang Asawang Ginawang Katulong - Part 2',
             src: 'https://www.facebook.com/reel/2183893722165115',
@@ -196,7 +206,7 @@
             tool: 'Google Flow', // TODO: add the AI generator you used
             duration: '0:10', // TODO: add the video length, e.g. '1:00'
             date: 'Nov 5, 2026',
-            tags: ['Explainer'],
+            tags: ['AI Family Drama'],
             description: 'Drama story about wife and mother in law.'
         },
          {
@@ -206,7 +216,7 @@
             tool: 'Google Flow', // TODO: add the AI generator you used
             duration: '0:10', // TODO: add the video length, e.g. '1:00'
             date: 'Nov 3, 2026',
-            tags: ['Explainer'],
+            tags: ['AI Family Drama'],
             description: 'Drama story about wife and mother in law.'
         },
          {
