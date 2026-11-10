@@ -203,7 +203,7 @@
         },
          {
             title: '2 types of habit of your partner',
-            src: 'https://www.facebook.com/reel/1136719582051590',
+            src: 'https://www.facebook.com/reel/28043842401958594',
             poster: '',
             tool: 'Google Flow', // TODO: add the AI generator you used
             duration: '0:27', // TODO: add the video length, e.g. '1:00'
