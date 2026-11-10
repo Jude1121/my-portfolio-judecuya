@@ -5,7 +5,7 @@
     import PrPDS from '../lib/assets/Pinoy Drama Serye - Profile.png';
     import PrDramaVerse from '../lib/assets/DramaVerse Profile.jpg';
     import PrDrama from '../lib/assets/Drama Profile.png';
-    import PrFoodie from '../lib/assets/Foodie Masters Profile.png'
+    import PrDels from '../lib/assets/Del Profile Picture.png';
     import PrYsk from '../lib/assets/You should know profile picture.png';
 
     // ---------- Tabs ----------
@@ -125,10 +125,10 @@
             preview: ''
         },
          {
-            name: 'Foodie Masters', // TODO
-            platform: 'Tiktok',
-            url: 'https://www.tiktok.com/@foodie.masters?is_from_webapp=1&sender_device=pc', // TODO
-            avatar: PrFoodie, // TODO
+            name: 'Del Unfiltered', // TODO
+            platform: 'Facebook',
+            url: 'https://www.facebook.com/profile.php?id=61596424344949', // TODO
+            avatar: PrDels, // TODO
             preview: ''
         }
     ];
@@ -189,6 +189,8 @@
     //   YouTube /shorts/ and Facebook /reel/ links = vertical, everything else = horizontal.
     //   Add orientation: 'horizontal' | 'vertical' to override (needed for Vimeo, Drive and direct files that are vertical).
     const videos = [
+        
+
         {
             title: 'ANG DRIVER NA NA-INLOVE SA MASUNGIT NA CEO - Part 1',
             src: 'https://www.facebook.com/reel/1136719582051590',
@@ -198,6 +200,16 @@
             date: 'Nov 8, 2026',
             tags: ['AI Love Drama'],
             description: 'Drama story about wife and mother in law.'
+        },
+         {
+            title: '2 types of habit of your partner',
+            src: 'https://www.facebook.com/reel/1136719582051590',
+            poster: '',
+            tool: 'Google Flow', // TODO: add the AI generator you used
+            duration: '0:27', // TODO: add the video length, e.g. '1:00'
+            date: 'Nov 7, 2026',
+            tags: ['AI Podcast'],
+            description: 'AI Podcast Unspoken Words'
         },
          {
             title: 'Ang Asawang Ginawang Katulong - Part 2',
