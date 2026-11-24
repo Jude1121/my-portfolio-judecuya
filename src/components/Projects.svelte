@@ -200,14 +200,14 @@
     //   YouTube /shorts/ and Facebook /reel/ links = vertical, everything else = horizontal.
     //   Add orientation: 'horizontal' | 'vertical' to override (needed for Vimeo, Drive and direct files that are vertical).
     const videos = [
-         {
-            title: 'ANG DRIVER NA NA-INLOVE SA MASUNGIT NA CEO - Part 3',
-            src: 'https://www.facebook.com/reel/1152890390553093',
+        {
+            title: 'Lihim sa ilalim ng sahig - Part 1',
+            src: 'https://www.facebook.com/reel/1883244579787188',
             poster: '',
             tool: 'Google Flow', // TODO: add the AI generator you used
-            duration: '0:21', // TODO: add the video length, e.g. '1:00'
-            date: 'Nov 13, 2026',
-            tags: ['AI Love Drama'],
+            duration: '0:20', // TODO: add the video length, e.g. '1:00'
+            date: 'Nov 15, 2026',
+            tags: ['AI MicroDrama'],
             description: 'Drama story about wife and mother in law.'
         },
         {
@@ -218,7 +218,7 @@
             duration: '0:21', // TODO: add the video length, e.g. '1:00'
             date: 'Nov 13, 2026',
             tags: ['AI Love Drama'],
-            description: 'Drama story about wife and mother in law.'
+            description: 'Love drama story between grumpy CEO and his Driver.'
         },
           {
             title: 'ANG DRIVER NA NA-INLOVE SA MASUNGIT NA CEO - Part 2',
@@ -228,7 +228,7 @@
             duration: '0:10', // TODO: add the video length, e.g. '1:00'
             date: 'Nov 11, 2026',
             tags: ['AI Love Drama'],
-            description: 'Drama story about wife and mother in law.'
+            description: 'Love drama story between grumpy CEO and his Driver.'
         },
 
         {
@@ -239,7 +239,7 @@
             duration: '0:10', // TODO: add the video length, e.g. '1:00'
             date: 'Nov 8, 2026',
             tags: ['AI Love Drama'],
-            description: 'Drama story about wife and mother in law.'
+            description: 'Love drama story between grumpy CEO and his Driver.'
         },
          {
             title: 'Respect and Loyalty of your partner',
