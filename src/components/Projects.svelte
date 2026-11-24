@@ -208,7 +208,7 @@
             duration: '0:20', // TODO: add the video length, e.g. '1:00'
             date: 'Nov 15, 2026',
             tags: ['AI MicroDrama'],
-            description: 'Drama story about wife and mother in law.'
+            description: 'Horror Drama about the ex-wife locked on the floor'
         },
         {
             title: 'ANG DRIVER NA NA-INLOVE SA MASUNGIT NA CEO - Part 3',
