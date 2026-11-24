@@ -117,6 +117,13 @@
             avatar: PrPDS, // TODO
             preview: ''
         },
+          {
+            name: 'TagpoTeleserye PH', // TODO
+            platform: 'Facebook',
+            url: 'https://www.facebook.com/profile.php?id=61595909535029', // TODO
+            avatar: PrDels, // TODO
+            preview: ''
+        },
         {
             name: 'Drama TV Series', // TODO
             platform: 'Facebook',
@@ -130,14 +137,8 @@
             url: 'https://www.facebook.com/profile.php?id=61596424344949', // TODO
             avatar: PrDels, // TODO
             preview: ''
-        },
-         {
-            name: 'TagpoTeleserye PH', // TODO
-            platform: 'Facebook',
-            url: 'https://www.facebook.com/profile.php?id=61595909535029', // TODO
-            avatar: PrDels, // TODO
-            preview: ''
         }
+       
 
     ];
 
