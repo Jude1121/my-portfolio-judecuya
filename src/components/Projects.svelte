@@ -130,7 +130,15 @@
             url: 'https://www.facebook.com/profile.php?id=61596424344949', // TODO
             avatar: PrDels, // TODO
             preview: ''
+        },
+         {
+            name: 'TagpoTeleserye PH', // TODO
+            platform: 'Facebook',
+            url: 'https://www.facebook.com/profile.php?id=61595909535029', // TODO
+            avatar: PrDels, // TODO
+            preview: ''
         }
+
     ];
 
     const initials = (name) =>
@@ -189,7 +197,36 @@
     //   YouTube /shorts/ and Facebook /reel/ links = vertical, everything else = horizontal.
     //   Add orientation: 'horizontal' | 'vertical' to override (needed for Vimeo, Drive and direct files that are vertical).
     const videos = [
-        
+         {
+            title: 'ANG DRIVER NA NA-INLOVE SA MASUNGIT NA CEO - Part 3',
+            src: 'https://www.facebook.com/reel/1152890390553093',
+            poster: '',
+            tool: 'Google Flow', // TODO: add the AI generator you used
+            duration: '0:21', // TODO: add the video length, e.g. '1:00'
+            date: 'Nov 13, 2026',
+            tags: ['AI Love Drama'],
+            description: 'Drama story about wife and mother in law.'
+        },
+        {
+            title: 'ANG DRIVER NA NA-INLOVE SA MASUNGIT NA CEO - Part 3',
+            src: 'https://www.facebook.com/reel/1152890390553093',
+            poster: '',
+            tool: 'Google Flow', // TODO: add the AI generator you used
+            duration: '0:21', // TODO: add the video length, e.g. '1:00'
+            date: 'Nov 13, 2026',
+            tags: ['AI Love Drama'],
+            description: 'Drama story about wife and mother in law.'
+        },
+          {
+            title: 'ANG DRIVER NA NA-INLOVE SA MASUNGIT NA CEO - Part 2',
+            src: 'https://www.facebook.com/reel/2051458928902951',
+            poster: '',
+            tool: 'Google Flow', // TODO: add the AI generator you used
+            duration: '0:10', // TODO: add the video length, e.g. '1:00'
+            date: 'Nov 11, 2026',
+            tags: ['AI Love Drama'],
+            description: 'Drama story about wife and mother in law.'
+        },
 
         {
             title: 'ANG DRIVER NA NA-INLOVE SA MASUNGIT NA CEO - Part 1',
@@ -202,12 +239,12 @@
             description: 'Drama story about wife and mother in law.'
         },
          {
-            title: '2 types of habit of your partner',
-            src: 'https://www.facebook.com/reel/28043842401958594',
+            title: 'Respect and Loyalty of your partner',
+            src: 'https://www.facebook.com/reel/3023058841385263',
             poster: '',
             tool: 'Google Flow', // TODO: add the AI generator you used
-            duration: '0:27', // TODO: add the video length, e.g. '1:00'
-            date: 'Nov 7, 2026',
+            duration: '0:20', // TODO: add the video length, e.g. '1:00'
+            date: 'Nov 15, 2026',
             tags: ['AI Podcast'],
             description: 'AI Podcast Unspoken Words'
         },
