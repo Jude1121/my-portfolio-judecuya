@@ -7,6 +7,8 @@
     import PrDrama from '../lib/assets/Drama Profile.png';
     import PrDels from '../lib/assets/Del Profile Picture.png';
     import PrYsk from '../lib/assets/You should know profile picture.png';
+    import PrTagpo from '../lib/assets/TagpoTeleSerye PH - Profile.png';
+
 
     // ---------- Tabs ----------
     const tabs = [
@@ -121,7 +123,7 @@
             name: 'TagpoTeleserye PH', // TODO
             platform: 'Facebook',
             url: 'https://www.facebook.com/profile.php?id=61595909535029', // TODO
-            avatar: PrDels, // TODO
+            avatar: PrTagpo, // TODO
             preview: ''
         },
         {
